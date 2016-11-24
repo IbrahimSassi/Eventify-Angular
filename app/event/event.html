@@ -1,1 +1,6 @@
 <h1>{{event.title}}</h1>
+<div ng-repeat="post in event.posts">
+    <h6>{{post.id}}</h6>
+    <h6>{{post.title}}</h6>
+    <p>{{post.body}}</p>
+</div>
