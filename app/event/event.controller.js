@@ -4,8 +4,6 @@
     angular
         .module('EventifyApp.event',[
             'ui.router',
-            'ngAnimate',
-            'ngCookies',
             'EventifyApp.eventFactory'
 
         ])
@@ -21,7 +19,7 @@
     /* @ngInject */
     function config ($stateProvider,$urlRouterProvider) {
         $stateProvider
-            .state('home',{
+            .state('event',{
                 url:'/',
                 templateUrl:'event/event.html',
                 controller: 'EventCtrl as event'
@@ -36,8 +34,14 @@
     function EventCtrl(EventFactory) {
         var vm = this;
         vm.title = 'Event List';
-        vm.posts = EventFactory.query();
-        console.log(vm.posts);
+        vm.events = EventFactory.query();
+        console.log(vm.events);
+
+        vm.update = function (event) {
+            console.log("updated");
+            EventFactory.update(null,event);
+        }
+
 
     };
 

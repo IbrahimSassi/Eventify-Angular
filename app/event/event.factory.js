@@ -13,7 +13,12 @@
 
     /* @ngInject */
     function EventFactory($resource) {
-        return $resource('https://jsonplaceholder.typicode.com/posts');
+        return $resource('http://localhost:18080/Eventify-web/rest/events/:id',
+            null,
+            {
+                'update': { method:'PUT' }
+            }
+            );
     }
 
 })();

@@ -1,6 +1,8 @@
 <h1>{{event.title}}</h1>
-<div ng-repeat="post in event.posts">
-    <h6>{{post.id}}</h6>
-    <h6>{{post.title}}</h6>
-    <p>{{post.body}}</p>
+<div ng-repeat="e in event.events">
+    <h6>{{e.id}}</h6>
+    <input ng-model="e.title"/>
+    <p>{{e.theme}}</p>
+    <button ng-click="event.update(e)">Update</button>
 </div>
+
