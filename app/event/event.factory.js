@@ -5,8 +5,7 @@
     'use strict';
 
     angular
-        .module('EventifyApp.eventFactory',[
-        ])
+        .module('EventifyApp.event')
         .factory('EventFactory', EventFactory);
 
     EventFactory.$inject = ['$resource'];
@@ -14,7 +13,7 @@
     /* @ngInject */
     function EventFactory($resource) {
         return $resource('http://localhost:18080/Eventify-web/rest/events/:id',
-            null,
+            {id:'@id'},
             {
                 'update': { method:'PUT' }
             }
