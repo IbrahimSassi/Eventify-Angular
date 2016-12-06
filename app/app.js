@@ -10,6 +10,6 @@ angular
         'ngCookies',
     ])
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/events');
 
     }]);

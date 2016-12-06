@@ -11,7 +11,7 @@
 
 
     config.$inject = ['$stateProvider','$urlRouterProvider'];
-    EventCtrl.$inject = ['EventFactory'];
+    EventCtrl.$inject = ['EventFactory','$state'];
 
 
 
@@ -26,18 +26,18 @@
             .state('newEvent',{
                 url:'/events/new',
                 templateUrl:'event/CreateEvent.html',
-                controller: 'EventCreateCtrl as eventCreate'
+                controller: 'EventCtrl as eventCreate'
             })
         ;
 
     };
 
     /* @ngInject */
-    function EventCtrl(EventFactory) {
+    function EventCtrl(EventFactory,$state) {
         var vm = this;
         vm.title = 'Event List';
         vm.events = EventFactory.query();
-        //console.log(vm.events);
+        console.log(vm.events);
 
         vm.update = function (event) {
             console.log("updated");
@@ -56,6 +56,35 @@
             console.log("deleted");
 
         }
+
+
+        // I Choose some attributs Not-Null ,, i will change it later , THIS IS Just an example
+        vm.event = {
+            title:'',
+            theme:'',
+            placeNumber: 0,
+            latitude :12,
+            longitude:12,
+            nbViews:1000,
+            createdAt:new Date(),
+            organization:{
+                id:1
+            },
+            category:{
+                id:1
+            }
+        }
+
+
+        vm.add = function () {
+             EventFactory.save(null,vm.event);
+            vm.events = EventFactory.query();
+            console.log(vm.event);
+            $state.go('event');
+
+        }
+
+
 
 
     };
