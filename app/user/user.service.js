@@ -15,7 +15,6 @@
     function UserServiceFN(UserFactory, $filter) {
 
         this.getAllUsers = function () {
-
             var users = UserFactory.query();
 
             /***Optional For Test on users request response**/
@@ -37,8 +36,27 @@
 
         };
 
-        this.registerUser = function () {
-            //  EventFactory.save(null,vm.event);
+        this.registerUser = function (user) {
+           var result = UserFactory.save(null,user);
+
+            /***Optional For Test on users request response**/
+            result
+                .$promise
+                .then(function (response) {
+
+                    result = response;
+
+                })
+                .catch(function (errResponse) {
+                    result = null;
+                    console.info("Register User Error : " + errResponse);
+                })
+            ;
+            /**End of Optional For Test on users request response**/
+
+            return result;
+
+
         };
 
 
