@@ -15,8 +15,31 @@
     function UserServiceFN(UserFactory, $filter) {
 
         this.getAllUsers = function () {
-            return UserFactory.query();
-        }
+
+            var users = UserFactory.query();
+
+            /***Optional For Test on users request response**/
+            users
+                .$promise
+                .then(function (response) {
+
+                    users = response;
+
+                })
+                .catch(function (errResponse) {
+                    users = null;
+                    console.info("Get All Users Error : " + errResponse);
+                })
+            ;
+            /**End of Optional For Test on users request response**/
+
+            return users;
+
+        };
+
+        this.registerUser = function () {
+            //  EventFactory.save(null,vm.event);
+        };
 
 
     }
