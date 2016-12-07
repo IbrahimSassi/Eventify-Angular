@@ -4,12 +4,12 @@
 angular
     .module('EventifyApp', [
         'EventifyApp.event',
+        'EventifyApp.user',
         'ui.router',
         'ngResource',
-        'ngAnimate',
-        'ngCookies',
+
     ])
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/events');
+        $urlRouterProvider.otherwise('/users');
 
     }]);
