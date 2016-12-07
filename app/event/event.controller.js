@@ -11,7 +11,7 @@
 
 
     config.$inject = ['$stateProvider','$urlRouterProvider'];
-    EventCtrl.$inject = ['EventFactory','$state'];
+    EventCtrl.$inject = ['EventService','$state'];
 
 
 
@@ -21,7 +21,8 @@
             .state('event',{
                 url:'/events',
                 templateUrl:'event/ListEvent.html',
-                controller: 'EventCtrl as event'
+                controller: 'EventCtrl as event',
+                cache:false
             })
             .state('newEvent',{
                 url:'/events/new',
@@ -33,27 +34,39 @@
     };
 
     /* @ngInject */
-    function EventCtrl(EventFactory,$state) {
+    function EventCtrl(EventService,$state) {
         var vm = this;
         vm.title = 'Event List';
-        vm.events = EventFactory.query();
-        console.log(vm.events);
+
+        vm.getEvents = function () {
+            EventService.getAllEvents().then(function (data) {
+                vm.events = data;
+            });
+
+        }
+
+        vm.add = function () {
+            EventService.addEvent(vm.event).then(function (){
+                vm.getEvents();
+                $state.go('event');
+            });
+
+
+        }
+
 
         vm.update = function (event) {
-            console.log("updated");
-            event.$update();
+            EventService.updateEvent(event);
+            console.log("Updated");
+
         }
 
 
         vm.delete = function (event,index) {
-            event.$delete(function () {
-                vm.events = EventFactory.query();
+            EventService.deleteEvent(event).then(function (){
+                vm.getEvents();
             });
-            // console.log(vm.events);
-            // console.log(index);
-            // vm.events.slice(index,1);
-            console.log(vm.events);
-            console.log("deleted");
+
 
         }
 
@@ -76,13 +89,6 @@
         }
 
 
-        vm.add = function () {
-             EventFactory.save(null,vm.event);
-            vm.events = EventFactory.query();
-            console.log(vm.event);
-            $state.go('event');
-
-        }
 
 
 
