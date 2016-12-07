@@ -14,6 +14,7 @@
     "jquery": "*",
     "bootstrap": "*",
     "angular-ui-router": "^0.3.2",
-    "angular-resource": "^1.5.9"
+    "angular-resource": "^1.5.9",
+    "angular-drag-and-drop-lists":"*"
   }
 }

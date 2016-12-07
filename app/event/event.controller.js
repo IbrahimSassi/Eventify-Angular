@@ -20,13 +20,13 @@
         $stateProvider
             .state('event',{
                 url:'/events',
-                templateUrl:'event/ListEvent.html',
+                templateUrl:'event/views/ListEvent.html',
                 controller: 'EventCtrl as event',
                 cache:false
             })
             .state('newEvent',{
                 url:'/events/new',
-                templateUrl:'event/CreateEvent.html',
+                templateUrl:'event/views/CreateEvent.html',
                 controller: 'EventCtrl as eventCreate'
             })
         ;
@@ -39,6 +39,7 @@
         vm.title = 'Event List';
 
         vm.getEvents = function () {
+            console.log(EventService.getAllEvents());
             EventService.getAllEvents().then(function (data) {
                 vm.events = data;
             });
@@ -57,7 +58,6 @@
 
         vm.update = function (event) {
             EventService.updateEvent(event);
-            console.log("Updated");
 
         }
 
