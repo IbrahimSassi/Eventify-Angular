@@ -22,11 +22,10 @@
 
     /** Route Config **/
     function config($stateProvider, $urlRouterProvider) {
-        var userPath="user/";
         $stateProvider
             .state('listUsers', {
                 url: '/users',
-                templateUrl: userPath+'views/listUsers.html',
+                templateUrl: '../user/views/listUsers.html',
                 controller: 'UserCtrl as user'
             })
 
