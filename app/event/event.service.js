@@ -31,6 +31,12 @@
         this.deleteEvent = function (event) {
             return event.$delete();
         }
+        
+        this.getEventByID = function (idEvent) {
+            //console.log('id event',idEvent);
+            console.log(EventFactory.get({id:idEvent}));
+            return EventFactory.get({id:idEvent});
+        }
     }
 
 })();

@@ -5,7 +5,7 @@ angular
     .module('EventifyApp', [
         'EventifyApp.event',
         'EventifyApp.user',
-        'EventifyApp.question',
+        // 'EventifyApp.question',
         'ngResource',
 
     ])

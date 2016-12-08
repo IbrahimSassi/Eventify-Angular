@@ -67,7 +67,11 @@
                 vm.getEvents();
             });
 
+        };
 
+        //I could get the event directly from the list , but i re-used the factory and the service to test "get" function
+        vm.details = function (idEvent) {
+            vm.selectedEvent = EventService.getEventByID(idEvent);
         }
 
 
