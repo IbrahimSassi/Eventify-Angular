@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('EventifyApp.question',[
+        .module('EventifyApp.customForm',[
             'ui.router',
             'dndLists',
 
@@ -25,7 +25,7 @@
         $stateProvider
             .state('createQuestion',{
                 url:'/CustomForm',
-                templateUrl:'CustomForm/views/createCustomForm.html',
+                templateUrl:'CustomForm/views/CreateCustomForm.html',
                 controller: 'QuestionCtrl as form',
                 cache:false
             })
