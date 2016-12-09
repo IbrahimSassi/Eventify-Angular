@@ -1,24 +1,27 @@
-<span ng-init="event.getEvents()"></span>
-<h1>{{event.title}}</h1>
-<div class="col-md-6">
-    <a ui-sref="newEvent">Add Event</a>
-    <div ng-repeat="e in event.events">
-        <h6>{{e.id}}</h6>
-        <input ng-model="e.title"/>
-        <button ng-click="event.update(e)">Update</button>
-        <button ng-click="event.delete(e,$index)">Delete</button>
-        <button ng-click="event.details(e.id)">Details</button>
-        <a ui-sref="createCustomForm">Create Custom form</a>
+<div class="container">
+    <span ng-init="event.getEvents()"></span>
+    <h1>{{event.title}}</h1>
+    <div class="col-md-6">
+        <a ui-sref="newEvent">Add Event</a>
+        <div ng-repeat="e in event.events">
+            <h6>{{e.id}}</h6>
+            <input ng-model="e.title"/>
+            <button ng-click="event.update(e)">Update</button>
+            <button ng-click="event.delete(e,$index)">Delete</button>
+            <button ng-click="event.details(e.id)">Details</button>
+            <a ui-sref="createCustomForm">Create Custom form</a>
+        </div>
+
     </div>
 
+
+    <div class="col-md-6">
+        <h4>Detail</h4>
+        <p>Title : {{event.selectedEvent.title}}</p>
+        <p>Theme : {{event.selectedEvent.theme}}</p>
+        <p>Category : {{event.selectedEvent.category.categoryName}}</p>
+        <p>Organization : {{event.selectedEvent.organization.organizationName}}</p>
+    </div>
+
+
 </div>
-
-
-<div class="col-md-6">
-    <h4>Detail</h4>
-    <p>Title : {{event.selectedEvent.title}}</p>
-    <p>Theme : {{event.selectedEvent.theme}}</p>
-    <p>Category : {{event.selectedEvent.category.categoryName}}</p>
-    <p>Organization : {{event.selectedEvent.organization.organizationName}}</p>
-</div>
-

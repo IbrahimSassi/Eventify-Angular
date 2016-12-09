@@ -3,6 +3,7 @@
 // Declare app level module which depends on views, and components
 angular
     .module('EventifyApp', [
+        'EventifyApp.home',
         'EventifyApp.event',
         'EventifyApp.user',
         'EventifyApp.customForm',
@@ -10,6 +11,6 @@ angular
 
     ])
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/home');
 
     }]);

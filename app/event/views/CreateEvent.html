@@ -1,28 +1,30 @@
-<h2>{{eventCreate.title}}</h2>
-<table>
-    <tr>
-        <td>Titre</td>
-        <td>
-            <input type="text" ng-model="eventCreate.event.title">
-        </td>
-    </tr>
-    <tr>
-        <td>Theme</td>
-        <td>
-            <input type="text" ng-model="eventCreate.event.theme">
-        </td>
-    </tr>
-    <tr>
-        <td>Number Place</td>
-        <td>
-            <input type="number" ng-model="eventCreate.event.placeNumber">
-        </td>
-    </tr>
+<div class="container">
+    <h2>{{eventCreate.title}}</h2>
+    <table>
+        <tr>
+            <td>Titre</td>
+            <td>
+                <input type="text" ng-model="eventCreate.event.title">
+            </td>
+        </tr>
+        <tr>
+            <td>Theme</td>
+            <td>
+                <input type="text" ng-model="eventCreate.event.theme">
+            </td>
+        </tr>
+        <tr>
+            <td>Number Place</td>
+            <td>
+                <input type="number" ng-model="eventCreate.event.placeNumber">
+            </td>
+        </tr>
 
-    <tr>
-        <td>
-            <button ng-click="eventCreate.add()">Add</button>
+        <tr>
+            <td>
+                <button ng-click="eventCreate.add()">Add</button>
 
-        </td>
-    </tr>
-</table>
+            </td>
+        </tr>
+    </table>
+</div>

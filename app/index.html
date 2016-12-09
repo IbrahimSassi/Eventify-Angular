@@ -35,18 +35,35 @@
 
 <div class="page-wrapper">
 
-    <header class="header header-transparent">
+    <header class="header">
         <div class="header-wrapper">
             <div class="container">
                 <div class="header-inner">
                     <div class="header-logo">
                         <a href="index.html">
-                            <img src="assets/img/logo-white.png" alt="Logo">
+                            <img src="assets/img/logo.png" alt="Logo">
                             <span>Superlist</span>
                         </a>
                     </div><!-- /.header-logo -->
 
                     <div class="header-content">
+                        <div class="header-top">
+                            <div class="header-search">
+                                <input type="text" class="form-control" placeholder="Search for...">
+                            </div><!-- /.header-search -->
+
+                            <ul class="header-nav-social social-links nav nav-pills">
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            </ul><!-- /.header-nav-social -->
+
+                            <ul class="header-nav-secondary nav nav-pills">
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="register.html">Register</a></li>
+                            </ul>
+                        </div><!-- /.header-top -->
+
                         <div class="header-bottom">
                             <div class="header-action">
                                 <a href="listing-submit.html" class="header-action-inner" title="Add Listing"
@@ -185,75 +202,7 @@
     <div class="main">
         <div class="main-inner">
             <div class="content">
-                <div class="mt-150">
-                    <div class="hero-image">
-                        <div class="hero-image-inner"
-                             style="background-image: url('assets/img/tmp/slider-large-3.jpg');">
-                            <div class="hero-image-content">
-                                <div class="container">
-                                    <h1>Directory Template</h1>
-
-                                    <p>Create your own directory website by using Superlist template <br> incorporating
-                                        all features of modern directory website.</p>
-
-                                    <a href="listing-row.html" class="btn btn-primary btn-lg">View Listings</a>
-                                    <a href="listing-submit.html" class="btn btn-secondary btn-lg">Submit</a>
-                                </div><!-- /.container -->
-                            </div><!-- /.hero-image-content -->
-
-                            <div class="hero-image-form-wrapper">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-sm-4 col-sm-offset-8 col-lg-4 col-lg-offset-7">
-                                            <form method="get"
-                                                  action="http://preview.byaviators.com/template/superlist/index.html?">
-                                                <h2>Start Searching</h2>
-
-                                                <div class="hero-image-keyword form-group">
-                                                    <input type="text" class="form-control" placeholder="Keyword">
-                                                </div><!-- /.form-group -->
-
-                                                <div class="hero-image-location form-group">
-                                                    <select class="form-control" title="Location">
-                                                        <option>Bronx</option>
-                                                        <option>Brooklyn</option>
-                                                        <option>Manhattan</option>
-                                                        <option>Staten Island</option>
-                                                        <option>Queens</option>
-                                                    </select>
-                                                </div><!-- /.form-group -->
-
-                                                <div class="hero-image-category form-group">
-                                                    <select class="form-control" title="Category">
-                                                        <option value="">Automotive</option>
-                                                        <option value="">Jobs</option>
-                                                        <option value="">Nightlife</option>
-                                                        <option value="">Services</option>
-                                                    </select>
-                                                </div><!-- /.form-group -->
-
-                                                <div class="hero-image-price form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Price">
-                                                </div><!-- /.form-group -->
-
-                                                <button type="submit" class="btn btn-primary btn-block">Search</button>
-                                            </form>
-                                        </div><!-- /.col-* -->
-                                    </div><!-- /.row -->
-                                </div><!-- /.container -->
-                            </div><!-- /.hero-image-form-wrapper -->
-                        </div><!-- /.hero-image-inner -->
-                    </div><!-- /.hero-image -->
-
-                </div>
-
-                <div class="container">
-                    <div ui-view></div>
-
-
-
-                </div><!-- /.container -->
-
+                <div ui-view></div>
             </div><!-- /.content -->
         </div><!-- /.main-inner -->
     </div><!-- /.main -->
@@ -334,9 +283,16 @@
 <script src="app.js"></script>
 
 <!-- Start Ibrahim Scripts-->
+
+
+<script src="home/home.controller.js"></script>
+<script src="home/home.factory.js"></script>
+<script src="home/home.service.js"></script>
+
 <script src="event/event.controller.js"></script>
 <script src="event/event.factory.js"></script>
 <script src="event/event.service.js"></script>
+
 
 
 <script src="CustomForm/question.controller.js"></script>
