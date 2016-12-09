@@ -4,14 +4,14 @@
     angular
         .module('EventifyApp.event',[
             'ui.router',
-
+            'ui.bootstrap', 'ui.bootstrap.datetimepicker'
         ])
         .config(config)
         .controller('EventCtrl', EventCtrl);
 
 
     config.$inject = ['$stateProvider','$urlRouterProvider'];
-    EventCtrl.$inject = ['EventService','$state'];
+    EventCtrl.$inject = ['EventService','$state','CategoryService'];
 
 
 
@@ -34,7 +34,8 @@
     };
 
     /* @ngInject */
-    function EventCtrl(EventService,$state) {
+    function EventCtrl(EventService,$state,CategoryService) {
+        //On Init Start
         var vm = this;
         vm.title = 'Event List';
 
@@ -44,7 +45,35 @@
                 vm.events = data;
             });
 
-        }
+        };
+
+
+        CategoryService.getAllCategories().then(function (data) {
+           vm.categories = data;
+           // vm.categories.forEach(function (ca) {
+           //     console.log("categories",ca);
+           //
+           // })
+        });
+
+
+
+        // this.isOpen = false;
+
+        vm.datetimepicker = {
+            date: new Date()
+        };
+
+        this.openCalendar = function(e,datetimepicker) {
+            // e.preventDefault();
+            // e.stopPropagation();
+
+            vm[datetimepicker].open = true;
+        };
+
+
+
+        // On Init End
 
         vm.add = function () {
             EventService.addEvent(vm.event).then(function (){
@@ -77,11 +106,8 @@
 
         // I Choose some attributs Not-Null ,, i will change it later , THIS IS Just an example
         vm.event = {
-            title:'',
-            theme:'',
+            eventState:"UNPUBLISHED",
             placeNumber: 0,
-            latitude :12,
-            longitude:12,
             nbViews:1000,
             createdAt:new Date(),
             organization:{

@@ -4,6 +4,7 @@
 angular
     .module('EventifyApp', [
         'EventifyApp.home',
+        'EventifyApp.category',
         'EventifyApp.event',
         'EventifyApp.user',
         'EventifyApp.customForm',

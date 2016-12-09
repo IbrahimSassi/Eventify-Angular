@@ -9,9 +9,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
-                    <h1>Directory Template</h1>
-                    <p>Create your own directory website by using Superlist HTML template <br>
-                        incorporating all features of modern directory website.</p>
+                    <h1>Eventify</h1>
+                    <p>Find your next experience. Hear It , See It , LIVE IT</p>
 
                     <div class="input-group">
                         <input type="text" class="form-control"
@@ -54,7 +53,7 @@
     </div>
 
     <div class="page-header">
-        <h1>Most Recent Places &amp; Events</h1>
+        <h1>Most Recent &amp; Popular Events</h1>
         <p>List of most recent interesting places and events in our directory submitted <br>by our
             users. Check whats going on in the city now.</p>
     </div><!-- /.page-header -->
@@ -63,11 +62,11 @@
         <div class="row">
 
 
-            <div class="col-sm-6 col-md-3">
-                <div class="card-simple" data-background-image="assets/img/tmp/product-2.jpg">
+            <div class="col-sm-6 col-md-3" ng-repeat="event in home.popularEvents">
+                <div class="card-simple" data-background-image="{{event.backgroundImage}}" >
                     <div class="card-simple-background">
                         <div class="card-simple-content">
-                            <h2><a href="listing-detail.html">Tasty Brazil Coffee</a></h2>
+                            <h2><a href="listing-detail.html">{{event.title}}</a></h2>
                             <div class="card-simple-rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -83,208 +82,15 @@
                             </div><!-- /.card-simple-actions -->
                         </div><!-- /.card-simple-content -->
 
-                        <div class="card-simple-label">Coffee</div>
+                        <div class="card-simple-label">{{event.category.categoryName}}</div>
+
+                        <div class="card-simple-price">{{event.startTime}}</div>
 
                     </div><!-- /.card-simple-background -->
                 </div><!-- /.card-simple -->
             </div><!-- /.col-* -->
 
 
-            <div class="col-sm-6 col-md-3">
-                <div class="card-simple" data-background-image="assets/img/tmp/product-3.jpg">
-                    <div class="card-simple-background">
-                        <div class="card-simple-content">
-                            <h2><a href="listing-detail.html">Healthy Breakfast</a></h2>
-                            <div class="card-simple-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div><!-- /.card-rating -->
-
-                            <div class="card-simple-actions">
-                                <a href="#" class="fa fa-bookmark-o"></a>
-                                <a href="listing-detail.html" class="fa fa-search"></a>
-                                <a href="#" class="fa fa-heart-o"></a>
-                            </div><!-- /.card-simple-actions -->
-                        </div><!-- /.card-simple-content -->
-
-                        <div class="card-simple-label">Food</div>
-
-                        <div class="card-simple-price">$12 / person</div>
-
-                    </div><!-- /.card-simple-background -->
-                </div><!-- /.card-simple -->
-            </div><!-- /.col-* -->
-
-
-            <div class="col-sm-6 col-md-3">
-                <div class="card-simple" data-background-image="assets/img/tmp/product-4.jpg">
-                    <div class="card-simple-background">
-                        <div class="card-simple-content">
-                            <h2><a href="listing-detail.html">Coffee &amp; Newspaper</a></h2>
-                            <div class="card-simple-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div><!-- /.card-rating -->
-
-                            <div class="card-simple-actions">
-                                <a href="#" class="fa fa-bookmark-o"></a>
-                                <a href="listing-detail.html" class="fa fa-search"></a>
-                                <a href="#" class="fa fa-heart-o"></a>
-                            </div><!-- /.card-simple-actions -->
-                        </div><!-- /.card-simple-content -->
-
-                        <div class="card-simple-label">Restaurant</div>
-
-                    </div><!-- /.card-simple-background -->
-                </div><!-- /.card-simple -->
-            </div><!-- /.col-* -->
-
-
-            <div class="col-sm-6 col-md-3">
-                <div class="card-simple" data-background-image="assets/img/tmp/product-5.jpg">
-                    <div class="card-simple-background">
-                        <div class="card-simple-content">
-                            <h2><a href="listing-detail.html">Boat Trip</a></h2>
-                            <div class="card-simple-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div><!-- /.card-rating -->
-
-                            <div class="card-simple-actions">
-                                <a href="#" class="fa fa-bookmark-o"></a>
-                                <a href="listing-detail.html" class="fa fa-search"></a>
-                                <a href="#" class="fa fa-heart-o"></a>
-                            </div><!-- /.card-simple-actions -->
-                        </div><!-- /.card-simple-content -->
-
-                        <div class="card-simple-label">Vacation</div>
-
-                    </div><!-- /.card-simple-background -->
-                </div><!-- /.card-simple -->
-            </div><!-- /.col-* -->
-
-
-            <div class="col-sm-6 col-md-3">
-                <div class="card-simple" data-background-image="assets/img/tmp/product-6.jpg">
-                    <div class="card-simple-background">
-                        <div class="card-simple-content">
-                            <h2><a href="listing-detail.html">Italian Restaurant</a></h2>
-                            <div class="card-simple-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div><!-- /.card-rating -->
-
-                            <div class="card-simple-actions">
-                                <a href="#" class="fa fa-bookmark-o"></a>
-                                <a href="listing-detail.html" class="fa fa-search"></a>
-                                <a href="#" class="fa fa-heart-o"></a>
-                            </div><!-- /.card-simple-actions -->
-                        </div><!-- /.card-simple-content -->
-
-                        <div class="card-simple-label">Restaurant</div>
-
-                        <div class="card-simple-price">$28 / person</div>
-
-                    </div><!-- /.card-simple-background -->
-                </div><!-- /.card-simple -->
-            </div><!-- /.col-* -->
-
-
-            <div class="col-sm-6 col-md-3">
-                <div class="card-simple" data-background-image="assets/img/tmp/product-7.jpg">
-                    <div class="card-simple-background">
-                        <div class="card-simple-content">
-                            <h2><a href="listing-detail.html">Best Brazil Coffee</a></h2>
-                            <div class="card-simple-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div><!-- /.card-rating -->
-
-                            <div class="card-simple-actions">
-                                <a href="#" class="fa fa-bookmark-o"></a>
-                                <a href="listing-detail.html" class="fa fa-search"></a>
-                                <a href="#" class="fa fa-heart-o"></a>
-                            </div><!-- /.card-simple-actions -->
-                        </div><!-- /.card-simple-content -->
-
-                        <div class="card-simple-label">Pub</div>
-
-                    </div><!-- /.card-simple-background -->
-                </div><!-- /.card-simple -->
-            </div><!-- /.col-* -->
-
-
-            <div class="col-sm-6 col-md-3">
-                <div class="card-simple" data-background-image="assets/img/tmp/product-8.jpg">
-                    <div class="card-simple-background">
-                        <div class="card-simple-content">
-                            <h2><a href="listing-detail.html">Retro Shop</a></h2>
-                            <div class="card-simple-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div><!-- /.card-rating -->
-
-                            <div class="card-simple-actions">
-                                <a href="#" class="fa fa-bookmark-o"></a>
-                                <a href="listing-detail.html" class="fa fa-search"></a>
-                                <a href="#" class="fa fa-heart-o"></a>
-                            </div><!-- /.card-simple-actions -->
-                        </div><!-- /.card-simple-content -->
-
-                        <div class="card-simple-label">Shop</div>
-
-                        <div class="card-simple-price">$3 / cup</div>
-
-                    </div><!-- /.card-simple-background -->
-                </div><!-- /.card-simple -->
-            </div><!-- /.col-* -->
-
-
-            <div class="col-sm-6 col-md-3">
-                <div class="card-simple" data-background-image="assets/img/tmp/product-9.jpg">
-                    <div class="card-simple-background">
-                        <div class="card-simple-content">
-                            <h2><a href="listing-detail.html">Wine Tasting</a></h2>
-                            <div class="card-simple-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div><!-- /.card-rating -->
-
-                            <div class="card-simple-actions">
-                                <a href="#" class="fa fa-bookmark-o"></a>
-                                <a href="listing-detail.html" class="fa fa-search"></a>
-                                <a href="#" class="fa fa-heart-o"></a>
-                            </div><!-- /.card-simple-actions -->
-                        </div><!-- /.card-simple-content -->
-
-                        <div class="card-simple-label">Event</div>
-
-                        <div class="card-simple-price">$13 / ticket</div>
-
-                    </div><!-- /.card-simple-background -->
-                </div><!-- /.card-simple -->
-            </div><!-- /.col-* -->
 
         </div><!-- /.row -->
     </div><!-- /.cards-simple-wrapper -->
@@ -968,3 +774,5 @@
 
     </div>
 </div><!-- /.container -->
+
+

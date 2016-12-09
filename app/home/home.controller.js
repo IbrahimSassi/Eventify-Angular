@@ -16,7 +16,7 @@
 
 
     config.$inject = ['$stateProvider','$urlRouterProvider'];
-    HomeCtrlFN.$inject = [];
+    HomeCtrlFN.$inject = ['EventService'];
 
 
 
@@ -34,9 +34,30 @@
     };
 
     /* @ngInject */
-    function HomeCtrlFN() {
+    function HomeCtrlFN(EventService) {
         var vm = this;
         vm.title = 'Home';
+
+        //To Change !!!
+        EventService.getAllEvents().then(function (data) {
+            vm.popularEvents = data;
+            console.log(vm.popularEvents);
+            
+            vm.popularEvents.forEach(function (event) {
+                console.log(event.startTime);
+                event.startTime =moment(new Date(event.startTime)).calendar(null, {
+                    sameDay: '[Today]',
+                    nextDay: '[Tomorrow]',
+                    nextWeek: 'dddd',
+                    lastDay: '[Yesterday]',
+                    lastWeek: '[Last] dddd',
+                    sameElse: 'DD/MM/YYYY'
+                });
+
+
+                console.log(event.startTime)
+            })
+        });
 
 
     };
