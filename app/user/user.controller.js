@@ -27,12 +27,17 @@
         $stateProvider
             .state('listUsers', {
                 url: '/users',
-                templateUrl: '../user/views/listUsers.html',
+                templateUrl: 'user/views/list.user.view.html',
                 controller: 'UserCtrl as user'
             })
             .state('registerUser', {
                 url: '/users/register',
-                templateUrl: '../user/views/registerUser.html',
+                templateUrl: 'user/views/register.user.view.html',
+                controller: 'UserCtrl as user'
+            })
+            .state('loginUser', {
+                url: '/users/login',
+                templateUrl: 'user/views/login.user.view.html',
                 controller: 'UserCtrl as user'
             })
 
