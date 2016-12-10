@@ -12,7 +12,23 @@
 
         ])
         .config(config)
-        .controller('HomeCtrl', HomeCtrlFN);
+        .controller('HomeCtrl', HomeCtrlFN)        .run(function ($rootScope, $state, UserService) {
+        $rootScope.$on("$stateChangeStart", function(event, toState){
+            if (toState.authenticate && !UserService.isAuth()){
+                $rootScope.currentUser=null;
+                $state.transitionTo("loginUser");
+                event.preventDefault();
+            }
+            else if(!UserService.isAuth())
+            {
+                $rootScope.currentUser=null;
+            }
+            else
+            {
+                $rootScope.currentUser=UserService.extractTokenData(UserService.getToken());
+            }
+        });
+    });
 
 
     config.$inject = ['$stateProvider','$urlRouterProvider'];

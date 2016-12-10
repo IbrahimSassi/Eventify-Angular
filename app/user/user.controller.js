@@ -16,8 +16,17 @@
         .run(function ($rootScope, $state, UserService) {
             $rootScope.$on("$stateChangeStart", function(event, toState){
                 if (toState.authenticate && !UserService.isAuth()){
+                    $rootScope.currentUser=null;
                     $state.transitionTo("loginUser");
                     event.preventDefault();
+                }
+                else if(!UserService.isAuth())
+                {
+                    $rootScope.currentUser=null;
+                }
+                else
+                {
+                    $rootScope.currentUser=UserService.extractTokenData(UserService.getToken());
                 }
             });
         });
@@ -26,7 +35,7 @@
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$qProvider'];
 
-    UserCtrl.$inject = ['UserService', '$state', 'jwtHelper'];
+    UserCtrl.$inject = ['UserService', '$state'];
     /**End Of Injection**/
 
 
@@ -65,7 +74,7 @@
      * @param UserService
      * @param $state
      */
-    function UserCtrl(UserService, $state, jwtHelper) {
+    function UserCtrl(UserService, $state) {
 
         /**Scope Replace**/
         var vm = this;
@@ -96,7 +105,8 @@
                 function (data) {
                     vm.tokenToStore = data.authToken;
                     UserService.saveToken(vm.tokenToStore);
-                    //$state.go('listUsers');
+                    $state.go('home');
+
 
                 },
                 function (error) {

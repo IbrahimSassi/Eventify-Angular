@@ -9,10 +9,10 @@
         .module('EventifyApp.user')
         .service('UserService', UserServiceFN);
 
-    UserServiceFN.$inject = ['UserFactory', '$filter', '$window', 'jwtHelper','$q'];
+    UserServiceFN.$inject = ['UserFactory', '$filter', '$window', 'jwtHelper','$rootScope'];
 
 
-    function UserServiceFN(UserFactory, $filter, $window, jwtHelper,$q) {
+    function UserServiceFN(UserFactory, $filter, $window, jwtHelper,$rootScope) {
 
 
         this.getAllUsers = function () {
@@ -47,7 +47,13 @@
         this.saveToken = function (token) {
             if ($window.localStorage['authToken'] == null) {
                 if(token!=null)
-                $window.localStorage['authToken'] = token;
+                {
+                    $window.localStorage['authToken'] = token;
+
+
+                }
+
+
             }
 
         }
@@ -66,6 +72,7 @@
                 var bool = jwtHelper.isTokenExpired(token);
                 if (!bool) {
                     return true;
+
                 }
                 else
                 {
