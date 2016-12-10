@@ -1,4 +1,4 @@
-<div class="row" style="margin-top: 20px">
+<div class="row" style="margin-top: 20px" ng-init="ManageEvents.getMyEvents()">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <h3>My Events <a href="#">All Pending Listings <i class="fa fa-chevron-right"></i></a></h3>
 
@@ -6,17 +6,20 @@
             <div class="cards-system">
 
 
-                <div class="card-system">
+                <div class="card-system" ng-repeat="event in ManageEvents.myEvents">
                     <div class="card-system-inner">
-                        <div class="card-system-image" data-background-image="assets/img/tmp/product-2.jpg">
+                        <div class="card-system-image"
+                        style="background-image: url({{event.backgroundImage}})">
                             <a href="listing-detail.html"></a>
                         </div><!-- /.card-system-image -->
 
                         <div class="card-system-content">
-                            <h2><a href="listing-detail.html">Tasty Brazil Coffee</a></h2>
-                            <h3>Posted sever hours ago</h3>
+                            <h2><a href="listing-detail.html">{{event.title}}</a></h2>
+                            <h3>{{event.category.categoryName}}</h3>
                             <a href="#" class="btn btn-primary btn-xs">Edit</a>
-                            <a href="#" class="btn btn-secondary btn-xs">Delete</a>
+                            <button ng-click="ManageEvents.delete(event)" class="btn btn-danger btn-xs">Delete</button>
+                            <button ng-if="event.eventState=='PUBLISHED'" ng-click="ManageEvents.unpublish(event)" class="btn btn-secondary btn-xs">Unpublish</button>
+                            <button ng-if="event.eventState=='UNPUBLISHED'" ng-click="ManageEvents.unpublish(event)" class="btn btn-secondary btn-xs">Publish</button>
                         </div>
                     </div>
                 </div><!-- /.card-system -->

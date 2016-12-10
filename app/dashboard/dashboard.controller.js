@@ -33,7 +33,7 @@
             .state('administration.events',{
                 url:'/events',
                 templateUrl:'dashboard/views/ListingMyEvents.view.html',
-                controller: 'DashboardCtrl as dash',
+                controller: 'ManageEventsCtrl as ManageEvents',
                 cache:false,
 
             })
@@ -41,7 +41,6 @@
 
 
 
-        $urlRouterProvider.otherwise('/home');
 
     };
 
@@ -51,6 +50,7 @@
     function DashboardCtrl() {
         var vm = this;
         vm.title = 'DashboardCtrl';
+
 
 
     }
