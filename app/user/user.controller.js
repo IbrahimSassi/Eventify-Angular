@@ -62,12 +62,14 @@
 
         /**List User**/
         vm.getUsers = function () {
+            alert(UserService.isAuth());
             console.log(UserService.getAllUsers());
             UserService.getAllUsers().then(function (data) {
                 vm.users = data;
             });
 
         }
+
         /**End List User**/
 
         /**Register User**/
@@ -79,37 +81,24 @@
         }
         /**End Register User**/
 
-        // vm.signIn = function () {
-        //     UserService.signIn().then(function (data) {
-        //         // console.log(data.content);
-        //         vm.token = data;
-        //         var expToken = data.content;
-        //         console.log(jwtHelper.decodeToken(expToken));
-        //
-        //         if (!window.localStorage.getItem("token")) {
-        //             window.localStorage.setItem("token", expToken);
-        //         }
-        //         else {
-        //             window.localStorage.setItem("token", expToken);
-        //         }
-        //
-        //     });
-        //
-        //
-        // }
-        vm.signIn = function () {
-            var booleanLogin = UserService.signIn('kimo', '123456').then(function (data) {
-                return true;
-            });
-            if (Boolean(booleanLogin)) {
-                console.log("qzaz");
-                console.log(booleanLogin);
-            }
-            else {
-                console.log(booleanLogin);
-            }
+        /**SignIn Function */
+        vm.signIn = function (username, pwd) {
+            UserService.signIn(username, pwd).then(
+                function (data) {
+                    vm.tokenToStore = data.authToken;
+                    UserService.saveToken(vm.tokenToStore);
+                    $state.go('listUsers');
+
+                },
+                function (error) {
+                    console.log("Error Login : " + error);
+                    $state.go('loginUser');
+                }
+            );
 
         }
+
+        /**End of SignIn*/
 
 
     };

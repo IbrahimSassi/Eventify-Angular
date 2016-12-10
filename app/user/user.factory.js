@@ -13,6 +13,7 @@
 
     /* @ngInject */
     function UserFactory($resource) {
+
         return $resource('http://localhost:18080/Eventify-web/rest/users/:id',
 
             {id: '@id'},
@@ -26,7 +27,7 @@
                         pwd: '@pwd'
                     },
                     transformResponse: function(data, headersGetter, status) {
-                        return {content: data};
+                        return {authToken: data};
                     },
 
 
@@ -35,6 +36,8 @@
             }
 
         );
+
+
     }
 
 })();

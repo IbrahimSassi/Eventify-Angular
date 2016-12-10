@@ -4,15 +4,15 @@
             <h1>Login</h1>
         </div><!-- /.page-title -->
 
-        <form method="post" action="http://preview.byaviators.com/template/superlist/login.html?">
+        <form ng-submit="user.signIn(user.toLoginUser.username,user.toLoginUser.pwd)" >
             <div class="form-group">
                 <label for="login-form-email">E-mail</label>
-                <input type="email" class="form-control" name="email" id="login-form-email">
+                <input type="text" class="form-control" ng-model="user.toLoginUser.username" id="login-form-email">
             </div><!-- /.form-group -->
 
             <div class="form-group">
                 <label for="login-form-password">Password</label>
-                <input type="password" class="form-control" name="password" id="login-form-password">
+                <input type="password" class="form-control" ng-model="user.toLoginUser.pwd" id="login-form-password">
             </div><!-- /.form-group -->
 
             <button type="submit" class="btn btn-primary pull-right">Login</button>

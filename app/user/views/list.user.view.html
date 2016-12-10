@@ -1,7 +1,4 @@
-
 <span ng-init="user.getUsers()">
-</span>
-<span ng-init="user.signIn()">
 </span>
 <br><br>
 <textarea name="" id="" cols="90" rows="10">
@@ -13,7 +10,7 @@
 
 <div ng-repeat="u in user.users">
     <h6>{{u.email}}</h6>
-     <h6>{{u.firstName}}</h6>
+    <h6>{{u.firstName}}</h6>
 </div>
 <br/>
-    <a ui-sref="registerUser">Register User</a>
+<a ui-sref="registerUser">Register User</a>
