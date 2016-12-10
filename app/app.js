@@ -4,11 +4,12 @@
 angular
     .module('EventifyApp', [
         'EventifyApp.home',
+        'EventifyApp.dashboard',
         'EventifyApp.category',
         'EventifyApp.event',
         'EventifyApp.user',
         'EventifyApp.customForm',
-        'ngResource',
+        'ngResource'
 
     ])
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {

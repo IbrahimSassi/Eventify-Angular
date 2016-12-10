@@ -1,0 +1,94 @@
+<div class="header-statusbar" style="margin-top: -80px">
+    <div class="header-statusbar-inner">
+        <div class="header-statusbar-left">
+            <h1>Dashboard</h1>
+
+            <div class="display-inline-block">
+                <div class="hidden-xs visible-lg">
+                    <div class="header-statusbar-search">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                    </div><!-- /.header-search -->
+                </div>
+            </div>
+        </div><!-- /.header-statusbar-left -->
+
+        <div class="header-statusbar-right">
+            <div class="hidden-xs visible-lg">
+                Navigation:
+                <ul class="breadcrumb">
+                    <li><a href="#">Superlist</a></li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Statistics</a></li>
+                </ul>
+            </div>
+        </div><!-- /.header-statusbar-right -->
+    </div><!-- /.header-statusbar-inner -->
+</div><!-- /.header-statusbar -->
+
+
+<div class="main">
+    <div class="outer-admin">
+        <div class="wrapper-admin">
+            <div class="sidebar-admin">
+                <ul>
+                    <li class="active"><a href="#"><i class="fa fa-file"></i></a></li>
+                    <li><a href="#"><i class="fa fa-pencil"></i></a></li>
+                    <li><a href="#"><i class="fa fa-flag-o"></i></a></li>
+                    <li><a href="#"><i class="fa fa-folder-o"></i></a></li>
+                    <li><a href="#"><i class="fa fa-bar-chart"></i></a></li>
+                    <li><a href="#"><i class="fa fa-cog"></i></a></li>
+                </ul>
+            </div><!-- /.sidebar-admin-->
+
+            <div class="sidebar-secondary-admin">
+                <ul>
+                    <li class="active">
+                        <a ui-sref="administration.home">
+                            <span class="icon"><i class="fa fa-tachometer"></i></span>
+                            <span class="title">Dashboard</span>
+                            <span class="subtitle">Manage your website</span>
+                        </a>
+                    </li>
+
+
+
+                    <li >
+                        <a ui-sref="administration.events">
+                            <span class="icon"><i class="fa fa-th"></i></span>
+                            <span class="title">Organizations </span>
+                            <!--<span class="notification">2</span></span>-->
+                            <span class="subtitle">Manage Your organizations</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a ui-sref="administration.events">
+                            <span class="icon"><i class="fa fa-th"></i></span>
+                            <span class="title">Events </span>
+                            <!--<span class="notification">2</span></span>-->
+                            <span class="subtitle">Manage Your Events</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div><!-- /.sidebar-secondary-admin -->
+
+            <div class="content-admin">
+                <div class="content-admin-wrapper">
+
+
+                    <div ui-view="">
+                    </div>
+
+
+                    <div class="content-admin-footer">
+                        <div class="container-fluid">
+                            <div class="content-admin-footer-inner">
+                                &copy; 2015 All rights reserved. Created by <a href="#">Aviators</a>.
+                            </div><!-- /.content-admin-footer-inner -->
+                        </div><!-- /.container-fluid -->
+                    </div><!-- /.content-admin-footer  -->
+                </div><!-- /.content-admin-wrapper -->
+            </div><!-- /.content-admin -->
+        </div><!-- /.wrapper-admin -->
+    </div><!-- /.outer-admin -->
+</div><!-- /.main -->
