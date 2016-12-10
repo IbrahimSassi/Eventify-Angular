@@ -4,31 +4,50 @@
             <h1>Register</h1>
         </div><!-- /.page-title -->
 
-        <form method="post" action="http://preview.byaviators.com/template/superlist/register.html?">
+        <form name="register-form" ng-submit="user.register(user.toRegisterUser)">
             <div class="form-group">
                 <label for="login-form-email">E-mail</label>
-                <input type="email" class="form-control" name="email" id="login-form-email">
+                <input required type="email" class="form-control" ng-model="user.toRegisterUser.email"
+                       id="login-form-email">
             </div><!-- /.form-group -->
 
             <div class="form-group">
                 <label for="login-form-first-name">First name</label>
-                <input type="text" class="form-control" name="first_name" id="login-form-first-name">
+                <input required type="text" class="form-control" ng-model="user.toRegisterUser.firstName"
+                       id="login-form-first-name">
             </div><!-- /.form-group -->
 
             <div class="form-group">
                 <label for="login-form-last-name">Last name</label>
-                <input type="text" class="form-control" name="last_name" id="login-form-last-name">
+                <input required type="text" class="form-control" ng-model="user.toRegisterUser.lastName"
+                       id="login-form-last-name">
+            </div><!-- /.form-group -->
+
+            <div class="form-group">
+                <label for="login-form-last-name">Username</label>
+                <input required type="text" class="form-control" ng-model="user.toRegisterUser.username"
+                       id="login-form-user-name">
+            </div><!-- /.form-group -->
+
+            <div class="form-group">
+                <label for="login-form-last-name">Phone number</label>
+                <input type="text" class="form-control" ng-model="user.toRegisterUser.numTel"
+                       id="login-form-phone-number">
             </div><!-- /.form-group -->
 
             <div class="form-group">
                 <label for="login-form-password">Password</label>
-                <input type="password" class="form-control" name="password" id="login-form-password">
+                <input required type="password" class="form-control" name="password"
+                       ng-model="user.toRegisterUser.password" id="login-form-password">
             </div><!-- /.form-group -->
+
 
             <div class="form-group">
                 <label for="login-form-password-retype">Retype password</label>
-                <input type="password" class="form-control" name="password-retype" id="login-form-password-retype">
+                <input required name="password-confirm" type="password" class="form-control"
+                       id="login-form-password-retype">
             </div><!-- /.form-group -->
+
 
             <button type="submit" class="btn btn-primary pull-right">Register</button>
         </form>
