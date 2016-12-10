@@ -9,6 +9,8 @@ angular
         'EventifyApp.event',
         'EventifyApp.user',
         'EventifyApp.reservation',
+        'EventifyApp.ticket',
+        'EventifyApp.transaction',
         'EventifyApp.customForm',
         'ngResource'
 
