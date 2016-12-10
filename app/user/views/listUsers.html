@@ -1,5 +1,15 @@
-<span ng-init="user.userList()">
 
+<span ng-init="user.getUsers()">
+</span>
+<span ng-init="user.signIn()">
+</span>
+<br><br>
+<textarea name="" id="" cols="90" rows="10">
+        {{user.token}}
+
+</textarea>
+
+</div>
 
 <div ng-repeat="u in user.users">
     <h6>{{u.email}}</h6>
@@ -7,4 +17,3 @@
 </div>
 <br/>
     <a ui-sref="registerUser">Register User</a>
-</span>

@@ -9,57 +9,37 @@
         .module('EventifyApp.user')
         .service('UserService', UserServiceFN);
 
-    UserServiceFN.$inject = ['UserFactory', '$filter'];
+    UserServiceFN.$inject = ['UserFactory', '$filter', '$timeout'];
 
 
-    function UserServiceFN(UserFactory, $filter) {
+    function UserServiceFN(UserFactory, $filter, $timeout) {
+
 
         this.getAllUsers = function () {
-            var users = UserFactory.query();
+            return UserFactory.query().$promise;
+        }
+        this.signIn = function (usernameParam, pwdParam) {
+            var result = UserFactory.signIn({username: usernameParam, pwd: pwdParam});
+            return result.$promise;
 
-            /***Optional For Test on users request response**/
-            users
-                .$promise
-                .then(function (response) {
+        }
 
-                    users = response;
+        this.addUser = function (user) {
+            return UserFactory.save(user).$promise;
+        }
 
-                })
-                .catch(function (errResponse) {
-                    users = null;
-                    console.info("Get All Users Error : " + errResponse);
-                })
-            ;
-            /**End of Optional For Test on users request response**/
+        this.updateUser = function (user) {
+            UserFactory.update({id: user.id}, user);
+            console.log("Updated");
+        }
 
-            return users;
+        this.deleteUser = function (user) {
+            return user.$delete();
+        }
 
-        };
-
-        this.registerUser = function (user) {
-           var result = UserFactory.save(null,user);
-
-            /***Optional For Test on users request response**/
-            result
-                .$promise
-                .then(function (response) {
-
-                    result = response;
-
-                })
-                .catch(function (errResponse) {
-                    result = null;
-                    console.info("Register User Error : " + errResponse);
-                })
-            ;
-            /**End of Optional For Test on users request response**/
-
-            return result;
-
-
-        };
-
-
+        this.getUserByID = function (idUser) {
+            return UserFactory.get({id: idUser});
+        }
     }
 
 
