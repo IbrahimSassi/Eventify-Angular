@@ -14,19 +14,17 @@
         .config(config)
         .controller('UserCtrl', UserCtrl)
         .run(function ($rootScope, $state, UserService) {
-            $rootScope.$on("$stateChangeStart", function(event, toState){
-                if (toState.authenticate && !UserService.isAuth()){
-                    $rootScope.currentUser=null;
+            $rootScope.$on("$stateChangeStart", function (event, toState) {
+                if (toState.authenticate && !UserService.isAuth()) {
+                    $rootScope.currentUser = null;
                     $state.transitionTo("loginUser");
                     event.preventDefault();
                 }
-                else if(!UserService.isAuth())
-                {
-                    $rootScope.currentUser=null;
+                else if (!UserService.isAuth()) {
+                    $rootScope.currentUser = null;
                 }
-                else
-                {
-                    $rootScope.currentUser=UserService.extractTokenData(UserService.getToken());
+                else {
+                    $rootScope.currentUser = UserService.extractTokenData(UserService.getToken());
                 }
             });
         });
@@ -47,13 +45,13 @@
                 url: '/users',
                 templateUrl: 'user/views/list.user.view.html',
                 controller: 'UserCtrl as user',
-                authenticate:true,
+                authenticate: true,
             })
             .state('registerUser', {
                 url: '/users/register',
                 templateUrl: 'user/views/register.user.view.html',
                 controller: 'UserCtrl as user',
-                authenticate:true,
+                authenticate: true,
             })
             .state('loginUser', {
                 url: '/users/login',
@@ -82,8 +80,9 @@
 
         /**List User**/
         vm.getUsers = function () {
-            UserService.getAllUsers().then(function (data) {
+            UserService.getAllUsers(UserService.getToken()).then(function (data) {
                 vm.users = data;
+                console.log(vm.users);
             });
 
         }

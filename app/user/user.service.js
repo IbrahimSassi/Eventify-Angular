@@ -9,22 +9,22 @@
         .module('EventifyApp.user')
         .service('UserService', UserServiceFN);
 
-    UserServiceFN.$inject = ['UserFactory', '$filter', '$window', 'jwtHelper','$rootScope'];
+    UserServiceFN.$inject = ['UserFactory', '$filter', '$window', 'jwtHelper', '$rootScope'];
 
 
-    function UserServiceFN(UserFactory, $filter, $window, jwtHelper,$rootScope) {
+    function UserServiceFN(UserFactory, $filter, $window, jwtHelper, $rootScope) {
 
 
-        this.getAllUsers = function () {
-            return UserFactory.query().$promise;
+        this.getAllUsers = function (token) {
+            return UserFactory.secured(token).query().$promise;
         }
 
         this.addUser = function (user) {
-            return UserFactory.save(user).$promise;
+            return UserFactory.secured(null).save(user).$promise;
         }
 
-        this.updateUser = function (user) {
-            UserFactory.update({id: user.id}, user);
+        this.updateUser = function (user,token) {
+            UserFactory.secured(token).update({id: user.id}, user);
             console.log("Updated");
         }
 
@@ -39,21 +39,17 @@
         /**Special Method*/
 
         this.signIn = function (usernameParam, pwdParam) {
-            var result = UserFactory.signIn({username: usernameParam, pwd: pwdParam});
+            var result = UserFactory.secured(null).signIn({username: usernameParam, pwd: pwdParam});
             return result.$promise;
 
         }
 
         this.saveToken = function (token) {
             if ($window.localStorage['authToken'] == null) {
-                if(token!=null)
-                {
+                if (token != null) {
                     $window.localStorage['authToken'] = token;
 
-
                 }
-
-
             }
 
         }
@@ -74,8 +70,7 @@
                     return true;
 
                 }
-                else
-                {
+                else {
                     this.logout();
                 }
             }
