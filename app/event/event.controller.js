@@ -48,13 +48,16 @@
         };
 
 
-        CategoryService.getAllCategories().then(function (data) {
-           vm.categories = data;
-           // vm.categories.forEach(function (ca) {
-           //     console.log("categories",ca);
-           //
-           // })
-        });
+        vm.getCategories = function () {
+            CategoryService.getAllCategories().then(function (data) {
+                vm.categories = data;
+                vm.categories.forEach(function (ca) {
+                    console.log("categories",ca);
+
+                })
+            });
+
+        }
 
 
 

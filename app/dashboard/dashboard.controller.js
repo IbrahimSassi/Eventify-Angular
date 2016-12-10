@@ -8,6 +8,8 @@
     angular
         .module('EventifyApp.dashboard',[
             'ui.router',
+            'ui.bootstrap', 'ui.bootstrap.datetimepicker'
+
         ])
         .config(config)
         .controller('DashboardCtrl', DashboardCtrl);
@@ -33,6 +35,13 @@
             .state('administration.events',{
                 url:'/events',
                 templateUrl:'dashboard/views/ListingMyEvents.view.html',
+                controller: 'ManageEventsCtrl as ManageEvents',
+                cache:false,
+
+            })
+            .state('administration.EditEvents',{
+                url:'/events/edit/:id',
+                templateUrl:'../dashboard/views/EditEvent.html',
                 controller: 'ManageEventsCtrl as ManageEvents',
                 cache:false,
 

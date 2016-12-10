@@ -1,6 +1,15 @@
 <div class="row" style="margin-top: 20px" ng-init="ManageEvents.getMyEvents()">
     <div class="col-sm-12 col-lg-12 col-md-12">
-        <h3>My Events <a href="#">All Pending Listings <i class="fa fa-chevron-right"></i></a></h3>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="message">
+                    <p>My Events</p>
+                    <!--<p>Thanks for checking <a href="#">Superlist</a> backend. If you have any questions, feel free to ask your question using ThemeForest's <a href="#">item comments</a> section. Before asking don't forget to check the template <a href="#">documentation</a>.</p>-->
+                </div><!-- /.message -->
+            </div><!-- /.col-* -->
+        </div><!-- /.row -->
 
         <div class="background-white p30 mb50">
             <div class="cards-system">
@@ -16,10 +25,10 @@
                         <div class="card-system-content">
                             <h2><a href="listing-detail.html">{{event.title}}</a></h2>
                             <h3>{{event.category.categoryName}}</h3>
-                            <a href="#" class="btn btn-primary btn-xs">Edit</a>
+                            <a ui-sref="administration.EditEvents({id: event.id})" class="btn btn-primary btn-xs">Edit</a>
                             <button ng-click="ManageEvents.delete(event)" class="btn btn-danger btn-xs">Delete</button>
                             <button ng-if="event.eventState=='PUBLISHED'" ng-click="ManageEvents.unpublish(event)" class="btn btn-secondary btn-xs">Unpublish</button>
-                            <button ng-if="event.eventState=='UNPUBLISHED'" ng-click="ManageEvents.unpublish(event)" class="btn btn-secondary btn-xs">Publish</button>
+                            <button ng-if="event.eventState=='UNPUBLISHED'" ng-click="ManageEvents.publish(event)" class="btn btn-secondary btn-xs">Publish</button>
                         </div>
                     </div>
                 </div><!-- /.card-system -->

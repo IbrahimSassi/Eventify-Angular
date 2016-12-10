@@ -35,8 +35,8 @@
 
         this.getEventByID = function (idEvent) {
             //console.log('id event',idEvent);
-            console.log(EventFactory.get({id:idEvent}));
-            return EventFactory.get({id:idEvent});
+            // console.log(EventFactory.get({id:idEvent}));
+            return EventFactory.get({id:idEvent}).$promise;
         }
 
         this.getEventsByOrganization = function (idOrganization) {
