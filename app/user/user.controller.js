@@ -9,32 +9,60 @@
     angular
         .module('EventifyApp.user', [
             'ui.router',
+            'angular-jwt',
         ])
         .config(config)
-        .controller('UserCtrl', UserCtrl);
+        .controller('UserCtrl', UserCtrl)
+        .run(function ($rootScope, $state, UserService) {
+            $rootScope.$on("$stateChangeStart", function (event, toState) {
+                if (toState.authenticate && !UserService.isAuth()) {
+                    $rootScope.currentUser = null;
+                    $state.transitionTo("loginUser");
+                    event.preventDefault();
+                }
+                else if (!UserService.isAuth()) {
+                    $rootScope.currentUser = null;
+                }
+                else {
+                    $rootScope.currentUser = UserService.extractTokenData(UserService.getToken());
+                }
+            });
+        });
     /**End My Module Init**/
 
     /**Injection**/
-    config.$inject = ['$stateProvider', '$urlRouterProvider'];
+    config.$inject = ['$stateProvider', '$urlRouterProvider', '$qProvider'];
+
     UserCtrl.$inject = ['UserService', '$state'];
     /**End Of Injection**/
 
 
     /** Route Config **/
-    function config($stateProvider, $urlRouterProvider) {
+    function config($stateProvider, $urlRouterProvider, $qProvider) {
+
         $stateProvider
             .state('listUsers', {
                 url: '/users',
-                templateUrl: '../user/views/listUsers.html',
-                controller: 'UserCtrl as user'
+                templateUrl: 'user/views/list.user.view.html',
+                controller: 'UserCtrl as user',
+                authenticate: true,
             })
             .state('registerUser', {
                 url: '/users/register',
-                templateUrl: '../user/views/registerUser.html',
+                templateUrl: 'user/views/register.user.view.html',
+                controller: 'UserCtrl as user',
+                authenticate: true,
+            })
+            .state('loginUser', {
+                url: '/users/login',
+                templateUrl: 'user/views/login.user.view.html',
                 controller: 'UserCtrl as user'
             })
 
         ;
+
+        $qProvider.errorOnUnhandledRejections(false);
+
 
     };
     /**End of Route Config**/
@@ -46,41 +74,49 @@
      */
     function UserCtrl(UserService, $state) {
 
-        /**Scoop Replace**/
+        /**Scope Replace**/
         var vm = this;
         /***/
-        /*Static value to test*/
-        vm.user ={
-            "firstName": "HakimN",
-            "lastName": "MlikiN",
-            "username": "HakimmN",
-            "profileImage": "http://img.wennermedia.com/article-leads-vertical-300/1250530894_brad_pitt_290x402.jpg",
-            "numTel": "+21623924188",
-            "email": "hakim.mliki@espritos.tn",
-            "password": "e10adc3949ba59abbe56e057f20f883e",
-            "creationDate": 1481050808000,
-            "loyaltyPoint": 1,
-            "accountState": "NOTACTIVATED",
-            "confirmationToken": "11917e461400d833a3cef4f0594c9a74",
-            "banState": 0
-        }
-
 
         /**List User**/
-        vm.userList = function () {
-            vm.users = UserService.getAllUsers();
-            console.log(vm.users);
+        vm.getUsers = function () {
+            UserService.getAllUsers(UserService.getToken()).then(function (data) {
+                vm.users = data;
+                console.log(vm.users);
+            });
+
         }
+
         /**End List User**/
 
         /**Register User**/
-        vm.register = function () {
-            UserService.registerUser(vm.user)
-            vm.users = UserService.getAllUsers();
-            $state.go('listUsers');
-
+        vm.register = function (user) {
+            UserService.addUser(user).then(function () {
+                vm.getUsers();
+                $state.go('listUsers');
+            });
         }
         /**End Register User**/
+
+        /**SignIn Function */
+        vm.signIn = function (username, pwd) {
+            UserService.signIn(username, pwd).then(
+                function (data) {
+                    vm.tokenToStore = data.authToken;
+                    UserService.saveToken(vm.tokenToStore);
+                    $state.go('home');
+
+
+                },
+                function (error) {
+                    console.log("Error Login : " + error);
+                    $state.go('loginUser');
+                }
+            );
+
+        }
+
+        /**End of SignIn*/
 
 
     };

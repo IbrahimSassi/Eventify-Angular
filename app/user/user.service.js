@@ -9,55 +9,82 @@
         .module('EventifyApp.user')
         .service('UserService', UserServiceFN);
 
-    UserServiceFN.$inject = ['UserFactory', '$filter'];
+    UserServiceFN.$inject = ['UserFactory', '$filter', '$window', 'jwtHelper', '$rootScope'];
 
 
-    function UserServiceFN(UserFactory, $filter) {
-
-        this.getAllUsers = function () {
-            var users = UserFactory.query();
-
-            /***Optional For Test on users request response**/
-            users
-                .$promise
-                .then(function (response) {
-
-                    users = response;
-
-                })
-                .catch(function (errResponse) {
-                    users = null;
-                    console.info("Get All Users Error : " + errResponse);
-                })
-            ;
-            /**End of Optional For Test on users request response**/
-
-            return users;
-
-        };
-
-        this.registerUser = function (user) {
-           var result = UserFactory.save(null,user);
-
-            /***Optional For Test on users request response**/
-            result
-                .$promise
-                .then(function (response) {
-
-                    result = response;
-
-                })
-                .catch(function (errResponse) {
-                    result = null;
-                    console.info("Register User Error : " + errResponse);
-                })
-            ;
-            /**End of Optional For Test on users request response**/
-
-            return result;
+    function UserServiceFN(UserFactory, $filter, $window, jwtHelper, $rootScope) {
 
 
-        };
+        this.getAllUsers = function (token) {
+            return UserFactory.secured(token).query().$promise;
+        }
+
+        this.addUser = function (user) {
+            return UserFactory.secured(null).save(user).$promise;
+        }
+
+        this.updateUser = function (user,token) {
+            UserFactory.secured(token).update({id: user.id}, user);
+            console.log("Updated");
+        }
+
+        this.deleteUser = function (user) {
+            return user.$delete();
+        }
+
+        this.getUserByID = function (idUser) {
+            return UserFactory.get({id: idUser});
+        }
+
+        /**Special Method*/
+
+        this.signIn = function (usernameParam, pwdParam) {
+            var result = UserFactory.secured(null).signIn({username: usernameParam, pwd: pwdParam});
+            return result.$promise;
+
+        }
+
+        this.saveToken = function (token) {
+            if ($window.localStorage['authToken'] == null) {
+                if (token != null) {
+                    $window.localStorage['authToken'] = token;
+
+                }
+            }
+
+        }
+
+        this.getToken = function () {
+            return $window.localStorage['authToken'];
+        }
+
+        this.extractTokenData = function (token) {
+            return jwtHelper.decodeToken(token);
+        }
+
+        this.isAuth = function () {
+            var token = this.getToken();
+            if (token != null) {
+                var bool = jwtHelper.isTokenExpired(token);
+                if (!bool) {
+                    return true;
+
+                }
+                else {
+                    this.logout();
+                }
+            }
+            return false;
+
+        }
+
+        this.logout = function () {
+            $window.localStorage.removeItem('authToken');
+
+        }
+
+
+        /**End of Special Method*/
 
 
     }

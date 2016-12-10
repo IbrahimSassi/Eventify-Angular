@@ -13,12 +13,46 @@
 
     /* @ngInject */
     function UserFactory($resource) {
-        return $resource('http://localhost:18080/Eventify-web/rest/users/:id',
-            {id: '@id'},
-            {
-                'update': {method: 'PUT'}
-            }
-        );
+        this.secured = function (token) {
+            return $resource('http://localhost:18080/Eventify-web/rest/users/:id',
+
+                {id: '@id'},
+                {
+                    'update': {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    'signIn': {
+                        url: 'http://localhost:18080/Eventify-web/rest/users/:username/:pwd',
+                        method: 'GET',
+                        params: {
+                            username: '@username',
+                            pwd: '@pwd'
+                        },
+                        transformResponse: function (data, headersGetter, status) {
+                            return {authToken: data};
+                        },
+
+
+                    },
+                    'query': {
+                        method: 'GET',
+                        isArray: true,
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }
+
+                }
+            );
+        }
+        return {
+            secured: this.secured
+        };
+
+
     }
 
 })();

@@ -16,6 +16,8 @@
     "angular-ui-router": "^0.3.2",
     "angular-resource": "^1.5.9",
     "angular-drag-and-drop-lists": "*",
+    "angular-jwt": "^0.1.8",
+    "angular-drag-and-drop-lists": "*",
     "moment": "^2.17.1",
     "bootstrap-ui-datetime-picker": "^2.4.3"
   }
