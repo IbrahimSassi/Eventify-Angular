@@ -9,10 +9,10 @@
         .module('EventifyApp.user')
         .service('UserService', UserServiceFN);
 
-    UserServiceFN.$inject = ['UserFactory', '$filter', '$window', 'jwtHelper'];
+    UserServiceFN.$inject = ['UserFactory', '$filter', '$window', 'jwtHelper','$q'];
 
 
-    function UserServiceFN(UserFactory, $filter, $window, jwtHelper) {
+    function UserServiceFN(UserFactory, $filter, $window, jwtHelper,$q) {
 
 
         this.getAllUsers = function () {
@@ -66,6 +66,10 @@
                 var bool = jwtHelper.isTokenExpired(token);
                 if (!bool) {
                     return true;
+                }
+                else
+                {
+                    this.logout();
                 }
             }
             return false;
