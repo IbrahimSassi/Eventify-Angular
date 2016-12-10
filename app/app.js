@@ -7,6 +7,7 @@ angular
         'EventifyApp.category',
         'EventifyApp.event',
         'EventifyApp.user',
+        'EventifyApp.reservation',
         'EventifyApp.customForm',
         'ngResource',
 
