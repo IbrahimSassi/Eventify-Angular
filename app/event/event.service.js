@@ -8,44 +8,54 @@
         .module('EventifyApp.event')
         .service('EventService', EventServiceFN);
 
-    EventServiceFN.$inject = ['EventFactory','$http'];
+    EventServiceFN.$inject = ['EventFactory', '$http'];
 
     /* @ngInject */
-    function EventServiceFN(EventFactory,$http) {
+    function EventServiceFN(EventFactory, $http) {
 
 
-        this.getAllEvents = function () {
+        this.getAllEvents = getAllEvents;
+        this.addEvent = addEvent;
+        this.updateEvent = updateEvent;
+        this.deleteEvent = deleteEvent;
+        this.getEventByID = getEventByID;
+        this.getEventsByOrganization = getEventsByOrganization;
+        this.getAddress = getAddress;
+
+
+        function getAllEvents() {
             return EventFactory.query().$promise;
         }
 
-        this.addEvent = function (event) {
+        function addEvent(event) {
             //event = new EventFactory(event);
             return EventFactory.save(event).$promise;
         }
 
-        this.updateEvent = function (event) {
-            EventFactory.update({ id:event.id },event);
+        function updateEvent(event) {
+            EventFactory.update({id: event.id}, event);
             console.log("Updated");
         }
 
-        this.deleteEvent = function (event) {
+        function deleteEvent(event) {
             return event.$delete();
         }
 
 
-        this.getEventByID = function (idEvent) {
+        function getEventByID(idEvent) {
             //console.log('id event',idEvent);
             // console.log(EventFactory.get({id:idEvent}));
-            return EventFactory.get({id:idEvent}).$promise;
+            return EventFactory.get({id: idEvent}).$promise;
         }
 
-        this.getEventsByOrganization = function (idOrganization) {
 
-            return EventFactory.getEventsByOrganization({idOrganization:idOrganization}).$promise;
+        function getEventsByOrganization(idOrganization) {
+
+            return EventFactory.getEventsByOrganization({idOrganization: idOrganization}).$promise;
         }
 
-        this.getAddress = function (latitude,longitude) {
-            return $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&key=AIzaSyCpppSvVNQD0XBkVm-r_OcebP7AIxmcixo')
+        function getAddress(latitude, longitude) {
+            return $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=AIzaSyCpppSvVNQD0XBkVm-r_OcebP7AIxmcixo')
         }
     }
 

@@ -6,6 +6,7 @@ angular
         'EventifyApp.home',
         'EventifyApp.dashboard',
         'EventifyApp.category',
+        'EventifyApp.wishlist',
         'EventifyApp.event',
         'EventifyApp.user',
         'EventifyApp.reservation',

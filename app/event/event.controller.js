@@ -11,7 +11,7 @@
 
 
     config.$inject = ['$stateProvider','$urlRouterProvider'];
-    EventCtrl.$inject = ['EventService','$state','CategoryService','$stateParams'];
+    EventCtrl.$inject = ['EventService','$state','CategoryService','$stateParams','WishlistService'];
 
 
 
@@ -40,7 +40,7 @@
     };
 
     /* @ngInject */
-    function EventCtrl(EventService,$state,CategoryService,$stateParams) {
+    function EventCtrl(EventService,$state,CategoryService,$stateParams,WishlistService) {
         //On Init Start
         var vm = this;
         vm.title = 'Event List';
@@ -130,8 +130,8 @@
             EventService.updateEvent(vm.eventToDisplay);
         };
 
-        vm.addaddWishlist = function () {
-            
+        vm.addWishlist = function () {
+            console.log(WishlistService.removeFromWishlist(1,1));
         }
         
 
