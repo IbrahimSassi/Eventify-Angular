@@ -12,22 +12,8 @@
             'angular-jwt',
         ])
         .config(config)
-        .controller('UserCtrl', UserCtrl)
-        .run(function ($rootScope, $state, UserService) {
-            $rootScope.$on("$stateChangeStart", function (event, toState) {
-                if (toState.authenticate && !UserService.isAuth()) {
-                    $rootScope.currentUser = null;
-                    $state.transitionTo("loginUser");
-                    event.preventDefault();
-                }
-                else if (!UserService.isAuth()) {
-                    $rootScope.currentUser = null;
-                }
-                else {
-                    $rootScope.currentUser = UserService.extractTokenData(UserService.getToken());
-                }
-            });
-        });
+        .controller('UserCtrl', UserCtrl);
+
     /**End My Module Init**/
 
     /**Injection**/
