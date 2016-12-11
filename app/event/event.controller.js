@@ -53,7 +53,6 @@
 
         };
 
-
         vm.getCategories = function () {
             CategoryService.getAllCategories().then(function (data) {
                 vm.categories = data;
@@ -66,17 +65,18 @@
         }
 
 
-        var eventId = $stateParams.eventId;
+        vm.eventId = $stateParams.eventId;
+        vm.userConnectedId = 1;
 
-        if(eventId){
+        if(vm.eventId){
             // console.log(eventId);
-            EventService.getEventByID(eventId).then(function (data) {
+            EventService.getEventByID(vm.eventId).then(function (data) {
                 vm.eventToDisplay = data;
-                console.log(vm.eventToDisplay);
+                // console.log(vm.eventToDisplay);
                 // console.log(vm.eventToDisplay.latitude,vm.eventToDisplay.longitude);
 
                 EventService.getAddress(vm.eventToDisplay.latitude,vm.eventToDisplay.longitude).then(function (data) {
-                    console.log('adress',data.data.results[0]);
+                    // console.log('adress',data.data.results[0]);
                     vm.adress = data.data.results[0].formatted_address ;
                 },function (err) {
                     console.log('error',err);
@@ -125,13 +125,36 @@
                 vm.eventToDisplay.nbViews  = vm.eventToDisplay.nbViews - 1;
 
             }
-             console.log(vm.eventToDisplay.nbViews);
+             // console.log(vm.eventToDisplay.nbViews);
 
             EventService.updateEvent(vm.eventToDisplay);
         };
 
+
+        //VerifyWishlist
+            WishlistService.getWishlistsByUserAndEvent(vm.userConnectedId,vm.eventId).then(function (data) {
+                if(data.wishlistPK){
+                    console.log('wishlist',data);
+                    vm.addedWishlist=true;
+
+                }
+            });
+
+
         vm.addWishlist = function () {
-            console.log(WishlistService.removeFromWishlist(1,1));
+            console.log('eventId',vm.eventId)
+            console.log('userId',vm.userConnectedId);
+
+            vm.addedWishlist = ! vm.addedWishlist;
+
+
+            if(vm.addedWishlist){
+                WishlistService.addToWishlist(vm.userConnectedId,vm.eventId);
+            }
+            else {
+                WishlistService.removeFromWishlist(vm.userConnectedId,vm.eventId);
+
+            }
         }
         
 

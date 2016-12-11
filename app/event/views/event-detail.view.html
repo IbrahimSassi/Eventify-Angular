@@ -24,20 +24,19 @@
                                 <i class="fa fa-star-half-o"></i>
                             </div><!-- /.detail-banner-rating -->
 
-                            <div ng-if="!event.addedWishlist" class="detail-banner-btn bookmark" ng-click="event.addWishlist()">
-                                <i class="fa fa-bookmark-o"></i> <span >Add To Wishlist</span>
+                            <div  ng-class="{'detail-banner-btn bookmark': !event.addedWishlist,'detail-banner-btn marked bookmark ': event.addedWishlist}"
+                                  ng-click="event.addWishlist()">
+                                <span ng-if="!event.addedWishlist"> <i class="fa fa-bookmark-o"></i> Add To Wishlist</span>
+                                <span ng-if="event.addedWishlist"><i style="color: #16a085" class="fa fa-bookmark-o"></i> Added To Wishlist</span>
+
                             </div><!-- /.detail-claim -->
 
-                            <div ng-if="event.addedWishlist" class="detail-banner-btn bookmark" ng-click="event.event.addWishlist()">
-                                <i class="fa fa-bookmark-o"></i> <span data-toggle="Bookmarked">Added To Wishlist</span>
-                            </div><!-- /.detail-claim -->
 
 
-                            <div ng-if="!event.loveIt" class="detail-banner-btn heart" ng-click="event.giveHeart()">
-                                </i> <span >Give Heart</span>
-                            </div>
-                            <div ng-if="event.loveIt" class="detail-banner-btn heart" ng-click="event.giveHeart()">
-                                <i class="fa fa-heart-o" style="color: red"></i> <span >I Love It</span>
+                            <div  ng-class="{'detail-banner-btn heart':!event.loveIt ,'detail-banner-btn marked heart':event.loveIt}"
+                                  ng-click="event.giveHeart()">
+                                 <span ng-if="!event.loveIt">Give Heart</span>
+                                <span ng-if="event.loveIt"><i class="fa fa-heart-o" style="color: red"></i> I Love It</span>
                             </div>
                             <!-- /.detail-claim -->
 
