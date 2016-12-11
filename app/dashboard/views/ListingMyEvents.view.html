@@ -18,21 +18,25 @@
                 <div class="card-system" ng-repeat="event in ManageEvents.myEvents">
                     <div class="card-system-inner">
                         <div class="card-system-image"
-                        style="background-image: url({{event.backgroundImage}})">
+                             style="background-image: url({{event.backgroundImage}})">
                             <a href="listing-detail.html"></a>
                         </div><!-- /.card-system-image -->
 
                         <div class="card-system-content">
                             <h2><a href="listing-detail.html">{{event.title}}</a></h2>
                             <h3>{{event.category.categoryName}}</h3>
-                            <a ui-sref="administration.EditEvents({id: event.id})" class="btn btn-primary btn-xs">Edit</a>
+                            <a ui-sref="administration.EditEvents({id: event.id})"
+                               class="btn btn-primary btn-xs">Edit</a>
                             <button ng-click="ManageEvents.delete(event)" class="btn btn-danger btn-xs">Delete</button>
-                            <button ng-if="event.eventState=='PUBLISHED'" ng-click="ManageEvents.unpublish(event)" class="btn btn-secondary btn-xs">Unpublish</button>
-                            <button ng-if="event.eventState=='UNPUBLISHED'" ng-click="ManageEvents.publish(event)" class="btn btn-secondary btn-xs">Publish</button>
+                            <button ng-if="event.eventState=='PUBLISHED'" ng-click="ManageEvents.unpublish(event)"
+                                    class="btn btn-secondary btn-xs">Unpublish
+                            </button>
+                            <button ng-if="event.eventState=='UNPUBLISHED'" ng-click="ManageEvents.publish(event)"
+                                    class="btn btn-secondary btn-xs">Publish
+                            </button>
                         </div>
                     </div>
                 </div><!-- /.card-system -->
-
 
 
             </div><!-- /.cards-system -->

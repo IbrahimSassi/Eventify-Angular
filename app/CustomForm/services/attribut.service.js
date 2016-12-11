@@ -14,14 +14,20 @@
     /* @ngInject */
     function AttributServiceFN(AttributFactory) {
 
+        this.getAttributsByQuestion = getAttributsByQuestionFn;
+        this.addAttribut = addAttributFN;
 
 
-        this.addAttribut = function (attribut) {
+        function addAttributFN(attribut) {
             //event = new EventFactory(event);
             return AttributFactory.save(attribut);
         }
 
 
+        function getAttributsByQuestionFn(idQuestion) {
+            console.log('attributs for question ' +idQuestion , AttributFactory.getAttributsByQuestion({idQuestion:idQuestion}));
+            return AttributFactory.getAttributsByQuestion({idQuestion:idQuestion}).$promise;
+        }
     }
 
 })();

@@ -21,8 +21,8 @@
 
         ////////////////
 
-        function addToWishlistFN(UserId,eventId) {
-            var wishlist =   {
+        function addToWishlistFN(UserId, eventId) {
+            var wishlist = {
                 "wishlistPK": {
                     "userId": UserId,
                     "eventId": eventId
@@ -34,19 +34,20 @@
 
         }
 
-        function removeFromWishlistFN(UserId,eventId) {
+        function removeFromWishlistFN(UserId, eventId) {
             // console.log(WishlistFactory.delete({userId:UserId,eventId:eventId}));
-            return WishlistFactory.delete({userId:UserId,eventId:eventId}).$promise;
+            return WishlistFactory.delete({userId: UserId, eventId: eventId}).$promise;
         }
 
 
-        function getWishlistsByUserAndEventFN(UserId,eventId) {
+        function getWishlistsByUserAndEventFN(UserId, eventId) {
             // console.log(WishlistFactory.query({userId:UserId,eventId:eventId}))
-            return WishlistFactory.get({userId:UserId,eventId:eventId}).$promise;
+            return WishlistFactory.get({userId: UserId, eventId: eventId}).$promise;
         }
+
         function getWishlistsByUserFN(UserId) {
             // console.log(WishlistFactory.query({userId:UserId,eventId:eventId}))
-            return WishlistFactory.query({userId:UserId}).$promise;
+            return WishlistFactory.query({userId: UserId}).$promise;
         }
     }
 

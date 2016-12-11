@@ -13,7 +13,7 @@
 
     /* @ngInject */
     function WishlistFactory($resource) {
-        return $resource('http://localhost:18080/Eventify-web/rest/wishlists',null);
+        return $resource('http://localhost:18080/Eventify-web/rest/wishlists', null);
 
     }
 

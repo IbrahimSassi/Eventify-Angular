@@ -1,4 +1,3 @@
-
 /**
  * Created by Ibrahim on 10/12/2016.
  */
@@ -6,7 +5,7 @@
     'use strict';
 
     angular
-        .module('EventifyApp.dashboard',[
+        .module('EventifyApp.dashboard', [
             'ui.router',
             'ui.bootstrap', 'ui.bootstrap.datetimepicker'
 
@@ -14,41 +13,39 @@
         .config(config)
         .controller('DashboardCtrl', DashboardCtrl);
 
-    config.$inject = ['$stateProvider','$urlRouterProvider'];
+    config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
     /* @ngInject */
-    function config ($stateProvider,$urlRouterProvider) {
+    function config($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('administration',{
-                url:'/administration',
-                templateUrl:'dashboard/views/dashboard.view.html',
+            .state('administration', {
+                url: '/administration',
+                templateUrl: 'dashboard/views/dashboard.view.html',
                 controller: 'DashboardCtrl as dash',
-                cache:false
+                cache: false
             })
-            .state('administration.home',{
-                url:'/home',
-                templateUrl:'dashboard/views/home.view.html',
+            .state('administration.home', {
+                url: '/home',
+                templateUrl: 'dashboard/views/home.view.html',
                 controller: 'DashboardCtrl as dash',
-                cache:false,
+                cache: false,
 
             })
-            .state('administration.events',{
-                url:'/events',
-                templateUrl:'dashboard/views/ListingMyEvents.view.html',
+            .state('administration.events', {
+                url: '/events',
+                templateUrl: 'dashboard/views/ListingMyEvents.view.html',
                 controller: 'ManageEventsCtrl as ManageEvents',
-                cache:false,
+                cache: false,
 
             })
-            .state('administration.EditEvents',{
-                url:'/events/edit/:id',
-                templateUrl:'../dashboard/views/EditEvent.html',
+            .state('administration.EditEvents', {
+                url: '/events/edit/:id',
+                templateUrl: '../dashboard/views/EditEvent.html',
                 controller: 'ManageEventsCtrl as ManageEvents',
-                cache:false,
+                cache: false,
 
             })
         ;
-
-
 
 
     };
@@ -59,7 +56,6 @@
     function DashboardCtrl() {
         var vm = this;
         vm.title = 'DashboardCtrl';
-
 
 
     }

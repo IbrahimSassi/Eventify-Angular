@@ -13,24 +13,21 @@
     /* @ngInject */
     function EventFactory($resource) {
         return $resource('http://localhost:18080/Eventify-web/rest/events/:id',
-            {id:'@id'},
+            {id: '@id'},
             {
-                'update': { method:'PUT' },
+                'update': {method: 'PUT'},
                 'getEventsByOrganization': {
                     url: 'http://localhost:18080/Eventify-web/rest/organization/:idOrganization/events',
                     method: 'GET',
                     params: {
                         idOrganization: '@idOrganization',
                     },
-                    isArray:true
-
+                    isArray: true
 
 
                 }
             }
-
-
-            );
+        );
     }
 
 })();

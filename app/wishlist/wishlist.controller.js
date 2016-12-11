@@ -55,7 +55,7 @@
                 vm.myWishlist.forEach(function (event) {
 
                     event.event.$promise.then(function (data) {
-                        event.event.adress = EventService.getAddress(event.event.latitude,event.event.longitude);
+                        event.event.adress = EventService.getAddress(event.event.latitude, event.event.longitude);
                         // console.log(event.event.adress);
                         event.event.adress.then(function (adr) {
                             event.event.adress = adr.data.results[0].formatted_address;
@@ -72,7 +72,7 @@
 
         vm.remove = function (event) {
             console.log(event.wishlistPK.eventId);
-            WishlistService.removeFromWishlist(vm.userConnectedId,event.wishlistPK.eventId).then(function () {
+            WishlistService.removeFromWishlist(vm.userConnectedId, event.wishlistPK.eventId).then(function () {
                 vm.GetWishlist();
             });
         }

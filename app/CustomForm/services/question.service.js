@@ -14,9 +14,15 @@
     /* @ngInject */
     function QuestionServiceFN(QuestionFactory) {
 
+        this.getQuestionsByEvent = getQuestionsByEventFn;
+
         this.addQuestion = function (question) {
             //event = new EventFactory(event);
             return QuestionFactory.save(question);
+        }
+
+        function getQuestionsByEventFn(idEvent) {
+            return QuestionFactory.getQuestionsByEvent({idEvent:idEvent}).$promise;
         }
 
 

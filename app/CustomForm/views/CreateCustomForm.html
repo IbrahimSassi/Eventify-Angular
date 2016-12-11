@@ -1,5 +1,4 @@
 <div class="container">
-    <button ng-click="form.addQuestion()">Add</button>
 
     <script type="text/ng-template" id="list.html">
         <ul dnd-list="list">
@@ -69,24 +68,27 @@
 
 
     <!-- Main area with dropzones and source code -->
-    <!--<div class="col-md-offset-2 col-md-6">-->
-        <!--<div class="row">-->
-            <!--<div ng-repeat="(zone, list) in models.form" class="col-md-6">-->
-                <!--<div class="dropzone box box-yellow">-->
-                    <!--&lt;!&ndash; The dropzone also uses the list template &ndash;&gt;-->
-                    <!--&lt;!&ndash;<h3>Form {{zone}}</h3>&ndash;&gt;-->
-                    <!--<h3>Form </h3>-->
-                    <!--<div ng-include="'list.html'"></div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+    <div class="col-md-offset-2 col-md-6">
+        <div class="row">
+            <div ng-repeat="(zone, list) in models.form" class="col-md-6">
+                <div class="dropzone box box-yellow">
+                    <!-- The dropzone also uses the list template -->
+                    <!--<h3>Form {{zone}}</h3>-->
+                    <h3>Form </h3>
+                    <div ng-include="'list.html'"></div>
+                </div>
+            </div>
+        </div>
 
-        <!--<div view-source="nested"></div>-->
+        <div view-source="nested"></div>
 
-    <!--</div>-->
+    </div>
 
     <!-- Sidebar -->
     <div class="col-md-2">
+
+        <button class="btn btn-secondary btn-lg" ng-click="form.addQuestion()">Add</button>
+        <button ui-sref="formPreview({eventId:form.relatedEventId})" class="btn btn-info btn-lg" >preview</button>
 
         <div ng-if="models.selected" class="box box-grey box-padding">
             <h3>Selected</h3>

@@ -1,8 +1,8 @@
-
 <div class="container" ng-init="wishlist.GetWishlist()">
     <h2 class="page-title">
         <i class="fa fa-heart-o"></i> {{wishlist.title}}
-        <form method="get" action="http://preview.byaviators.com/template/superlist/listing-row.html?" class="filter-sort">
+        <form method="get" action="http://preview.byaviators.com/template/superlist/listing-row.html?"
+              class="filter-sort">
             <div class="form-group">
                 <select title="Sort by">
                     <option name="price">Price</option>
@@ -25,45 +25,52 @@
         <div class="card-row" ng-repeat="event in wishlist.myWishlist">
             <div class="card-row-inner">
                 <div class="card-row-image" style="background-image: url({{event.event.backgroundImage}})">
-                    <div class="card-row-label" ><a href="listing-detail.html">{{event.event.category.categoryName}}</a></div><!-- /.card-row-label -->
+                    <div class="card-row-label"><a href="listing-detail.html">{{event.event.category.categoryName}}</a>
+                    </div><!-- /.card-row-label -->
 
-                    <div ng-click="wishlist.remove(event)" class="card-row-price" style="background-color:#e74c3c;cursor:pointer;")">
-                        Remove</div><!-- -->
+                    <div ng-click="wishlist.remove(event)" class="card-row-price"
+                         style="background-color:#e74c3c;cursor:pointer;" )
+                    ">
+                    Remove
+                </div><!-- -->
 
-                </div><!-- /.card-row-image -->
+            </div><!-- /.card-row-image -->
 
-                <div class="card-row-body">
-                    <h2 class="card-row-title"><a href="listing-detail.html">{{event.event.title}}</a></h2>
-                    <div class="card-row-content">
-                        <p>{{event.event.theme}}</p></div><!-- /.card-row-content -->
-                </div><!-- /.card-row-body -->
+            <div class="card-row-body">
+                <h2 class="card-row-title"><a ui-sref="event-detail({eventId:event.event.id})">{{event.event.title}}</a>
+                </h2>
+                <div class="card-row-content">
+                    <p>{{event.event.theme}}</p></div><!-- /.card-row-content -->
+            </div><!-- /.card-row-body -->
 
-                <div class="card-row-properties">
-                    <dl>
+            <div class="card-row-properties">
+                <dl>
 
-                        <dd>Price</dd><dt>$100 / night</dt>
-
-
-
-                        <dd>Type</dd><dt>{{event.event.eventType}}</dt>
-
-
-
-                        <dd>Location</dd><dt>{{event.event.adress}}</dt>
+                    <dd>Price</dd>
+                    <dt>$100 / night</dt>
 
 
-                        <dd>Rating</dd>
-                        <dt>
-                        <div class="card-row-rating">
-                            <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                        </div><!-- /.card-row-rating -->
-                        </dt>
-                    </dl>
-                </div><!-- /.card-row-properties -->
-            </div><!-- /.card-row-inner -->
-        </div><!-- /.card-row -->
+                    <dd>Type</dd>
+                    <dt>{{event.event.eventType}}</dt>
 
 
-    </div><!-- /.cards-row -->
+                    <dd>Location</dd>
+                    <dt>{{event.event.adress}}</dt>
+
+
+                    <dd>Rating</dd>
+                    <dt>
+                    <div class="card-row-rating">
+                        <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                            class="fa fa-star"></i> <i class="fa fa-star"></i>
+                    </div><!-- /.card-row-rating -->
+                    </dt>
+                </dl>
+            </div><!-- /.card-row-properties -->
+        </div><!-- /.card-row-inner -->
+    </div><!-- /.card-row -->
+
+
+</div><!-- /.cards-row -->
 
 </div>

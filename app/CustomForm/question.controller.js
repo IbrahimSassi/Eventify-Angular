@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('EventifyApp.customForm',[
+        .module('EventifyApp.customForm', [
             'ui.router',
             'dndLists',
 
@@ -15,26 +15,31 @@
         .controller('QuestionCtrl', QuestionCtrlFN);
 
 
-    config.$inject = ['$stateProvider','$urlRouterProvider'];
-    QuestionCtrlFN.$inject = ['QuestionService','$state','$scope','AttributService'];
-
+    config.$inject = ['$stateProvider', '$urlRouterProvider'];
+    QuestionCtrlFN.$inject = ['QuestionService', '$state', '$scope', 'AttributService'];
 
 
     /* @ngInject */
-    function config ($stateProvider,$urlRouterProvider) {
+    function config($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('createQuestion',{
-                url:'/CustomForm',
-                templateUrl:'CustomForm/views/CreateCustomForm.html',
+            .state('createQuestion', {
+                url: '/CustomForm',
+                templateUrl: 'CustomForm/views/CreateCustomForm.html',
                 controller: 'QuestionCtrl as form',
-                cache:false
+                cache: false
+            })
+            .state('formPreview', {
+                url: '/form/preview/event/:eventId',
+                templateUrl: 'CustomForm/views/custom-form-preview.view.html',
+                controller: 'QuestionCtrl as form',
+                cache: false
             })
         ;
 
     };
 
     /* @ngInject */
-    function QuestionCtrlFN(QuestionService,$state,$scope,AttributService) {
+    function QuestionCtrlFN(QuestionService, $state, $scope, AttributService) {
         var vm = this;
         vm.title = 'Create Custom Form';
 
@@ -77,38 +82,40 @@
         //     }
         // ];
 
+
+        vm.relatedEventId = 1;
         vm.addQuestion = function () {
             // QuestionService.addQuestion(vm.CustomForm);
             // console.log($scope.models.form.A);
             $scope.models.form.A.forEach(function (data) {
                 //console.log("question",data);
 
-                if(data.multiple){
+                if (data.multiple) {
 
                     vm.question = {
-                        "questionType" :data.type,
-                        "questionDescription" :data.name,
+                        "questionType": data.type,
+                        "questionDescription": data.name,
                         "questionCategory": "RegistrationForm",
                         "status": 1,
                         "questionDate": new Date(),
                         "order": 1,
                         "event": {
-                            id:1
+                            id: 1
                         }
                     };
 
 
                     QuestionService.addQuestion(vm.question).$promise.then(function (questionAdded) {
-                        console.log("multiple question added",questionAdded);
+                        console.log("multiple question added", questionAdded);
 
                         data.attributs[0].forEach(function (response) {
-                            console.log('attribut',response);
+                            console.log('attribut', response);
 
-                            vm.attribut= {
+                            vm.attribut = {
                                 "attributValue": response.name,
                                 "duplicated": false,
                                 "question": {
-                                    "id":questionAdded.id
+                                    "id": questionAdded.id
                                 }
 
                             };
@@ -120,34 +127,32 @@
 
 
                 }
-                else
-                {
+                else {
                     vm.question = {
-                        "questionType" :data.type,
-                        "questionDescription" :data.name,
+                        "questionType": data.type,
+                        "questionDescription": data.name,
                         "questionCategory": "RegistrationForm",
                         "status": 1,
                         "questionDate": new Date(),
                         "order": 1,
                         "event": {
-                            id:1
+                            id: vm.relatedEventId
                         }
                     };
                     QuestionService.addQuestion(vm.question).$promise.then(function (questionAdded) {
-                        console.log("mouch multiple question added",questionAdded);
+                        console.log("mouch multiple question added", questionAdded);
 
-                        vm.attribut= {
+                        vm.attribut = {
                             "attributValue": data.name,
                             "duplicated": false,
                             "question": {
-                                "id":questionAdded.id
+                                "id": questionAdded.id
                             }
 
                         };
                         AttributService.addAttribut(vm.attribut)
 
                     });
-
 
 
                 }
@@ -158,18 +163,6 @@
         };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         // TEST Drag And Drop
 
         $scope.var = "test";
@@ -178,38 +171,44 @@
         $scope.models = {
             selected: null,
             templates: [
-                {multiple:false,name:"Short_Anwser",type: "Short_Anwser", id: 1},
-                {multiple:false,name:"Paragraphe",type: "Paragraphe", id: 2},
-                {multiple:false,name:"Date",type: "Date", id: 3},
-                {multiple:true,name:"RadioBox",type: "RadioBox", id: 4, attributs: [[{
-                    "name":"Attribut",
+                {multiple: false, name: "Short_Anwser", type: "Short_Anwser", id: 1},
+                {multiple: false, name: "Paragraphe", type: "Paragraphe", id: 2},
+                {multiple: false, name: "Date", type: "Date", id: 3},
+                {
+                    multiple: true, name: "RadioBox", type: "RadioBox", id: 4, attributs: [[{
+                    "name": "Attribut",
                     "type": "Attribut",
                     "id": "1"
-                }]]},
-                {multiple:true,name:"CheckBox",type: "CheckBox", id: 5, attributs: [[{
-                    "name":"Attribut",
+                }]]
+                },
+                {
+                    multiple: true, name: "CheckBox", type: "CheckBox", id: 5, attributs: [[{
+                    "name": "Attribut",
                     "type": "Attribut",
                     "id": "1"
-                }]]},
-                {multiple:true,name:"DropdownList",type: "DropdownList", id: 6, attributs: [[{
-                    "name":"Attribut",
+                }]]
+                },
+                {
+                    multiple: true, name: "DropdownList", type: "DropdownList", id: 6, attributs: [[{
+                    "name": "Attribut",
                     "type": "Attribut",
                     "id": "1"
-                }]]},
-                {multiple:false,name:"Attribut",type: "Attribut", id: 7},
+                }]]
+                },
+                {multiple: false, name: "Attribut", type: "Attribut", id: 7},
 
             ],
             form: {
                 "A": [
                     {
-                        "multiple":true,
-                        "name":"RadioBox",
+                        "multiple": true,
+                        "name": "RadioBox",
                         "type": "RadioBox",
                         "id": 11,
                         "attributs": [
                             [
                                 {
-                                    "name":"Attribut",
+                                    "name": "Attribut",
                                     "type": "Attribut",
                                     "id": "1"
                                 }
@@ -222,9 +221,31 @@
             }
         };
 
-        $scope.$watch('models.form', function(model) {
+        $scope.$watch('models.form', function (model) {
             $scope.modelAsJson = angular.toJson(model, true);
         }, true);
+
+
+
+
+
+
+
+        //Preview Work
+        vm.getQuestionForEvent = function () {
+
+            QuestionService.getQuestionsByEvent(vm.relatedEventId).then(function (data) {
+                console.log(data);
+                vm.previewQuestions = data;
+
+
+            });
+        };
+        
+        vm.getAttributsForQuestion = function (idQuestion) {
+            
+        }
+
 
     };
 

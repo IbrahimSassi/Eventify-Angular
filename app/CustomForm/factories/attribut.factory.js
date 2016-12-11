@@ -16,7 +16,17 @@
         return $resource('http://localhost:18080/Eventify-web/rest/attributs/:id',
             {id:'@id'},
             {
-                'update': { method:'PUT' }
+                'update': { method:'PUT' },
+                'getAttributsByQuestion':{
+                    url: 'http://localhost:18080/Eventify-web/rest/questions/:idQuestion/attributs',
+                    method: 'GET',
+                    params: {
+                        idOrganization: '@idQuestion',
+                    },
+                    isArray: true
+
+                }
+
             }
         );
     }
