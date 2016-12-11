@@ -11,7 +11,7 @@
 
 
     config.$inject = ['$stateProvider','$urlRouterProvider'];
-    EventCtrl.$inject = ['EventService','$state','CategoryService'];
+    EventCtrl.$inject = ['EventService','$state','CategoryService','$stateParams'];
 
 
 
@@ -21,6 +21,12 @@
             .state('event',{
                 url:'/events',
                 templateUrl:'event/views/ListEvent.html',
+                controller: 'EventCtrl as event',
+                cache:false
+            })
+            .state('event-detail',{
+                url:'/events/detail/:eventId',
+                templateUrl:'event/views/event-detail.view.html',
                 controller: 'EventCtrl as event',
                 cache:false
             })
@@ -34,7 +40,7 @@
     };
 
     /* @ngInject */
-    function EventCtrl(EventService,$state,CategoryService) {
+    function EventCtrl(EventService,$state,CategoryService,$stateParams) {
         //On Init Start
         var vm = this;
         vm.title = 'Event List';
@@ -60,6 +66,26 @@
         }
 
 
+        var eventId = $stateParams.eventId;
+
+        if(eventId){
+            // console.log(eventId);
+            EventService.getEventByID(eventId).then(function (data) {
+                vm.eventToDisplay = data;
+                console.log(vm.eventToDisplay);
+                // console.log(vm.eventToDisplay.latitude,vm.eventToDisplay.longitude);
+
+                EventService.getAddress(vm.eventToDisplay.latitude,vm.eventToDisplay.longitude).then(function (data) {
+                    console.log('adress',data.data.results[0]);
+                    vm.adress = data.data.results[0].formatted_address ;
+                },function (err) {
+                    console.log('error',err);
+                })
+            })
+        }
+
+
+
 
         // this.isOpen = false;
 
@@ -83,15 +109,36 @@
                 vm.getEvents();
                 $state.go('event');
             });
+        };
+        // vm.loveIt=false;
 
+        vm.giveHeart = function () {
+            // vm.eventToDisplay.nbViews  = vm.eventToDisplay.nbViews + 1;
+            // console.log(vm.eventToDisplay.nbViews);
+            vm.loveIt = !vm.loveIt;
 
+            if(vm.loveIt){
+                vm.eventToDisplay.nbViews  = vm.eventToDisplay.nbViews + 1;
+
+            }
+            else {
+                vm.eventToDisplay.nbViews  = vm.eventToDisplay.nbViews - 1;
+
+            }
+             console.log(vm.eventToDisplay.nbViews);
+
+            EventService.updateEvent(vm.eventToDisplay);
+        };
+
+        vm.addaddWishlist = function () {
+            
         }
-
+        
 
         vm.update = function (event) {
             EventService.updateEvent(event);
 
-        }
+        };
 
 
         vm.delete = function (event,index) {
@@ -104,7 +151,7 @@
         //I could get the event directly from the list , but i re-used the factory and the service to test "get" function
         vm.details = function (idEvent) {
             vm.selectedEvent = EventService.getEventByID(idEvent);
-        }
+        };
 
 
         // I Choose some attributs Not-Null ,, i will change it later , THIS IS Just an example

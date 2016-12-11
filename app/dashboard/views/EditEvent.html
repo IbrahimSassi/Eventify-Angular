@@ -29,9 +29,9 @@
                         </div>
                         <p class="input-group col-md-9">
                             <input type="text" class="form-control" datetime-picker="dd MMM yyyy HH:mm"
-                                   ng-model="ManageEvents.editedEvent.startTime" is-open="ManageEvents.datetimepicker.open"/>
+                                   ng-model="ManageEvents.editedEvent.startTime" is-open="ManageEvents.datetimepickerStart.open"/>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="ManageEvents.openCalendar($event,'datetimepicker')"><i
+                                <button type="button" class="btn btn-default" ng-click="ManageEvents.openCalendar($event,'datetimepickerStart')"><i
                                         class="fa fa-calendar"></i></button>
                             </span>
                         </p>
@@ -43,9 +43,9 @@
                         </div>
                         <p class="input-group col-md-9">
                             <input type="text" class="form-control" datetime-picker="dd MMM yyyy HH:mm"
-                                   ng-model="ManageEvents.editedEvent.endTime" is-open="ManageEvents.datetimepicker.open"/>
+                                   ng-model="ManageEvents.editedEvent.endTime" is-open="ManageEvents.datetimepickerEnd.open"/>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="ManageEvents.openCalendar($event,'datetimepicker')"><i
+                                <button type="button" class="btn btn-default" ng-click="ManageEvents.openCalendar($event,'datetimepickerEnd')"><i
                                         class="fa fa-calendar"></i></button>
                             </span>
                         </p>
@@ -115,12 +115,12 @@
 
                         <div class="col-sm-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
+                                <span class="input-group-addon"><i style="color: #3B5998" class="fa fa-facebook-square"></i></span>
                                 <input class="form-control" type="text" placeholder="" ng-model="ManageEvents.editedEvent.facebookLink">
                             </div><!-- /.form-group -->
 
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-twitter-square"></i></span>
+                                <span class="input-group-addon"><i style="color: #0097D8" class="fa fa-twitter-square"></i></span>
                                 <input class="form-control" type="text" placeholder="City" ng-model="ManageEvents.editedEvent.twitterLink">
                             </div><!-- /.form-group -->
 

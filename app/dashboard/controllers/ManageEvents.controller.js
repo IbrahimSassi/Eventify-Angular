@@ -21,7 +21,10 @@
 
         var editedEventId = $stateParams.id;
 
-        vm.datetimepicker = {
+        vm.datetimepickerStart = {
+            date: new Date()
+        };
+        vm.datetimepickerEnd = {
             date: new Date()
         };
 

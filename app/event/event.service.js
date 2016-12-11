@@ -8,10 +8,10 @@
         .module('EventifyApp.event')
         .service('EventService', EventServiceFN);
 
-    EventServiceFN.$inject = ['EventFactory'];
+    EventServiceFN.$inject = ['EventFactory','$http'];
 
     /* @ngInject */
-    function EventServiceFN(EventFactory) {
+    function EventServiceFN(EventFactory,$http) {
 
 
         this.getAllEvents = function () {
@@ -42,6 +42,10 @@
         this.getEventsByOrganization = function (idOrganization) {
 
             return EventFactory.getEventsByOrganization({idOrganization:idOrganization}).$promise;
+        }
+
+        this.getAddress = function (latitude,longitude) {
+            return $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&key=AIzaSyCpppSvVNQD0XBkVm-r_OcebP7AIxmcixo')
         }
     }
 
