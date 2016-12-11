@@ -6,41 +6,63 @@
     'use strict';
 
     angular
-        .module('EventifyApp.wishlist',[
+        .module('EventifyApp.wishlist', [
             'ui.router'
 
         ])
         .config(config)
         .controller('WishlistCtrl', WishlistCtrlFN);
 
-    config.$inject = ['$stateProvider','$urlRouterProvider'];
+    config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
     /* @ngInject */
-    function config ($stateProvider,$urlRouterProvider) {
+    function config($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('wishlist',{
-                url:'/wishlist/me',
-                templateUrl:'wishlist/views/listing-myWishlist.view.html',
+            .state('wishlist', {
+                url: '/wishlist/me',
+                templateUrl: 'wishlist/views/listing-myWishlist.view.html',
                 controller: 'WishlistCtrl as wishlist',
-                cache:false
+                cache: false
             })
         ;
 
 
-
-
     };
 
-    WishlistCtrlFN.$inject = ['WishlistService'];
+    WishlistCtrlFN.$inject = ['WishlistService', 'EventService'];
 
     /* @ngInject */
-    function WishlistCtrlFN(WishlistService) {
+    function WishlistCtrlFN(WishlistService, EventService) {
         var vm = this;
-        vm.title = 'WishlistListing';
+        vm.title = 'My Wishlist';
 
 
+        WishlistService.getWishlistsByUser(1, null).then(function (data) {
+
+            vm.myWishlist = data;
+            vm.myWishlist.forEach(function (event) {
 
 
+                event.event = EventService.getEventByID(event.wishlistPK.eventId);
+
+
+            });
+
+            console.log(vm.myWishlist);
+            vm.myWishlist.forEach(function (event) {
+
+                event.event.$promise.then(function (data) {
+                    event.event.adress = EventService.getAddress(event.event.latitude,event.event.longitude);
+                    // console.log(event.event.adress);
+                    event.event.adress.then(function (adr) {
+                        event.event.adress = adr.data.results[0].formatted_address;
+
+                    })
+                })
+                // console.log(EventService.getAddress(event.event.latitude,event.event.longitude));
+
+            })
+        });
 
 
     }

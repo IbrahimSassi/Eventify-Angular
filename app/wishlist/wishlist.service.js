@@ -16,6 +16,7 @@
         this.addToWishlist = addToWishlistFN;
         this.removeFromWishlist = removeFromWishlistFN;
         this.getWishlistsByUserAndEvent = getWishlistsByUserAndEventFN;
+        this.getWishlistsByUser = getWishlistsByUserFN;
 
 
         ////////////////
@@ -41,6 +42,10 @@
         function getWishlistsByUserAndEventFN(UserId,eventId) {
             // console.log(WishlistFactory.query({userId:UserId,eventId:eventId}))
             return WishlistFactory.get({userId:UserId,eventId:eventId}).$promise;
+        }
+        function getWishlistsByUserFN(UserId) {
+            // console.log(WishlistFactory.query({userId:UserId,eventId:eventId}))
+            return WishlistFactory.query({userId:UserId}).$promise;
         }
     }
 

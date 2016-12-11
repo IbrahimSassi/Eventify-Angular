@@ -45,7 +45,7 @@
         function getEventByID(idEvent) {
             //console.log('id event',idEvent);
             // console.log(EventFactory.get({id:idEvent}));
-            return EventFactory.get({id: idEvent}).$promise;
+            return EventFactory.get({id: idEvent});
         }
 
 
