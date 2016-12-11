@@ -43,7 +43,13 @@
             return result.$promise;
 
         }
+        this.changePassword = function (user,oldPwd,newPwd,token) {
 
+            UserFactory.secured(token).changePassword({'oldPwd':oldPwd ,'newPwd':newPwd},user);
+            
+        }
+        
+        
         this.saveToken = function (token) {
             if ($window.localStorage['authToken'] == null) {
                 if (token != null) {

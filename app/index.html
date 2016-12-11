@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
-
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-
     <link href="http://fonts.googleapis.com/css?family=Nunito:300,400,700" rel="stylesheet" type="text/css">
     <link href="assets/libraries/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="assets/libraries/owl.carousel/assets/owl.carousel.css" rel="stylesheet" type="text/css">
@@ -14,10 +11,8 @@
     <link href="assets/libraries/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css">
     <link href="assets/libraries/bootstrap-fileinput/fileinput.min.css" rel="stylesheet" type="text/css">
     <link href="assets/css/superlist.css" rel="stylesheet" type="text/css">
-
     <!--<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">-->
     <!--<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">-->
-
     <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
     <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">-->
     <!--<link rel="stylesheet" href="assets/css/nestedList.css">-->
@@ -28,7 +23,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.png">
 
     <style>
-        .ng-cloak{
+        .ng-cloak {
             display: none;
         }
     </style>
@@ -46,10 +41,9 @@
                     <div class="header-logo">
                         <a ui-sref="home">
                             <img width="80" height="90" src="assets/img/logo.png" alt="Logo">
-
                         </a>
-                    </div><!-- /.header-logo -->
-
+                    </div>
+                    <!-- /.header-logo -->
                     <div class="header-content">
 
 
@@ -57,27 +51,24 @@
                         <div class="header-top">
                             <div class="header-search">
                                 <input type="text" class="form-control" placeholder="Search for...">
-                            </div><!-- /.header-search -->
-
+                            </div>
+                            <!-- /.header-search -->
                             <ul class="header-nav-social social-links nav nav-pills">
                                 <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            </ul><!-- /.header-nav-social -->
-
+                            </ul>
+                            <!-- /.header-nav-social -->
                             <ul class="header-nav-secondary nav nav-pills">
                                 <li><a ui-sref="loginUser">Login</a></li>
                                 <li><a ui-sref="registerUser">Register</a></li>
                             </ul>
-                        </div><!-- /.header-top -->
-
+                        </div>
+                        <!-- /.header-top -->
                         <div class="header-bottom">
-
-
                             <ul class="header-nav-primary nav nav-pills collapse navbar-collapse">
                                 <li class="active">
                                     <a href="#">Home <i class="fa fa-chevron-down"></i></a>
-
                                     <ul class="sub-menu">
                                         <li><a href="#">Video v1</a></li>
                                         <li><a href="#">Video v2</a></li>
@@ -88,10 +79,8 @@
                                         <li><a href="#">Boxed Slider</a></li>
                                     </ul>
                                 </li>
-
                                 <li>
                                     <a href="#">Listing <i class="fa fa-chevron-down"></i></a>
-
                                     <ul class="sub-menu">
                                         <li><a href="#">Detail</a></li>
                                         <li><a href="#">Row + Map</a></li>
@@ -144,7 +133,8 @@
                                         <li class="hidden-xs">
                                             <div class="special">
                                                 <a href="#">Sign Up Now</a>
-                                            </div><!-- /.special-->
+                                            </div>
+                                            <!-- /.special-->
                                         </li>
                                     </ul>
                                 </li>
@@ -192,17 +182,18 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-
-                        </div><!-- /.header-bottom -->
-                    </div><!-- /.header-content -->
-                </div><!-- /.header-inner -->
-            </div><!-- /.container -->
-        </div><!-- /.header-wrapper -->
-    </header><!-- /.header -->
-
-
-
-
+                        </div>
+                        <!-- /.header-bottom -->
+                    </div>
+                    <!-- /.header-content -->
+                </div>
+                <!-- /.header-inner -->
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /.header-wrapper -->
+    </header>
+    <!-- /.header -->
     <!--DashBoard Header-->
 
     <header ng-show="currentUser!=null" class="header header-minimal ng-cloak">
@@ -214,8 +205,8 @@
                         <!--<img width="80" height="90" src="assets/img/logo.png" alt="Logo">-->
 
                         <!--</a>-->
-                    </div><!-- /.header-logo -->
-
+                    </div>
+                    <!-- /.header-logo -->
                     <div class="header-content">
 
                         <div class="header-bottom">
@@ -519,6 +510,7 @@
 <script src="home/home.service.js"></script>
 
 <script src="dashboard/dashboard.controller.js"></script>
+<script src="dashboard/factories/MyEvents.factory.js"></script>
 <script src="dashboard/controllers/ManageEvents.controller.js"></script>
 
 
@@ -556,6 +548,12 @@
 <script src="reservation/reservation.controller.js"></script>
 <script src="reservation/reservation.factory.js"></script>
 <script src="reservation/reservation.service.js"></script>
+<script src="ticket/ticket.controller.js"></script>
+<script src="ticket/ticket.factory.js"></script>
+<script src="ticket/ticket.service.js"></script>
+<script src="transaction/transaction.controller.js"></script>
+<script src="transaction/transaction.factory.js"></script>
+<script src="transaction/transaction.service.js"></script>
 <!--/*End of mrFirases Scripts*/-->
 
 </body>

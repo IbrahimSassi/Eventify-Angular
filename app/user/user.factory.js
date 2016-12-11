@@ -43,6 +43,20 @@
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }
+                    },
+                    'changePassword': {
+                        url: 'http://localhost:18080/Eventify-web/rest/users/:oldPwd/:newPwd',
+                        method: 'PUT',
+                        params: {
+                            id:null,
+                            oldPwd: '@oldPwd',
+                            newPwd: '@newPwd'
+                        },
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+
+
                     }
 
                 }

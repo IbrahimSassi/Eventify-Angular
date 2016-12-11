@@ -12,22 +12,8 @@
             'angular-jwt',
         ])
         .config(config)
-        .controller('UserCtrl', UserCtrl)
-        .run(function ($rootScope, $state, UserService) {
-            $rootScope.$on("$stateChangeStart", function (event, toState) {
-                if (toState.authenticate && !UserService.isAuth()) {
-                    $rootScope.currentUser = null;
-                    $state.transitionTo("loginUser");
-                    event.preventDefault();
-                }
-                else if (!UserService.isAuth()) {
-                    $rootScope.currentUser = null;
-                }
-                else {
-                    $rootScope.currentUser = UserService.extractTokenData(UserService.getToken());
-                }
-            });
-        });
+        .controller('UserCtrl', UserCtrl);
+
     /**End My Module Init**/
 
     /**Injection**/
@@ -57,6 +43,12 @@
                 url: '/users/login',
                 templateUrl: 'user/views/login.user.view.html',
                 controller: 'UserCtrl as user'
+            })
+            .state('changePasswordUser', {
+                url: '/users/change-password',
+                templateUrl: 'user/views/change-password.user.view.html',
+                controller: 'UserCtrl as user',
+                authenticate: true,
             })
 
         ;
@@ -118,10 +110,19 @@
 
         /**End of SignIn*/
 
+        /**Change Password Function*/
+
+        vm.changePassword = function (user,oldPwd, newPwd) {
+           console.log(UserService.changePassword(user,oldPwd, newPwd,UserService.getToken()));
+            $state.go('home');
+
+        }
+
+        /**End Of Change Password Function*/
+
 
     };
 
     /**End UserCtrlFunction**/
 
 })();
-
