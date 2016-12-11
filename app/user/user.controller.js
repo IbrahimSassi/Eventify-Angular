@@ -44,6 +44,12 @@
                 templateUrl: 'user/views/login.user.view.html',
                 controller: 'UserCtrl as user'
             })
+            .state('changePasswordUser', {
+                url: '/users/change-password',
+                templateUrl: 'user/views/change-password.user.view.html',
+                controller: 'UserCtrl as user',
+                authenticate: true,
+            })
 
         ;
 
@@ -103,6 +109,16 @@
         }
 
         /**End of SignIn*/
+
+        /**Change Password Function*/
+
+        vm.changePassword = function (user,oldPwd, newPwd) {
+           console.log(UserService.changePassword(user,oldPwd, newPwd,UserService.getToken()));
+            $state.go('home');
+
+        }
+
+        /**End Of Change Password Function*/
 
 
     };
