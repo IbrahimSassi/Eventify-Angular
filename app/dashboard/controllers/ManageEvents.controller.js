@@ -28,7 +28,7 @@
             date: new Date()
         };
 
-        this.openCalendar = function(e,datetimepicker) {
+        vm.openCalendar = function(e,datetimepicker) {
             // e.preventDefault();
             // e.stopPropagation();
 

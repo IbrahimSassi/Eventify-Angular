@@ -35,7 +35,8 @@
         }
 
         function removeFromWishlistFN(UserId,eventId) {
-            return WishlistFactory.delete({userId:UserId,eventId:eventId});
+            // console.log(WishlistFactory.delete({userId:UserId,eventId:eventId}));
+            return WishlistFactory.delete({userId:UserId,eventId:eventId}).$promise;
         }
 
 
