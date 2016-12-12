@@ -50,6 +50,12 @@
                 controller: 'UserCtrl as user',
                 authenticate: true,
             })
+            .state('editProfileUser', {
+                url: '/users/edit-profile',
+                templateUrl: 'user/views/edit-profile.user.view.html',
+                controller: 'UserCtrl as user',
+                authenticate: true,
+            })
 
         ;
 
