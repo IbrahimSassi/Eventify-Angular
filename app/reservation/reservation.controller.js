@@ -27,7 +27,11 @@
                 templateUrl: '../reservation/views/listReservations.html',
                 controller: 'ReservationCtrl as reservation'
             })
-
+            .state('reservateForEvent', {
+                url: '/booking',
+                templateUrl: '../reservation/views/eventBooking.html',
+                controller: 'ReservationCtrl as reservation'
+            })
 
         ;
 
