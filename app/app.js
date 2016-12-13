@@ -13,6 +13,7 @@ angular
         'EventifyApp.ticket',
         'EventifyApp.transaction',
         'EventifyApp.customForm',
+        'EventifyApp.organization',
         'ngResource'
 
     ])
