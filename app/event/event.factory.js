@@ -25,7 +25,18 @@
                     isArray: true
 
 
+                },
+                'getMyRate': {
+                    url: 'http://localhost:18080/Eventify-web/rest/events/:idEvent/rate',
+                    method: 'GET',
+                    params: {
+                        idOrganization: '@idEvent',
+                    },
+                    isArray: false
+
+
                 }
+
             }
         );
     }

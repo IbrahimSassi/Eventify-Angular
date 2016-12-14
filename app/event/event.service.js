@@ -14,49 +14,57 @@
     function EventServiceFN(EventFactory, $http) {
 
 
-        this.getAllEvents = getAllEvents;
-        this.addEvent = addEvent;
-        this.updateEvent = updateEvent;
-        this.deleteEvent = deleteEvent;
-        this.getEventByID = getEventByID;
-        this.getEventsByOrganization = getEventsByOrganization;
-        this.getAddress = getAddress;
+        this.getAllEvents = getAllEventsFN;
+        this.addEvent = addEventFN;
+        this.updateEvent = updateEventFN;
+        this.deleteEvent = deleteEventFN;
+        this.getEventByID = getEventByIDFN;
+        this.getEventsByOrganization = getEventsByOrganizationFN;
+        this.getAddress = getAddressFN;
+        this.getMyRate = getMyRateFN;
 
 
-        function getAllEvents() {
+        function getAllEventsFN() {
             return EventFactory.query().$promise;
         }
 
-        function addEvent(event) {
+        function addEventFN(event) {
             //event = new EventFactory(event);
             return EventFactory.save(event).$promise;
         }
 
-        function updateEvent(event) {
+        function updateEventFN(event) {
             EventFactory.update({id: event.id}, event);
             console.log("Updated");
         }
 
-        function deleteEvent(event) {
+        function deleteEventFN(event) {
             return event.$delete();
         }
 
 
-        function getEventByID(idEvent) {
+        function getEventByIDFN(idEvent) {
             //console.log('id event',idEvent);
             // console.log(EventFactory.get({id:idEvent}));
             return EventFactory.get({id: idEvent});
         }
 
 
-        function getEventsByOrganization(idOrganization) {
+        function getEventsByOrganizationFN(idOrganization) {
 
             return EventFactory.getEventsByOrganization({idOrganization: idOrganization}).$promise;
         }
 
-        function getAddress(latitude, longitude) {
+        function getAddressFN(latitude, longitude) {
             return $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=AIzaSyCpppSvVNQD0XBkVm-r_OcebP7AIxmcixo')
         }
+
+        function getMyRateFN(id) {
+
+            // console.log(EventFactory.getMyRate({idEvent:id}).$promise);
+            return EventFactory.getMyRate({idEvent:id}).$promise;
+        }
+
     }
 
 })();

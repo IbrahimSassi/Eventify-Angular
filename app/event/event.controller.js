@@ -23,6 +23,12 @@
                 controller: 'EventCtrl as event',
                 cache: false
             })
+            .state('events', {
+                url: '/events/all',
+                templateUrl: 'event/views/listing-events.view.html',
+                controller: 'EventCtrl as event',
+                cache: false
+            })
             .state('event-detail', {
                 url: '/events/detail/:eventId',
                 templateUrl: 'event/views/event-detail.view.html',
@@ -49,6 +55,14 @@
             console.log(EventService.getAllEvents());
             EventService.getAllEvents().then(function (data) {
                 vm.events = data;
+                vm.events.forEach(function (event) {
+                    // if(eve)
+                    // if(vm.getRateForEvent(event.id))
+                    vm.getRateForEvent(event.id).then(function (data) {
+                        if(data.id)
+                        console.log('data',data)
+                    })
+                })
             });
 
         };
@@ -118,22 +132,22 @@
         };
         // vm.loveIt=false;
 
-        vm.giveHeart = function () {
+        vm.giveHeart = function (event) {
             // vm.eventToDisplay.nbViews  = vm.eventToDisplay.nbViews + 1;
             // console.log(vm.eventToDisplay.nbViews);
             vm.loveIt = !vm.loveIt;
 
             if (vm.loveIt) {
-                vm.eventToDisplay.nbViews = vm.eventToDisplay.nbViews + 1;
+                event.nbViews = event.nbViews + 1;
 
             }
             else {
-                vm.eventToDisplay.nbViews = vm.eventToDisplay.nbViews - 1;
+                event.nbViews = event.nbViews - 1;
 
             }
             // console.log(vm.eventToDisplay.nbViews);
 
-            EventService.updateEvent(vm.eventToDisplay);
+            EventService.updateEvent(event);
         };
 
 
@@ -195,6 +209,11 @@
             category: {
                 id: 1
             }
+        }
+        
+        
+        vm.getRateForEvent = function (id) {
+            return EventService.getMyRate(id);
         }
 
 

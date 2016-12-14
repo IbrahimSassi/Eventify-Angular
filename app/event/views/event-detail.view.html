@@ -33,7 +33,7 @@
 
 
                     <div ng-class="{'detail-banner-btn heart':!event.loveIt ,'detail-banner-btn marked heart':event.loveIt}"
-                         ng-click="event.giveHeart()">
+                         ng-click="event.giveHeart(event.eventToDisplay)">
                         <span ng-if="!event.loveIt">Give Heart</span>
                         <span ng-if="event.loveIt"><i class="fa fa-heart-o" style="color: red"></i> I Love It</span>
                     </div>

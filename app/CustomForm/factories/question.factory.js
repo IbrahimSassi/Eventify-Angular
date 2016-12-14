@@ -14,10 +14,10 @@
     /* @ngInject */
     function QuestionFactoryFN($resource) {
         return $resource('http://localhost:18080/Eventify-web/rest/questions/:id',
-            {id:'@id'},
+            {id: '@id'},
             {
-                'update': { method:'PUT' },
-                'getQuestionsByEvent':{
+                'update': {method: 'PUT'},
+                'getQuestionsByEvent': {
                     url: 'http://localhost:18080/Eventify-web/rest/events/:idEvent/questions',
                     method: 'GET',
                     params: {
@@ -31,5 +31,9 @@
     }
 
 })();
+
+
+
+
 
 
