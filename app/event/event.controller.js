@@ -17,15 +17,15 @@
     /* @ngInject */
     function config($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('event', {
-                url: '/events',
-                templateUrl: 'event/views/ListEvent.html',
-                controller: 'EventCtrl as event',
-                cache: false
-            })
             .state('events', {
                 url: '/events/all',
                 templateUrl: 'event/views/listing-events.view.html',
+                controller: 'EventCtrl as event',
+                cache: false
+            })
+            .state('events-with-maps', {
+                url: '/events/maps',
+                templateUrl: 'event/views/event-listing-map.view.html',
                 controller: 'EventCtrl as event',
                 cache: false
             })
@@ -50,20 +50,24 @@
         var vm = this;
         vm.title = 'Event List';
 
+
         //Getting All Events
         vm.getEvents = function () {
-            console.log(EventService.getAllEvents());
             EventService.getAllEvents().then(function (data) {
                 vm.events = data;
                 vm.events.forEach(function (event) {
-                    // if(eve)
-                    // if(vm.getRateForEvent(event.id))
+
+                    //getRate for each event and set it
                     vm.getRateForEvent(event.id).then(function (data) {
-                        if(data.id)
-                        console.log('data',data)
-                    })
-                })
+                        if (data.id)
+                            event.rateAvg = data.rateAvg;
+                    });
+
+                });
+                console.log(EventService.getAllEvents());
+
             });
+
 
         };
 
@@ -77,7 +81,6 @@
 
                 })
             });
-
         }
 
 
@@ -92,13 +95,27 @@
                 // console.log(vm.eventToDisplay);
                 // console.log(vm.eventToDisplay.latitude,vm.eventToDisplay.longitude);
 
+
+                // Longitude and latitude to Adress
                 EventService.getAddress(vm.eventToDisplay.latitude, vm.eventToDisplay.longitude).then(function (data) {
                     // console.log('adress',data.data.results[0]);
                     vm.adress = data.data.results[0].formatted_address;
                 }, function (err) {
                     console.log('error', err);
-                })
-            })
+                });
+
+
+                EventService.getMyTickets(vm.eventToDisplay.id).then(function (data) {
+                    if (data.length > 0) {
+                        // console.log('tickets before',data);
+
+                        vm.eventToDisplay.tickets = data;
+                    }
+                });
+                console.log('ticket for selected', vm.eventToDisplay)
+
+            });
+
         }
 
 
@@ -178,40 +195,7 @@
         }
 
 
-        vm.update = function (event) {
-            EventService.updateEvent(event);
 
-        };
-
-
-        vm.delete = function (event, index) {
-            EventService.deleteEvent(event).then(function () {
-                vm.getEvents();
-            });
-
-        };
-
-        //I could get the event directly from the list , but i re-used the factory and the service to test "get" function
-        vm.details = function (idEvent) {
-            vm.selectedEvent = EventService.getEventByID(idEvent);
-        };
-
-
-        // I Choose some attributs Not-Null ,, i will change it later , THIS IS Just an example
-        vm.event = {
-            eventState: "UNPUBLISHED",
-            placeNumber: 0,
-            nbViews: 1000,
-            createdAt: new Date(),
-            organization: {
-                id: 1
-            },
-            category: {
-                id: 1
-            }
-        }
-        
-        
         vm.getRateForEvent = function (id) {
             return EventService.getMyRate(id);
         }

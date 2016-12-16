@@ -472,37 +472,14 @@
                 </div>
 
                 <div class="widget">
-                    <h2 class="widgettitle">Working Hours</h2>
+                    <h2 class="widgettitle">Tickets </h2>
 
                     <div class="p20 background-white">
                         <div class="working-hours">
-                            <div class="day clearfix">
-                                <span class="name">Mon</span><span class="hours">07:00 AM - 07:00 PM</span>
+                            <div class="day clearfix" ng-repeat="ticket in event.eventToDisplay.tickets">
+                                <span class="name">{{ticket.priceTicket}} $</span><span class="hours">{{ticket.typeTicket}} - {{ticket.nbTickets}} tickets</span>
                             </div><!-- /.day -->
 
-                            <div class="day clearfix">
-                                <span class="name">Tue</span><span class="hours">07:00 AM - 07:00 PM</span>
-                            </div><!-- /.day -->
-
-                            <div class="day clearfix">
-                                <span class="name">Wed</span><span class="hours">07:00 AM - 07:00 PM</span>
-                            </div><!-- /.day -->
-
-                            <div class="day clearfix">
-                                <span class="name">Thu</span><span class="hours">07:00 AM - 07:00 PM</span>
-                            </div><!-- /.day -->
-
-                            <div class="day clearfix">
-                                <span class="name">Fri</span><span class="hours">07:00 AM - 07:00 PM</span>
-                            </div><!-- /.day -->
-
-                            <div class="day clearfix">
-                                <span class="name">Sat</span><span class="hours">07:00 AM - 02:00 PM</span>
-                            </div><!-- /.day -->
-
-                            <div class="day clearfix">
-                                <span class="name">Sun</span><span class="hours">Closed</span>
-                            </div><!-- /.day -->
                         </div>
                     </div>
                 </div><!-- /.widget -->

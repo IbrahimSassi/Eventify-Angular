@@ -62,7 +62,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <select name="category" ng-model="eventCreate.event.category.id">
+                                <select class="form-control" name="category" ng-model="eventCreate.event.category.id">
                                     <option ng-repeat="category in eventCreate.categories" value="category.id">
                                         {{category.categoryName}}
                                     </option>
@@ -70,7 +70,7 @@
                             </div><!-- /.form-group -->
 
                             <div class="form-group">
-                                <select name="type" ng-model="eventCreate.event.eventType">
+                                <select class="form-control" name="type" ng-model="eventCreate.event.eventType">
                                     <option value="Conference">Conference</option>
                                     <option value="Class_Workshop">Class/Workshop</option>
                                     <option value="Meeting">Meeting</option>

@@ -2,6 +2,7 @@ $(document).ready(function() {
     'use strict';
 
     function initialize() {
+        console.log("called map");
         var mapOptions = {
             center: new google.maps.LatLng(-33.8688, 151.2195),
             zoom: 13
@@ -73,7 +74,7 @@ $(document).ready(function() {
             });
         }
 
-        if ($('#map-canvas').length != 0) {
+        // if ($('#map-canvas').length != 0) {
             google.maps.event.addDomListener(window, 'load', initialize);
-        }
+        // }
 });

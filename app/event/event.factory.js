@@ -35,7 +35,18 @@
                     isArray: false
 
 
+                },
+                'getMyTickets': {
+                    url: 'http://localhost:18080/Eventify-web/rest/events/:idEvent/tickets',
+                    method: 'GET',
+                    params: {
+                        idEvent: '@idEvent',
+                    },
+                    isArray: true
+
+
                 }
+
 
             }
         );

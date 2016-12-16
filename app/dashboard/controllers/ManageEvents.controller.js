@@ -38,7 +38,7 @@
 
         if (editedEventId) {
             // console.log($stateParams.id);
-            EventService.getEventByID(editedEventId).then(function (data) {
+            EventService.getEventByID(editedEventId).$promise.then(function (data) {
                 console.log(data);
                 vm.editedEvent = data;
 

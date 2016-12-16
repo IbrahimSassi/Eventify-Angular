@@ -22,6 +22,7 @@
         this.getEventsByOrganization = getEventsByOrganizationFN;
         this.getAddress = getAddressFN;
         this.getMyRate = getMyRateFN;
+        this.getMyTickets = getMyTicketsFN;
 
 
         function getAllEventsFN() {
@@ -63,6 +64,10 @@
 
             // console.log(EventFactory.getMyRate({idEvent:id}).$promise);
             return EventFactory.getMyRate({idEvent:id}).$promise;
+        }
+
+        function getMyTicketsFN(id) {
+            return EventFactory.getMyTickets({idEvent:id}).$promise;
         }
 
     }
