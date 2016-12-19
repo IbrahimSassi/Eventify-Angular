@@ -9,47 +9,122 @@
         .module('EventifyApp.user')
         .service('UserService', UserServiceFN);
 
-    UserServiceFN.$inject = ['UserFactory', '$filter', '$window', 'jwtHelper', '$rootScope'];
+    UserServiceFN.$inject = ['UserFactory', '$window', 'jwtHelper'];
 
 
-    function UserServiceFN(UserFactory, $filter, $window, jwtHelper, $rootScope) {
+    /**
+     * UserServiceFN
+     * @param UserFactory
+     * @param $window
+     * @param jwtHelper
+     * @constructor
+     */
+    function UserServiceFN(UserFactory, $window, jwtHelper) {
+
+        /***
+         * --Functions--
+         * - getAllUsers
+         * - addUser
+         * - updateUser
+         * - deleteUser
+         * - getUserByID
+         *
+         * - signIn
+         * - changePassword
+         * - saveToken
+         * - getToken
+         * - extractTokenData
+         * - isAuth
+         * - logout
+         */
 
 
+        /**
+         *getAllUsers
+         * @param token
+         * @returns {*|Function}
+         */
         this.getAllUsers = function (token) {
             return UserFactory.secured(token).query().$promise;
         }
 
+        /**
+         *addUser
+         * @param user
+         * @returns {*|Function}
+         */
         this.addUser = function (user) {
             return UserFactory.secured(null).save(user).$promise;
         }
 
-        this.updateUser = function (user,token) {
-            UserFactory.secured(token).update({id: user.id}, user);
+        /**
+         *updateUser
+         * @param user
+         * @param token
+         */
+        this.updateUser = function (user, token) {
+            UserFactory.secured(token).update({
+                id: user.id
+            }, user);
             console.log("Updated");
         }
 
+        /**
+         *deleteUser
+         * @param user
+         * @returns {*}
+         */
         this.deleteUser = function (user) {
             return user.$delete();
         }
 
+        /**
+         *getUserByID
+         * @param idUser
+         */
         this.getUserByID = function (idUser) {
-            return UserFactory.get({id: idUser});
+            return UserFactory.get({
+                id: idUser
+            });
         }
 
         /**Special Method*/
 
+        /**
+         *signIn
+         * @param usernameParam
+         * @param pwdParam
+         * @returns {*|Function}
+         */
         this.signIn = function (usernameParam, pwdParam) {
-            var result = UserFactory.secured(null).signIn({username: usernameParam, pwd: pwdParam});
+            var result = UserFactory.secured(null).signIn({
+                username: usernameParam,
+                pwd: pwdParam
+            });
             return result.$promise;
 
         }
-        this.changePassword = function (user,oldPwd,newPwd,token) {
+        /**
+         *changePassword
+         * @param user
+         * @param oldPwd
+         * @param newPwd
+         * @param token
+         */
+        this.changePassword = function (user, oldPwd, newPwd, token) {
 
-            UserFactory.secured(token).changePassword({'oldPwd':oldPwd ,'newPwd':newPwd},user);
-            
+            UserFactory.secured(token).changePassword({
+                'oldPwd': oldPwd,
+                'newPwd': newPwd
+            }, user);
+
         }
-        
-        
+
+
+        /**
+         *saveToken
+         * @param token
+         */
         this.saveToken = function (token) {
             if ($window.localStorage['authToken'] == null) {
                 if (token != null) {
@@ -60,14 +135,27 @@
 
         }
 
+        /**
+         *getToken
+         * @returns stored token from localStorage
+         */
         this.getToken = function () {
             return $window.localStorage['authToken'];
         }
 
+        /**
+         *extractTokenData
+         * @param token
+         * @returns {Object}
+         */
         this.extractTokenData = function (token) {
             return jwtHelper.decodeToken(token);
         }
 
+        /**
+         *isAuth
+         * @returns {boolean}
+         */
         this.isAuth = function () {
             var token = this.getToken();
             if (token != null) {
@@ -75,8 +163,7 @@
                 if (!bool) {
                     return true;
 
-                }
-                else {
+                } else {
                     this.logout();
                 }
             }
@@ -97,4 +184,3 @@
 
 
 })();
-

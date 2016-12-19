@@ -17,14 +17,18 @@
     /**End My Module Init**/
 
     /**Injection**/
-    config.$inject = ['$stateProvider', '$urlRouterProvider', '$qProvider'];
-
+    config.$inject = ['$stateProvider', '$qProvider'];
     UserCtrl.$inject = ['UserService', '$state'];
     /**End Of Injection**/
 
 
     /** Route Config **/
-    function config($stateProvider, $urlRouterProvider, $qProvider) {
+    /**
+     *config
+     * @param $stateProvider
+     * @param $qProvider
+     */
+    function config($stateProvider, $qProvider) {
 
         $stateProvider
             .state('listUsers', {
@@ -65,16 +69,27 @@
     };
     /**End of Route Config**/
 
-    /** Controller UseCtrl FUNCTION
-     *
+
+
+    /* @ngInject */
+    /**
+     *UserCtrl
      * @param UserService
      * @param $state
      */
     function UserCtrl(UserService, $state) {
 
-        /**Scope Replace**/
         var vm = this;
-        /***/
+
+
+        /**
+         * --Functions--
+         * - getUsers
+         * - register
+         * - signIn
+         * - changePassword
+         */
+
 
         /**List User**/
         vm.getUsers = function () {
@@ -84,10 +99,13 @@
             });
 
         }
-
         /**End List User**/
 
-        /**Register User**/
+
+        /**
+         *register
+         * @param user
+         */
         vm.register = function (user) {
             UserService.addUser(user).then(function () {
                 vm.getUsers();
@@ -96,36 +114,39 @@
         }
         /**End Register User**/
 
-        /**SignIn Function */
+
+        /**
+         *SignIn
+         * @param username
+         * @param pwd
+         */
         vm.signIn = function (username, pwd) {
             UserService.signIn(username, pwd).then(
                 function (data) {
                     vm.tokenToStore = data.authToken;
                     UserService.saveToken(vm.tokenToStore);
                     $state.go('home');
-
-
                 },
                 function (error) {
                     console.log("Error Login : " + error);
                     $state.go('loginUser');
                 }
             );
-
         }
-
         /**End of SignIn*/
 
-        /**Change Password Function*/
 
-        vm.changePassword = function (user,oldPwd, newPwd) {
-           console.log(UserService.changePassword(user,oldPwd, newPwd,UserService.getToken()));
+        /**
+         *changePassword
+         * @param user
+         * @param oldPwd
+         * @param newPwd
+         */
+        vm.changePassword = function (user, oldPwd, newPwd) {
+            console.log(UserService.changePassword(user, oldPwd, newPwd, UserService.getToken()));
             $state.go('home');
-
         }
-
         /**End Of Change Password Function*/
-
 
     };
 
