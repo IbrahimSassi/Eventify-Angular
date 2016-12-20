@@ -10,6 +10,7 @@
         .module('EventifyApp.user', [
             'ui.router',
             'angular-jwt',
+            'flow',
         ])
         .config(config)
         .controller('UserCtrl', UserCtrl);
@@ -17,18 +18,21 @@
     /**End My Module Init**/
 
     /**Injection**/
-    config.$inject = ['$stateProvider', '$qProvider'];
-    UserCtrl.$inject = ['UserService', '$state'];
+    config.$inject = ['$stateProvider', '$qProvider', 'flowFactoryProvider'];
+    UserCtrl.$inject = ['UserService', '$state', '$scope'];
     /**End Of Injection**/
 
 
     /** Route Config **/
     /**
      *config
+     *
      * @param $stateProvider
      * @param $qProvider
+     * @param flowFactoryProvider
+     * flowFactoryProvider : for Upload Files from Module flow
      */
-    function config($stateProvider, $qProvider) {
+    function config($stateProvider, $qProvider, flowFactoryProvider) {
 
         $stateProvider
             .state('listUsers', {
@@ -41,7 +45,6 @@
                 url: '/users/register',
                 templateUrl: 'user/views/register.user.view.html',
                 controller: 'UserCtrl as user',
-                authenticate: true,
             })
             .state('loginUser', {
                 url: '/users/login',
@@ -63,6 +66,28 @@
 
         ;
 
+
+        /**
+         * To Upload File In your Work
+         * */
+        flowFactoryProvider.defaults = {
+            target: 'http://eventify-files.eu5.org/up.php',
+            permanentErrors: [404, 500, 501],
+            maxChunkRetries: 1,
+            chunkRetryInterval: 5000,
+            simultaneousUploads: 4
+        };
+        flowFactoryProvider.on('catchAll', function (event) {
+            console.log(arguments);
+            if (typeof arguments[2] === "string") {
+                var fullPath = JSON.parse(arguments[2]).flowRelativePath;
+                //the Hidden input to have the url full path  !!
+                document.getElementById("login-form-profile").value = fullPath;
+                // Must Add
+            }
+        });
+        /**End Upload File*/
+
         $qProvider.errorOnUnhandledRejections(false);
 
 
@@ -70,17 +95,17 @@
     /**End of Route Config**/
 
 
-
     /* @ngInject */
     /**
      *UserCtrl
      * @param UserService
      * @param $state
+     * @param $scope
+     * @constructor
      */
-    function UserCtrl(UserService, $state) {
+    function UserCtrl(UserService, $state, $scope) {
 
         var vm = this;
-
 
         /**
          * --Functions--
@@ -89,6 +114,23 @@
          * - signIn
          * - changePassword
          */
+        /**Watch if input changed with JavaScript than it will update the scope
+         * cause the ng-model can't be updated with simple javaScipt*/
+        var elementInputToUpload = document.getElementById("login-form-profile");
+        if (elementInputToUpload !== null) {
+            $scope.$watch(function () {
+                return elementInputToUpload.value;
+            }, function (newVal, oldVal) {
+
+                if (oldVal !== newVal && newVal !== undefined) {
+                    vm.UserToUploadProfileImage = newVal;
+                    console.log("test upload image update scope : " + vm.UserToUploadProfileImage);
+                }
+
+            });
+        }
+
+        /**End watch for file update*/
 
 
         /**List User**/
@@ -107,6 +149,8 @@
          * @param user
          */
         vm.register = function (user) {
+            //insert local scope inside the comming scope from the FORM like a Set() in java
+            user.profileImage = vm.UserToUploadProfileImage;
             UserService.addUser(user).then(function () {
                 vm.getUsers();
                 $state.go('listUsers');
