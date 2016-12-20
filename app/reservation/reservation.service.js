@@ -18,7 +18,7 @@
         };
 
        this.addReservation =  function (reservation) {
-            //event = new EventFactory(event);
+           console.log(reservation);
             return ReservationFactory.save(reservation).$promise;
         }
 

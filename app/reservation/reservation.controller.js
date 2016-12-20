@@ -58,7 +58,14 @@
             });
         }
 
+        vm.reservation = {
+            amount: 555.23,
+            reservationDate: 1478069109000,
 
+
+            ticket: {id:1},
+
+        }
 
         vm.add = function () {
             ReservationService.addReservation(vm.reservation).then(function () {

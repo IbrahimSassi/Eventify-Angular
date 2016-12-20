@@ -67,13 +67,13 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>First name</label>
-                                            <input type="text" class="form-control" id="firstname_booking" name="firstname_booking" value="{{currentUser.User.firstName}}">
+                                            <input ng-model="createReservation.reservation.firstName" type="text" class="form-control" id="firstname_booking" name="firstname_booking" ng-value="currentUser.User.firstName" >
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Last name</label>
-                                            <input type="text" class="form-control" id="lastname_booking" name="lastname_booking" value="{{currentUser.User.lastName}}">
+                                            <input ng-model="createReservation.reservation.lastName" type="text" class="form-control" id="lastname_booking" name="lastname_booking" ng-value="currentUser.User.lastName">
                                         </div>
                                     </div>
                                 </div>
@@ -81,13 +81,13 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Email</label>
-                                            <input type="email" id="email_booking" name="email_booking" class="form-control" value="{{currentUser.User.email}}">
+                                            <input ng-model="createReservation.reservation.email" type="email" id="email_booking" name="email_booking" class="form-control" ng-value="currentUser.User.email">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Confirm email</label>
-                                            <input type="email" id="email_booking_2" name="email_booking_2" class="form-control" value="{{currentUser.User.email}}">
+                                            <input  type="email" id="email_booking_2" name="email_booking_2" class="form-control" ng-value="currentUser.User.email">
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Telephone</label>
-                                            <input type="text" id="telephone_booking" name="telephone_booking" class="form-control" value="{{currentUser.User.numTel}}">
+                                            <input ng-model="createReservation.reservation.phone" type="text" id="telephone_booking" name="telephone_booking" class="form-control" ng-value="currentUser.User.numTel">
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +197,7 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Country</label>
-                                            <select class="form-control" name="country" id="country">
+                                            <select ng-model="createReservation.reservation.country" class="form-control" name="country" id="country">
                                                 <option value="" selected>Select your country</option>
                                                 <option value="Europe">Europe</option>
                                                 <option value="United states">United states</option>
@@ -210,13 +210,13 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Street line 1</label>
-                                            <input type="text" id="street_1" name="street_1" class="form-control">
+                                            <input ng-model="createReservation.reservation.address" type="text" id="street_1" name="street_1" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Street line 2</label>
-                                            <input type="text" id="street_2" name="street_2" class="form-control">
+                                            <input ng-model="createReservation.reservation.address2" type="text" id="street_2" name="street_2" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -224,19 +224,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>City</label>
-                                            <input type="text" id="city_booking" name="city_booking" class="form-control">
+                                            <input ng-model="createReservation.reservation.city" type="text" id="city_booking" name="city_booking" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>State</label>
-                                            <input type="text" id="state_booking" name="state_booking" class="form-control">
+                                            <input ng-model="createReservation.ticket.id" type="text" id="state_booking" name="state_booking" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Postal code</label>
-                                            <input type="text" id="postal_code" name="postal_code" class="form-control">
+                                            <input ng-model="createReservation.reservation.postalCode" type="text" id="postal_code" name="postal_code" class="form-control">
                                         </div>
                                     </div>
                                 </div><!--End row -->
