@@ -30,7 +30,7 @@
             .state('reservateForEvent', {
                 url: '/booking',
                 templateUrl: '../reservation/views/eventBooking.html',
-                controller: 'ReservationCtrl as reservation'
+                controller: 'ReservationCtrl as createReservation'
             })
 
         ;
@@ -57,6 +57,15 @@
                 vm.reservations = data;
             });
         }
+
+
+
+        vm.add = function () {
+            ReservationService.addReservation(vm.reservation).then(function () {
+                vm.reservationsList();
+                $state.go('reservation');
+            });
+        };
 
 
 

@@ -17,7 +17,10 @@
              return ReservationFactory.query().$promise;
         };
 
-
+       this.addReservation =  function (reservation) {
+            //event = new EventFactory(event);
+            return ReservationFactory.save(reservation).$promise;
+        }
 
 
 
