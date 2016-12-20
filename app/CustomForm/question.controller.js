@@ -16,7 +16,7 @@
 
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    QuestionCtrlFN.$inject = ['QuestionService', '$state', '$scope', 'AttributService'];
+    QuestionCtrlFN.$inject = ['QuestionService', '$state', '$scope', 'AttributService','$window'];
 
 
     /* @ngInject */
@@ -39,7 +39,7 @@
     };
 
     /* @ngInject */
-    function QuestionCtrlFN(QuestionService, $state, $scope, AttributService) {
+    function QuestionCtrlFN(QuestionService, $state, $scope, AttributService,$window) {
         var vm = this;
         vm.title = 'Create Custom Form';
 
@@ -84,6 +84,8 @@
 
 
         vm.relatedEventId = 1;
+
+
         vm.addQuestion = function () {
             // QuestionService.addQuestion(vm.CustomForm);
             // console.log($scope.models.form.A);
@@ -235,15 +237,50 @@
         vm.getQuestionForEvent = function () {
 
             QuestionService.getQuestionsByEvent(vm.relatedEventId).then(function (data) {
-                console.log(data);
                 vm.previewQuestions = data;
 
+                vm.previewQuestions.forEach(function (question) {
+                     // console.log(question.id);
+                     question.attributs =vm.getAttributsForQuestion(question.id);
+                    console.log(question);
+
+
+                })
 
             });
         };
         
         vm.getAttributsForQuestion = function (idQuestion) {
-            
+            return AttributService.getAttributsByQuestion(idQuestion);
+        }
+        
+        
+        
+        vm.userConnectedId = 1;
+
+        vm.addAnswer =  function () {
+
+            console.log();
+            // vm.previewQuestions.forEach(function (question) {
+            //
+            //     question.attributs.forEach(function (attribut) {
+            //
+            //         var id =
+            //         var answer =   {
+            //             "answerPK": {
+            //                 "idUser": vm.userConnectedId,
+            //                 "idAttribut": attribut.id
+            //             },
+            //             "answer": $scope.+'att'+'{{attribut.id}}',
+            //             "dateAnswer": new Date()
+            //         };
+            //
+            //
+            //
+            //     });
+            //
+            // })
+
         }
 
 

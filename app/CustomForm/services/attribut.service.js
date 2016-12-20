@@ -25,8 +25,8 @@
 
 
         function getAttributsByQuestionFn(idQuestion) {
-            console.log('attributs for question ' +idQuestion , AttributFactory.getAttributsByQuestion({idQuestion:idQuestion}));
-            return AttributFactory.getAttributsByQuestion({idQuestion:idQuestion}).$promise;
+            // console.log('attributs for question ' +idQuestion , AttributFactory.getAttributsByQuestion({idQuestion:idQuestion}));
+            return AttributFactory.getAttributsByQuestion({idQuestion:idQuestion});
         }
     }
 

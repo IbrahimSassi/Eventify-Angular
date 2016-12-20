@@ -1,1 +1,57 @@
-<span ng-init="form.getQuestionForEvent()"></span>
+<div class="container">
+    <span ng-init="form.getQuestionForEvent()"></span>
+
+
+    <div ng-repeat="question in form.previewQuestions" class="background-white p30 mb30 form-group-lg">
+
+        <label for="" ng-if="question.questionType=='Short_Anwser'">
+            {{question.questionDescription}} :
+            <input ng-repeat="attribut in question.attributs" class="form-control" type="text"
+            >
+        </label>
+
+        <label for="" ng-if="question.questionType=='Date'">
+            {{question.questionDescription}} :
+            <input class="form-control" type="datetime">
+        </label>
+
+        <label for="" ng-if="question.questionType=='Paragraphe'">
+            {{question.questionDescription}} :
+            <textarea rows="3" class="form-control"></textarea>
+        </label>
+
+        <label for="" ng-if="question.questionType=='DropdownList'">
+            {{question.questionDescription}} :
+            <select class="form-control">
+                <option ng-repeat="attribut in question.attributs" value="{{attribut.id}}">{{attribut.attributValue}}
+                </option>
+            </select>
+        </label>
+
+        <label for="" ng-if="question.questionType=='RadioBox'">
+            {{question.questionDescription}} :
+            <ul class="amenities">
+                <li ng-repeat="attribut in question.attributs" class="radio">
+                    <input name="question-{{question.id}}"
+                           type="radio"
+                           id="radio-{{attribut.id}}">
+                    <label for="radio-{{attribut.id}}"> {{attribut.attributValue}} </label></li>
+            </ul>
+
+        </label>
+
+        <label for="" ng-if="question.questionType=='CheckBox'">
+            {{question.questionDescription}} :
+            <ul class="amenities">
+                <li ng-repeat="attribut in question.attributs" class="checkbox"><input type="checkbox"
+                                                                                       id="check-{{attribut.id}}">
+                    <label for="check-{{attribut.id}}"> {{attribut.attributValue}} </label></li>
+
+            </ul>
+
+        </label>
+
+
+    </div>
+    <button class="btn btn-secondary" ng-click="form.addAnswer()">Add</button>
+</div>
