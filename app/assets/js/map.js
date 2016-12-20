@@ -1,8 +1,9 @@
 $(document).ready(function() {
     'use strict';
 
-    function initialize() {
+    function initMap() {
         console.log("called map");
+
         var mapOptions = {
             center: new google.maps.LatLng(-33.8688, 151.2195),
             zoom: 13
@@ -74,7 +75,10 @@ $(document).ready(function() {
             });
         }
 
+        console.log("map length",$('#map-canvas').length);
+
+
         // if ($('#map-canvas').length != 0) {
-            google.maps.event.addDomListener(window, 'load', initialize);
+        //     google.maps.event.addDomListener(window, 'load', initialize);
         // }
 });
