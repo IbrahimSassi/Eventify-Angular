@@ -48,8 +48,8 @@
             </div>
 
             <div class="container">
-
-                <div class="container margin_60">
+<div ng-if="currentUser!=null">
+                <div  class="container margin_60">
                     <div class="row">
                         <div class="col-md-8 add_bottom_15">
                             <div class="form_title">
@@ -62,18 +62,18 @@
 
 
 
-                            <div ng-if="currentUser!=null" class="step">
+                            <div class="step">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>First name</label>
-                                            <input type="text" class="form-control" id="firstname_booking" name="firstname_booking" value="{{currentUser.User.firstName}}">
+                                            <input ng-model="createReservation.reservation.firstName" type="text" class="form-control" id="firstname_booking" name="firstname_booking" ng-value="currentUser.User.firstName" >
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Last name</label>
-                                            <input type="text" class="form-control" id="lastname_booking" name="lastname_booking" value="{{currentUser.User.lastName}}">
+                                            <input ng-model="createReservation.reservation.lastName" type="text" class="form-control" id="lastname_booking" name="lastname_booking" ng-value="currentUser.User.lastName">
                                         </div>
                                     </div>
                                 </div>
@@ -81,13 +81,13 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Email</label>
-                                            <input type="email" id="email_booking" name="email_booking" class="form-control" value="{{currentUser.User.email}}">
+                                            <input ng-model="createReservation.reservation.email" type="email" id="email_booking" name="email_booking" class="form-control" ng-value="currentUser.User.email">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Confirm email</label>
-                                            <input type="email" id="email_booking_2" name="email_booking_2" class="form-control" value="{{currentUser.User.email}}">
+                                            <input  type="email" id="email_booking_2" name="email_booking_2" class="form-control" ng-value="currentUser.User.email">
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Telephone</label>
-                                            <input type="text" id="telephone_booking" name="telephone_booking" class="form-control" value="{{currentUser.User.numTel}}">
+                                            <input ng-model="createReservation.reservation.phone" type="text" id="telephone_booking" name="telephone_booking" class="form-control" ng-value="currentUser.User.numTel">
                                         </div>
                                     </div>
                                 </div>
@@ -103,44 +103,7 @@
 
 
 
-                            <div ng-if="currentUser==null" class="step">
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label>First name</label>
-                                            <input type="text" class="form-control" id="firstname_booking" name="firstname_booking">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label>Last name</label>
-                                            <input type="text" class="form-control" id="lastname_booking" name="lastname_booking">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="email" id="email_booking" name="email_booking" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label>Confirm email</label>
-                                            <input type="email" id="email_booking_2" name="email_booking_2" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label>Telephone</label>
-                                            <input type="text" id="telephone_booking" name="telephone_booking" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--End step -->
+
 
 
 
@@ -151,9 +114,18 @@
                                 </p>
                             </div>
                             <div class="step">
+                                <h4><input name="choosepayment" type="checkbox" ng-model="creditcardstat" value="checked" />Pay with creadit card </h4><br/>
+
+
+                                <fieldset  ng-disabled="!creditcardstat">
+
+
                                 <div class="form-group">
+
+
+
                                     <label>Name on card</label>
-                                    <input type="text" class="form-control" id="name_card_bookign" name="name_card_bookign">
+                                    <input  type="text" class="form-control" id="name_card_bookign" name="name_card_bookign">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
@@ -201,13 +173,17 @@
 
                                 <hr>
 
-                                <h4>Or checkout with Paypal</h4>
+                                </fieldset>
+                                <h4> Or checkout with Paypal</h4>
+                                <fieldset ng-disabled="creditcardstat">
+
                                 <p>
                                     Lorem ipsum dolor sit amet, vim id accusata sensibus, id ridens quaeque qui. Ne qui vocent ornatus molestie, reque fierent dissentiunt mel ea.
                                 </p>
                                 <p>
                                     <img src="assets/reservationStufs/img/paypal_bt.png" alt="Image">
                                 </p>
+                                </fieldset>
                             </div><!--End step -->
 
                             <div class="form_title">
@@ -221,7 +197,7 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Country</label>
-                                            <select class="form-control" name="country" id="country">
+                                            <select ng-model="createReservation.reservation.country" class="form-control" name="country" id="country">
                                                 <option value="" selected>Select your country</option>
                                                 <option value="Europe">Europe</option>
                                                 <option value="United states">United states</option>
@@ -234,13 +210,13 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Street line 1</label>
-                                            <input type="text" id="street_1" name="street_1" class="form-control">
+                                            <input ng-model="createReservation.reservation.address" type="text" id="street_1" name="street_1" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Street line 2</label>
-                                            <input type="text" id="street_2" name="street_2" class="form-control">
+                                            <input ng-model="createReservation.reservation.address2" type="text" id="street_2" name="street_2" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -248,19 +224,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>City</label>
-                                            <input type="text" id="city_booking" name="city_booking" class="form-control">
+                                            <input ng-model="createReservation.reservation.city" type="text" id="city_booking" name="city_booking" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>State</label>
-                                            <input type="text" id="state_booking" name="state_booking" class="form-control">
+                                            <input ng-model="createReservation.ticket.id" type="text" id="state_booking" name="state_booking" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Postal code</label>
-                                            <input type="text" id="postal_code" name="postal_code" class="form-control">
+                                            <input ng-model="createReservation.reservation.postalCode" type="text" id="postal_code" name="postal_code" class="form-control">
                                         </div>
                                     </div>
                                 </div><!--End row -->
@@ -271,7 +247,7 @@
                                 <div class="form-group">
                                     <label class=""><div class="icheckbox_square-grey" style="position: relative;"><input type="checkbox" name="policy_terms" id="policy_terms" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>I accept terms and conditions and general policy.</label>
                                 </div>
-                                <a href="confirmation.html" class="btn_1 green medium">Book now</a>
+                                <a ng-click="createReservation.add()" class="btn_1 green medium">Book now</a>
                             </div>
                         </div>
 
@@ -331,6 +307,34 @@
                     </div><!--End row -->
                 </div><!--End container -->
 
+</div>
+
+
+                <div ng-if="currentUser==null">
+
+
+                    <div  class="container margin_60">
+                        <div class="row">
+                            <div class="col-md-12 add_bottom_15">
+                                <div class="form_title">
+                                    <h3><strong></strong>Submiting your reservation</h3>
+                                    <p>
+                                        Please feel free to fill your basic informations
+                                    </p>
+                                </div>
+
+
+
+
+                                <div class="step">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <h2>Dear visitor, Please <a ui-sref="loginUser">login</a> first or <a ui-sref="loginUser">register</a> now!</h2>
+                                            </div>
+                                        </div>
+
+                                </div><!--End step -->
 
 
 
@@ -338,4 +342,11 @@
 
 
 
-            </div><!-- /.container -->
+
+
+                            </div>
+
+
+
+
+                            </div> </div> </div><!-- /.container -->
