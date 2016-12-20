@@ -1,67 +1,91 @@
-<div class="container" ng-init="event.getEvents()">
+<div class="container" ng-init="event.initListing()">
     <div class="content">
 
         <!--<div class="document-title">-->
-            <!--<h1>Grid Version</h1>-->
+        <!--<h1>Grid Version</h1>-->
 
-            <!--<ul class="breadcrumb">-->
-                <!--<li><a href="#">Superlist</a></li>-->
-                <!--<li><a href="#">Listing</a></li>-->
-            <!--</ul>-->
+        <!--<ul class="breadcrumb">-->
+        <!--<li><a href="#">Superlist</a></li>-->
+        <!--<li><a href="#">Listing</a></li>-->
+        <!--</ul>-->
         <!--</div>&lt;!&ndash; /.document-title &ndash;&gt;-->
 
 
-        <form class="filter" method="post" action="http://preview.byaviators.com/template/superlist/listing-grid.html?">
+        <div class="filter">
             <div class="row">
                 <div class="col-sm-12 col-md-4">
                     <div class="form-group">
-                        <input ng-model="event.searchKeyword" type="text" placeholder="Keyword" class="form-control">
+                        <input ng-model="event.search.$" type="text" placeholder="Keyword" class="form-control">
                     </div><!-- /.form-group -->
                 </div><!-- /.col-* -->
 
                 <div class="col-sm-12 col-md-4">
                     <div class="form-group">
-                        <select class="form-control" title="Select Location">
-                            <option>Bronx</option>
-                            <option>Brooklyn</option>
-                            <option>Manhattan</option>
-                            <option>Staten Island</option>
-                            <option>Queens</option>
+                        <select ng-model="event.search.eventType" class="form-control" title="Select Location">
+                            <option value="">All</option>
+                            <option value="Conference">Conference</option>
+                            <option value="Class_Workshop">Class/Workshop</option>
+                            <option value="Meeting">Meeting</option>
+                            <option value="Concert_Performance">Concert/Performance</option>
+                            <option value="Dinner_Gala">Dinner/Gala</option>
                         </select>
                     </div><!-- /.form-group -->
                 </div><!-- /.col-* -->
 
                 <div class="col-sm-12 col-md-4">
                     <div class="form-group">
-                        <select class="form-control" title="Select Category">
-                            <option value="">Automotive</option>
-                            <option value="">Jobs</option>
-                            <option value="">Nightlife</option>
-                            <option value="">Services</option>
+                        <select name="category" class="form-control" title="Select Category"
+                                ng-model="event.search.category.categoryName">
+                            <option value="">All</option>
+                            <option ng-repeat="category in event.categories" value="{{category.categoryName}}">
+                                {{category.categoryName}}
+                            </option>
                         </select>
                     </div><!-- /.form-group -->
                 </div><!-- /.col-* -->
             </div><!-- /.row -->
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-1">
+                            <span class="pull-left">{{event.range.min}}</span>
+                        </div>
+                        <div class="col-md-10">
+                            <div range-slider min="0" max="100" model-min="event.range.min" model-max="event.range.max"
+                                 attach-handle-values="true" disabled="false"></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <span class="pull-right">{{event.range.max}}</span>
+
+                        </div>
+
+
+                    </div><!-- /.form-group -->
+                </div>
+            </div><!-- /.col-* -->
 
             <hr>
 
             <div class="row">
                 <div class="col-sm-8">
                     <div class="filter-actions">
-                        <a href="#"><i class="fa fa-close"></i> Reset Filter</a>
-                        <a href="#"><i class="fa fa-save"></i> Save Search</a>
+                        <a style="cursor: pointer" ng-click="event.getEvents()"><i class="fa fa-close"></i> Reset Filter</a>
+                        <!--<a href="#"><i class="fa fa-save"></i> Save Search</a>-->
                     </div><!-- /.filter-actions -->
                 </div><!-- /.col-* -->
 
                 <div class="col-sm-4">
-                    <button type="submit" class="btn btn-primary">Redefine Search Result</button>
+                    <button ng-click="event.filterByTicketPrice()" class="btn btn-primary">Redefine Search Result
+                    </button>
                 </div><!-- /.col-* -->
             </div><!-- /.row -->
-        </form>
+        </div>
 
 
         <h2 class="page-title">
-            1802 results matching your query
+            {{event.events.length}} results matching your query
 
             <form method="get" action="http://preview.byaviators.com/template/superlist/listing-grid.html?"
                   class="filter-sort">
@@ -86,16 +110,16 @@
             <div class="row">
 
 
-
-
-                <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="e in event.events | filter: event.searchKeyword | orderBy : 'startTime'">
-                    <div class="card-simple" style="background-image: url({{e.backgroundImage}})" >
+                <div class="col-sm-6 col-md-4 col-lg-3"
+                     ng-repeat="e in event.events | filter:event.search:strict | orderBy : 'startTime' ">
+                    <div class="card-simple" style="background-image: url({{e.backgroundImage}})">
                         <div class="card-simple-background">
                             <div class="card-simple-content">
                                 <h2><a href="listing-detail.html">{{e.title}}</a></h2>
                                 <div class="card-simple-rating">
 
-                                    <i ng-repeat="i in event.getNumber(e.rateAvg) track by $index" class="fa fa-star"></i>
+                                    <i ng-repeat="i in event.getNumber(e.rateAvg) track by $index"
+                                       class="fa fa-star"></i>
                                     <!--<i class="fa fa-star"></i>-->
                                     <!--<i class="fa fa-star"></i>-->
                                     <!--<i class="fa fa-star"></i>-->

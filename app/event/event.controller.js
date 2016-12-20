@@ -4,7 +4,7 @@
     angular
         .module('EventifyApp.event', [
             'ui.router',
-            'ui.bootstrap', 'ui.bootstrap.datetimepicker'
+            'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'ui-rangeSlider'
         ])
         .config(config)
         .controller('EventCtrl', EventCtrl);
@@ -68,6 +68,17 @@
                         if (data.id)
                             event.rateAvg = Math.round(data.rateAvg);
                     });
+
+                    EventService.getMyTickets(event.id).then(function (data) {
+                        if (data.length > 0) {
+                            // console.log('tickets before',data);
+
+                            event.tickets = data;
+                        }
+
+
+                    });
+
 
                 });
                 console.log(EventService.getAllEvents());
@@ -148,7 +159,7 @@
             });
 
 
-        }
+        };
 
 
         // this.isOpen = false;
@@ -228,12 +239,12 @@
                 WishlistService.removeFromWishlist(vm.userConnectedId, vm.eventId);
 
             }
-        }
+        };
 
 
         vm.getRateForEvent = function (id) {
             return EventService.getMyRate(id);
-        }
+        };
 
 
         vm.initMap = function () {
@@ -321,12 +332,53 @@
                 infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
                 infowindow.open(map, marker);
             });
-        }
+        };
 
 
         vm.getNumber = function (num) {
             return new Array(num);
+        };
+
+
+        vm.initListing = function () {
+            vm.getEvents();
+            vm.getCategories();
         }
+
+
+        vm.range = {
+            min: 20,
+            max: 80
+        };
+
+
+        vm.filterByTicketPrice = function () {
+
+
+
+
+            vm.eventsFiltred = [];
+            vm.events.forEach(function (event) {
+                var bool = false;
+
+                if (event.tickets) {
+                    event.tickets.forEach(function (ticket) {
+                        console.log(ticket);
+                        if ((ticket.priceTicket <= vm.range.max) && (ticket.priceTicket >= vm.range.min)) {
+                            bool = true;
+                        }
+
+                    });
+                }
+                if (bool)
+                    vm.eventsFiltred.push(event);
+
+
+            });
+            vm.events = vm.eventsFiltred;
+            console.log(vm.eventsFiltred);
+
+        };
 
 
     };
