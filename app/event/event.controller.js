@@ -66,7 +66,7 @@
                     //getRate for each event and set it
                     vm.getRateForEvent(event.id).then(function (data) {
                         if (data.id)
-                            event.rateAvg = data.rateAvg;
+                            event.rateAvg = Math.round(data.rateAvg);
                     });
 
                 });
@@ -78,14 +78,20 @@
         };
 
 
+        vm.initCreate = function () {
+            vm.getCategories();
+            vm.initMap();
+        }
+
+
         // Getting Categories to list them for creation
         vm.getCategories = function () {
             CategoryService.getAllCategories().then(function (data) {
                 vm.categories = data;
-                vm.categories.forEach(function (ca) {
-                    console.log("categories", ca);
-
-                })
+                // vm.categories.forEach(function (ca) {
+                //     // console.log("categories", ca);
+                //
+                // })
             });
         }
 
@@ -94,10 +100,29 @@
         vm.eventId = $stateParams.eventId;
         vm.userConnectedId = 1;
 
-        if (vm.eventId) {
+
+        vm.initDetail = function () {
+            vm.getSelectedEvent();
+        }
+
+
+        function roundDecimal(nombre, precision) {
+            var precision = precision || 2;
+            var tmp = Math.pow(10, precision);
+            return Math.round(nombre * tmp) / tmp;
+        }
+
+        vm.getSelectedEvent = function () {
             // console.log(eventId);
             EventService.getEventByID(vm.eventId).$promise.then(function (data) {
                 vm.eventToDisplay = data;
+                vm.initMap();
+
+                vm.getRateForEvent(vm.eventToDisplay.id).then(function (data) {
+                    if (data.id)
+                        vm.eventToDisplay.rateAvg = roundDecimal(data.rateAvg, 1);
+                });
+
                 // console.log(vm.eventToDisplay);
                 // console.log(vm.eventToDisplay.latitude,vm.eventToDisplay.longitude);
 
@@ -121,6 +146,7 @@
                 console.log('ticket for selected', vm.eventToDisplay)
 
             });
+
 
         }
 
@@ -148,9 +174,13 @@
 
 
         vm.add = function () {
+
+            vm.event.createdAt = new Date();
+            console.log("added", vm.event)
+
             EventService.addEvent(vm.event).then(function () {
                 vm.getEvents();
-                $state.go('event');
+                $state.go('events');
             });
         };
         // vm.loveIt=false;
@@ -201,20 +231,31 @@
         }
 
 
-
         vm.getRateForEvent = function (id) {
             return EventService.getMyRate(id);
         }
 
 
-        initMap();
+        vm.initMap = function () {
 
-        function initMap() {
 
-            var mapOptions = {
-                center: new google.maps.LatLng(-33.8688, 151.2195),
-                zoom: 13
-            };
+            if (vm.eventId) {
+
+                var mapOptions = {
+                    center: new google.maps.LatLng(vm.eventToDisplay.latitude, vm.eventToDisplay.longitude),
+                    zoom: 13
+                };
+                console.log("here", mapOptions)
+            }
+            else {
+                var mapOptions = {
+                    center: new google.maps.LatLng(-33.8688, 151.2195),
+                    zoom: 13
+                };
+
+            }
+
+
             var map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
 
@@ -235,12 +276,12 @@
                 anchorPoint: new google.maps.Point(0, -29)
             });
 
-            google.maps.event.addListener(marker, "mouseup", function(event) {
+            google.maps.event.addListener(marker, "mouseup", function (event) {
                 $('#input-latitude').val(this.position.lat());
                 $('#input-longitude').val(this.position.lng());
             });
 
-            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
                 infowindow.close();
                 marker.setVisible(false);
                 var place = autocomplete.getPlace();
@@ -283,6 +324,9 @@
         }
 
 
+        vm.getNumber = function (num) {
+            return new Array(num);
+        }
 
 
     };

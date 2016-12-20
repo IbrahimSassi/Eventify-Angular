@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container" ng-init="ManageEvents.initEdit()">
 
     <div class="row">
 
@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <select name="category" class="form-control"
                                         ng-model="ManageEvents.editedEvent.category.id">
-                                    <option ng-repeat="category in eventCreate.categories" value="category.id">
+                                    <option ng-repeat="category in ManageEvents.categories" value="{{category.id}}">
                                         {{category.categoryName}}
                                     </option>
                                 </select>
@@ -282,7 +282,6 @@
 <!--<script src="http://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places,drawing&key=AIzaSyB6C8bf6Wh2OxqJ1NymG25PE-zWE0LmwYw" type="text/javascript"></script>-->
 
 <!--<script src="assets/js/map.js" type="text/javascript"></script>-->
-
 
 
 

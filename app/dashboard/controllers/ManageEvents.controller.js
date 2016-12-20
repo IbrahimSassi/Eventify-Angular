@@ -10,10 +10,10 @@
         .controller('ManageEventsCtrl', ManageEventsCtrl);
 
 
-    ManageEventsCtrl.$inject = ['EventService', '$stateParams', '$state'];
+    ManageEventsCtrl.$inject = ['EventService', '$stateParams', '$state','CategoryService'];
 
     /* @ngInject */
-    function ManageEventsCtrl(EventService, $stateParams, $state) {
+    function ManageEventsCtrl(EventService, $stateParams, $state,CategoryService) {
         var vm = this;
         vm.title = 'DashboardCtrl';
         // console.log("salem From Manage Events")
@@ -36,17 +36,17 @@
         };
 
 
-        if (editedEventId) {
-            // console.log($stateParams.id);
+        vm.getEditedEvent = function () {
             EventService.getEventByID(editedEventId).$promise.then(function (data) {
                 console.log(data);
                 vm.editedEvent = data;
 
                 vm.editedEvent.startTime = new Date(vm.editedEvent.startTime);
                 vm.editedEvent.endTime = new Date(vm.editedEvent.endTime);
-
+                vm.initMap();
 
             })
+
         }
 
         vm.getMyEvents = function () {
@@ -81,12 +81,35 @@
 
         }
 
-        initMap();
 
-        function initMap() {
+        vm.getCategories = function () {
+            CategoryService.getAllCategories().then(function (data) {
+                vm.categories = data;
+                vm.categories.forEach(function (ca) {
+                    console.log("categories", ca);
+
+                })
+            });
+        }
+
+
+        vm.initEdit = function () {
+            vm.getCategories();
+            vm.getEditedEvent();
+        }
+
+
+
+
+
+
+
+
+
+        vm.initMap = function() {
 
             var mapOptions = {
-                center: new google.maps.LatLng(-33.8688, 151.2195),
+                center: new google.maps.LatLng(vm.editedEvent.latitude, vm.editedEvent.longitude),
                 zoom: 13
             };
             var map = new google.maps.Map(document.getElementById('map-canvas'),

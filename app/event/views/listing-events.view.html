@@ -88,17 +88,18 @@
 
 
 
-                <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="e in event.events | filter: event.searchKeyword">
+                <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="e in event.events | filter: event.searchKeyword | orderBy : 'startTime'">
                     <div class="card-simple" style="background-image: url({{e.backgroundImage}})" >
                         <div class="card-simple-background">
                             <div class="card-simple-content">
                                 <h2><a href="listing-detail.html">{{e.title}}</a></h2>
                                 <div class="card-simple-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+
+                                    <i ng-repeat="i in event.getNumber(e.rateAvg) track by $index" class="fa fa-star"></i>
+                                    <!--<i class="fa fa-star"></i>-->
+                                    <!--<i class="fa fa-star"></i>-->
+                                    <!--<i class="fa fa-star"></i>-->
+                                    <!--<i class="fa fa-star"></i>-->
                                     {{e.rateAvg}}
                                 </div><!-- /.card-rating -->
 

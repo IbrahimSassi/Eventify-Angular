@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" ng-init="event.initDetail()">
     <div class="mt-80 mb80">
         <div class="detail-banner" style="background-image: url({{event.eventToDisplay.backgroundImage}});">
             <div class="container">
@@ -401,7 +401,7 @@
                         <i class="fa fa-heart"></i> <strong>{{event.eventToDisplay.nbViews}} </strong>people love it
                     </div>
                     <div class="detail-overview-rating">
-                        <i class="fa fa-star"></i> <strong>4.3 / 5 </strong>from <a href="#reviews">316
+                        <i class="fa fa-star"></i> <strong>{{event.eventToDisplay.rateAvg}} / 5 </strong>from <a href="#reviews">316
                         reviews</a>
                     </div>
 
@@ -690,3 +690,4 @@
     </div><!-- /.container -->
 
 </div><!-- /.content -->
+

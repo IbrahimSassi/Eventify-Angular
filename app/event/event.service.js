@@ -35,7 +35,7 @@
         }
 
         function updateEventFN(event) {
-            EventFactory.update({id: event.id}, event);
+            console.log(EventFactory.update({id: event.id}, event));
             console.log("Updated");
         }
 

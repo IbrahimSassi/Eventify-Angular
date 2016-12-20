@@ -1,5 +1,5 @@
 
-<div class="container" ng-init="eventCreate.getCategories()">
+<div class="container" ng-init="eventCreate.initCreate()">
 
     <div class="row">
 
@@ -58,20 +58,21 @@
                 </div><!-- /.box -->
 
                 <div class="background-white p30 mb30">
-                    <h3 class="page-title">Attributes</h3>
+                    <h3 class="page-title">Details</h3>
 
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <select class="form-control" name="category" ng-model="eventCreate.event.category.id">
-                                    <option ng-repeat="category in eventCreate.categories" value="category.id">
+                                <select name="category" class="form-control"
+                                        ng-model="eventCreate.event.category.id">
+                                    <option ng-repeat="category in eventCreate.categories" value="{{category.id}}">
                                         {{category.categoryName}}
                                     </option>
                                 </select>
                             </div><!-- /.form-group -->
 
                             <div class="form-group">
-                                <select class="form-control" name="type" ng-model="eventCreate.event.eventType">
+                                <select name="type" class="form-control" ng-model="eventCreate.event.eventType">
                                     <option value="Conference">Conference</option>
                                     <option value="Class_Workshop">Class/Workshop</option>
                                     <option value="Meeting">Meeting</option>
@@ -81,65 +82,48 @@
                             </div><!-- /.form-group -->
 
                             <div class="form-group">
-                                <select name="location" class="form-control">
-                                    <option>Location</option>
-                                    <option>Kensal</option>
-                                    <option>Braymer</option>
-                                    <option>Horton Bay</option>
-                                    <option>Laurel Run</option>
-                                    <option>Estherville</option>
-                                    <option>Millhousen</option>
-                                    <option>Allegan</option>
-                                    <option>Florala</option>
-                                    <option>Dundarrach</option>
-                                    <option>Neligh</option>
-                                    <option>Roseboro</option>
-                                    <option>Mount Pleasant</option>
-                                    <option>Moro</option>
-                                    <option>Strathmoor Village</option>
-                                    <option>Mabton</option>
-                                    <option>Loup City</option>
-                                    <option>Wolverine</option>
-                                    <option>San Leandro</option>
-                                    <option>Dunwoody</option>
-                                    <option>Battle Ground</option>
-                                    <option>Hanson</option>
-                                    <option>Reedley</option>
-                                    <option>Bayshore</option>
-                                    <option>Tupelo</option>
-                                    <option>Lone Pine</option>
+                                <select name="location" class="form-control" ng-model="eventCreate.event.eventState">
+                                    <option value="PUBLISHED">PUBLISHED</option>
+                                    <option value="UNPUBLISHED">UNPUBLISHED</option>
                                 </select>
                             </div><!-- /.form-group -->
 
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                <input class="form-control" type="text" placeholder="Price">
+                                <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                                <input class="form-control" type="text" ng-model="eventCreate.event.placeNumber">
                             </div><!-- /.form-group -->
                         </div><!-- /.col-* -->
 
                         <div class="col-sm-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
-                                <input class="form-control" type="text" placeholder="Address">
+                                <span class="input-group-addon"><i style="color: #3B5998"
+                                                                   class="fa fa-facebook-square"></i></span>
+                                <input class="form-control" type="text" placeholder=""
+                                       ng-model="eventCreate.event.facebookLink">
                             </div><!-- /.form-group -->
 
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-map-o"></i></span>
-                                <input class="form-control" type="text" placeholder="City">
+                                <span class="input-group-addon"><i style="color: #0097D8"
+                                                                   class="fa fa-twitter-square"></i></span>
+                                <input class="form-control" type="text" placeholder="City"
+                                       ng-model="eventCreate.event.twitterLink">
                             </div><!-- /.form-group -->
 
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                <input class="form-control" type="text" placeholder="Phone">
+                                <input class="form-control" type="text" placeholder="Phone"
+                                       ng-model="eventCreate.event.phone">
                             </div><!-- /.form-group -->
 
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-at"></i></span>
-                                <input class="form-control" type="text" placeholder="E-mail">
+                                <input class="form-control" type="text" placeholder="E-mail"
+                                       ng-model="eventCreate.event.email">
                             </div><!-- /.form-group -->
                         </div><!-- /.col-* -->
                     </div><!-- /.row -->
                 </div><!-- /.box -->
+
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -426,7 +410,4 @@
         </div><!-- /.col-* -->
     </div><!-- /.row -->
 </div>
-
-
-
 
