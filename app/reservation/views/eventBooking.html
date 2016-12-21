@@ -67,7 +67,7 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>First name</label>
-                                            <input ng-model="createReservation.reservation.firstName" type="text" class="form-control" id="firstname_booking" name="firstname_booking" ng-value="currentUser.User.firstName" >
+                                            <input ng-model="createReservation.reservation.firstName" type="text" class="form-control" id="firstname_booking" name="firstname_booking" ng-value="currentUser.User.firstName" value="currentUser.User.firstName" >
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
@@ -106,7 +106,6 @@
 
 
 
-
                             <div class="form_title">
                                 <h3><strong>2</strong>Payment Information</h3>
                                 <p>
@@ -114,7 +113,7 @@
                                 </p>
                             </div>
                             <div class="step">
-                                <h4><input name="choosepayment" type="checkbox" ng-model="creditcardstat" value="checked" />Pay with creadit card </h4><br/>
+                                <label><input name="choosepayment" type="checkbox" ng-model="creditcardstat" value="checked" />Pay with creadit card </label><br/>
 
 
                                 <fieldset  ng-disabled="!creditcardstat">
@@ -125,13 +124,13 @@
 
 
                                     <label>Name on card</label>
-                                    <input  type="text" class="form-control" id="name_card_bookign" name="name_card_bookign">
+                                    <input ng-model="createReservation.creditCard.name" type="text" class="form-control" id="name_card_bookign" name="name_card_bookign">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label>Card number</label>
-                                            <input type="text" id="card_number" name="card_number" class="form-control">
+                                            <input ng-model="createReservation.creditCard.num" type="text" id="card_number" name="card_number" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
@@ -144,12 +143,12 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <input type="text" id="expire_month" name="expire_month" class="form-control" placeholder="MM">
+                                                    <input ng-model="createReservation.creditCard.expmonth" type="text" id="expire_month" name="expire_month" class="form-control" placeholder="MM">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <input type="text" id="expire_year" name="expire_year" class="form-control" placeholder="Year">
+                                                    <input ng-model="createReservation.creditCard.expyear" type="text" id="expire_year" name="expire_year" class="form-control" placeholder="Year">
                                                 </div>
                                             </div>
                                         </div>
@@ -160,7 +159,7 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <input type="text" id="ccv" name="ccv" class="form-control" placeholder="CCV">
+                                                        <input ng-model="createReservation.creditCard.ccv" type="text" id="ccv" name="ccv" class="form-control" placeholder="CCV">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
@@ -178,8 +177,7 @@
                                 <fieldset ng-disabled="creditcardstat">
 
                                 <p>
-                                    Lorem ipsum dolor sit amet, vim id accusata sensibus, id ridens quaeque qui. Ne qui vocent ornatus molestie, reque fierent dissentiunt mel ea.
-                                </p>
+Just continue you booking normaly and you will be redirected to the paypal page                                </p>
                                 <p>
                                     <img src="assets/reservationStufs/img/paypal_bt.png" alt="Image">
                                 </p>
@@ -198,7 +196,7 @@
                                         <div class="form-group">
                                             <label>Country</label>
                                             <select ng-model="createReservation.reservation.country" class="form-control" name="country" id="country">
-                                                <option value="" selected>Select your country</option>
+                                                <option value="Hey" selected>Select your country</option>
                                                 <option value="Europe">Europe</option>
                                                 <option value="United states">United states</option>
                                                 <option value="Asia">Asia</option>
