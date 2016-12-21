@@ -11,13 +11,21 @@
 
     UserFactory.$inject = ['$resource'];
 
+
     /* @ngInject */
+    /**
+     *UserFactory
+     * @param $resource
+     * @returns {{secured: *}}
+     * @constructor
+     */
     function UserFactory($resource) {
         this.secured = function (token) {
             return $resource('http://localhost:18080/Eventify-web/rest/users/:id',
 
-                {id: '@id'},
                 {
+                    id: '@id'
+                }, {
                     'update': {
                         method: 'PUT',
                         headers: {
@@ -31,8 +39,10 @@
                             username: '@username',
                             pwd: '@pwd'
                         },
-                        transformResponse: function (data, headersGetter, status) {
-                            return {authToken: data};
+                        transformResponse: function (data) {
+                            return {
+                                authToken: data
+                            };
                         },
 
 
@@ -48,7 +58,7 @@
                         url: 'http://localhost:18080/Eventify-web/rest/users/:oldPwd/:newPwd',
                         method: 'PUT',
                         params: {
-                            id:null,
+                            id: null,
                             oldPwd: '@oldPwd',
                             newPwd: '@newPwd'
                         },

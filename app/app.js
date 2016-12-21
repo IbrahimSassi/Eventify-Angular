@@ -14,6 +14,8 @@ angular
         'EventifyApp.transaction',
         'EventifyApp.customForm',
         'EventifyApp.organization',
+        'EventifyApp.comments',
+        'EventifyApp.bank',
         'ngResource'
 
     ])

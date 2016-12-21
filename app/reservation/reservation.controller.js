@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService'];
     /**End Of Injection**/
 
 
@@ -30,7 +30,7 @@
             .state('reservateForEvent', {
                 url: '/booking',
                 templateUrl: '../reservation/views/eventBooking.html',
-                controller: 'ReservationCtrl as reservation'
+                controller: 'ReservationCtrl as createReservation'
             })
 
         ;
@@ -43,10 +43,18 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state) {
+    function ReservationCtrl(ReservationService, $state, BankService) {
 
 
         var vm = this;
+
+
+
+
+
+
+
+
 
 
         /**List Reservations**/
@@ -57,6 +65,39 @@
                 vm.reservations = data;
             });
         }
+
+        vm.reservation = {
+            amount: 555.23,
+            reservationDate: 1478069109000,
+
+
+            ticket: {id:1},
+
+        }
+
+        vm.add = function () {
+            /*************************/
+
+
+
+                BankService.BankByData(vm.creditCard.name,vm.creditCard.num,vm.creditCard.expmonth,vm.creditCard.expyear,vm.creditCard.ccv).then(function (data) {
+                    console.log("CreditCardValidity: ",data);
+
+                });
+
+
+
+            /**************************/
+            ReservationService.addReservation(vm.reservation).then(function () {
+                vm.reservationsList();
+
+                $state.go('reservation');
+
+
+
+
+            });
+        };
 
 
 
