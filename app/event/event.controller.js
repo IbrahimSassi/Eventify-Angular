@@ -7,7 +7,9 @@
             'ui.bootstrap',
             'ui.bootstrap.datetimepicker',
             'ui-rangeSlider',
-            'angular-loading-bar', 'ngAnimate',
+            'angular-loading-bar',
+            'ngAnimate',
+            // 'infinite-scroll',
             'ngGeolocation'
         ])
         .config(config)
@@ -114,6 +116,8 @@
         vm.getEvents = function () {
             EventService.getAllEvents().then(function (data) {
                 vm.events = data;
+                // vm.data = vm.events.slice(0, 3);
+
                 vm.events.forEach(function (event) {
 
                     //getRate for each event and set it
@@ -142,7 +146,21 @@
         };
 
 
+
+
+
+
+        //
+        // vm.getMoreData = function () {
+        //     vm.data = vm.events.slice(0, vm.data.length + 3);
+        // }
+
+
+
+
+
         vm.filterByTicketPrice = function () {
+
 
             vm.eventsFiltred = [];
             vm.events.forEach(function (event) {
@@ -331,6 +349,45 @@
             return new Array(num);
         };
 
+        vm.start = 0;
+        vm.end = 4;
+        vm.getPageNumber = function (num) {
+
+            if(num)
+            {
+                try {
+                    return new Array(num);
+
+                }catch (e){
+                    return new Array(Math.ceil(num));
+
+                }
+
+            }
+        };
+
+        vm.nextPage = function () {
+            
+            if(vm.end<=vm.events.length-1)
+            {
+                vm.start+=4;
+                vm.end+=4;
+            }
+        };
+
+        vm.prevPage = function () {
+            if(vm.start<=vm.events.length && vm.start>0)
+            {
+                vm.start = vm.start-4;
+                vm.end = vm.end-4;
+            }
+        };
+
+        
+        vm.goToPage = function (index) {
+            vm.start = 4 *index;
+            vm.end =  vm.start+4;
+        };
 
         vm.range = {
             min: 20,

@@ -25,6 +25,7 @@
         this.getMyTickets = getMyTicketsFN;
 
 
+
         function getAllEventsFN() {
             return EventFactory.query().$promise;
         }
@@ -69,6 +70,9 @@
         function getMyTicketsFN(id) {
             return EventFactory.getMyTickets({idEvent: id}).$promise;
         }
+
+
+
 
     }
 

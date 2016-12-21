@@ -62,7 +62,7 @@
         <div class="row">
 
 
-            <div class="col-sm-6 col-md-3" ng-repeat="event in home.popularEvents">
+            <div class="col-sm-6 col-md-3" ng-repeat="event in home.popularEvents | limitTo:8 | orderBy:'startTime'">
                 <div class="card-simple" style="background-image: url({{event.backgroundImage}})" >
                     <div class="card-simple-background">
                         <div class="card-simple-content">

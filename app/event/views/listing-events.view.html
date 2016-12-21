@@ -110,9 +110,12 @@
             <div class="row">
 
 
+                <!--\\\\\ ************ Ng Repeat Start **********////////-->
+                <!--<div infinite-scroll='event.getMoreData()' >-->
+
                 <div class="col-sm-6 col-md-4 col-lg-3"
                      ng-repeat="e in event.events | filter:event.search:strict | orderBy : 'startTime' ">
-                    <div class="card-simple" style="background-image: url({{e.backgroundImage}})">
+                    <div ng-if="event.start<=$index && event.end>$index" class="card-simple" style="background-image: url({{e.backgroundImage}})">
                         <div class="card-simple-background">
                             <div class="card-simple-content">
                                 <h2><a href="listing-detail.html">{{e.title}}</a></h2>
@@ -152,6 +155,9 @@
                     </div><!-- /.card-simple -->
                 </div><!-- /.col-* -->
 
+                <!--</div>-->
+                <!--\\\\\ ************ Ng Repeat End **********////////-->
+
 
             </div><!-- /.row -->
         </div><!-- /.cards-simple-wrapper -->
@@ -159,11 +165,18 @@
 
         <div class="pager">
             <ul>
-                <li><a href="#">Prev</a></li>
-                <li><a href="#">5</a></li>
-                <li class="active"><a>6</a></li>
-                <li><a href="#">7</a></li>
-                <li><a href="#">Next</a></li>
+                <!--<li><a href="#">Prev</a></li>-->
+                <!--<li><a href="#">5</a></li>-->
+                <!--<li class="active"><a>6</a></li>-->
+                <!--<li><a href="#">7</a></li>-->
+                <li><a tyle="cursor: pointer;" ng-click="event.prevPage()">Prev</a></li>
+
+                <li ng-class="{active: event.start/4==$index}" ng-repeat="i in event.getPageNumber(event.events.length/4) track by $index">
+                    <a style="cursor: pointer;" ng-click="event.goToPage($index)">{{$index}}</a>
+                </li>
+
+                <li><a tyle="cursor: pointer;" ng-click="event.nextPage()">Next</a></li>
+
             </ul>
         </div><!-- /.pagination -->
 
