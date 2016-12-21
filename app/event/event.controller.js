@@ -349,8 +349,16 @@
             return new Array(num);
         };
 
+
+
+
+        /*** Ibra Pagination Module Start ***/
+
+
+        vm.itemPerPage = 4 ;
         vm.start = 0;
-        vm.end = 4;
+        vm.end = vm.itemPerPage;
+
         vm.getPageNumber = function (num) {
 
             if(num)
@@ -370,24 +378,36 @@
             
             if(vm.end<=vm.events.length-1)
             {
-                vm.start+=4;
-                vm.end+=4;
+                vm.start+=vm.itemPerPage;
+                vm.end+=vm.itemPerPage;
             }
         };
 
         vm.prevPage = function () {
             if(vm.start<=vm.events.length && vm.start>0)
             {
-                vm.start = vm.start-4;
-                vm.end = vm.end-4;
+                vm.start = vm.start-vm.itemPerPage;
+                vm.end = vm.end-vm.itemPerPage;
             }
         };
 
         
         vm.goToPage = function (index) {
-            vm.start = 4 *index;
-            vm.end =  vm.start+4;
+            vm.start = vm.itemPerPage *index;
+            vm.end =  vm.start+vm.itemPerPage;
         };
+
+
+        /*** Ibra Pagination Module End ***/
+
+
+
+
+
+
+
+
+
 
         vm.range = {
             min: 20,
