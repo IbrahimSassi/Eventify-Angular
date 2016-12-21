@@ -30,47 +30,49 @@
 
                     <div ng-click="wishlist.remove(event)" class="card-row-price"
                          style="background-color:#e74c3c;cursor:pointer;" )
-                    ">
-                    Remove
-                </div><!-- -->
+                    >
+                        Remove
 
-            </div><!-- /.card-row-image -->
+                    </div><!-- -->
 
-            <div class="card-row-body">
-                <h2 class="card-row-title"><a ui-sref="event-detail({eventId:event.event.id})">{{event.event.title}}</a>
-                </h2>
-                <div class="card-row-content">
-                    <p>{{event.event.theme}}</p></div><!-- /.card-row-content -->
-            </div><!-- /.card-row-body -->
+                </div><!-- /.card-row-image -->
 
-            <div class="card-row-properties">
-                <dl>
+                <div class="card-row-body">
+                    <h2 class="card-row-title"><a
+                            ui-sref="event-detail({eventId:event.event.id})">{{event.event.title}}</a>
+                    </h2>
+                    <div class="card-row-content">
+                        <p>{{event.event.theme}}</p></div><!-- /.card-row-content -->
+                </div><!-- /.card-row-body -->
 
-                    <dd>Price</dd>
-                    <dt>$100 / night</dt>
+                <div class="card-row-properties">
+                    <dl>
 
-
-                    <dd>Type</dd>
-                    <dt>{{event.event.eventType}}</dt>
+                        <dd>Price</dd>
+                        <dt>$100 / night</dt>
 
 
-                    <dd>Location</dd>
-                    <dt>{{event.event.adress}}</dt>
+                        <dd>Type</dd>
+                        <dt>{{event.event.eventType}}</dt>
 
 
-                    <dd>Rating</dd>
-                    <dt>
-                    <div class="card-row-rating">
-                        <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                            class="fa fa-star"></i> <i class="fa fa-star"></i>
-                    </div><!-- /.card-row-rating -->
-                    </dt>
-                </dl>
-            </div><!-- /.card-row-properties -->
-        </div><!-- /.card-row-inner -->
-    </div><!-- /.card-row -->
+                        <dd>Location</dd>
+                        <dt>{{event.event.adress}}</dt>
 
 
-</div><!-- /.cards-row -->
+                        <dd>Rating</dd>
+                        <dt>
+                        <div class="card-row-rating">
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                                class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        </div><!-- /.card-row-rating -->
+                        </dt>
+                    </dl>
+                </div><!-- /.card-row-properties -->
+            </div><!-- /.card-row-inner -->
+        </div><!-- /.card-row -->
+
+
+    </div><!-- /.cards-row -->
 
 </div>

@@ -9,6 +9,8 @@
             'ui-rangeSlider',
             'angular-loading-bar',
             'ngAnimate',
+            'ngTouch',
+            // 'angular-carousel',
             // 'infinite-scroll',
             'ngGeolocation'
         ])
@@ -329,9 +331,27 @@
 
                 console.log(position);
                 vm.myPosition = position;
+
+
+
+                //Real one
+                // EventService.getNearbyEvents(vm.myPosition.coords.longitude,vm.myPosition.coords.latitude).then(function (data) {
+                //     console.log('data',data);
+                //     vm.nearByEvents = data;
+                // });
+
+                //For Test
+                EventService.getNearbyEvents(10.19,36.90).then(function (data) {
+                    console.log('data',data);
+                    vm.nearByEvents = data;
+                });
+
+
             });
 
-        }
+
+
+        };
         // Nearby Events End **/
 
 

@@ -23,6 +23,7 @@
         this.getAddress = getAddressFN;
         this.getMyRate = getMyRateFN;
         this.getMyTickets = getMyTicketsFN;
+        this.getNearbyEvents = getNearbyEventsFN;
 
 
 
@@ -69,6 +70,11 @@
 
         function getMyTicketsFN(id) {
             return EventFactory.getMyTickets({idEvent: id}).$promise;
+        }
+        
+        function getNearbyEventsFN(long,lat) {
+            return EventFactory.query({longitude:long,latitude:lat}).$promise;
+
         }
 
 
