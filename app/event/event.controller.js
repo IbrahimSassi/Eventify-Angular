@@ -4,14 +4,18 @@
     angular
         .module('EventifyApp.event', [
             'ui.router',
-            'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'ui-rangeSlider'
+            'ui.bootstrap',
+            'ui.bootstrap.datetimepicker',
+            'ui-rangeSlider',
+            'angular-loading-bar', 'ngAnimate',
+            'ngGeolocation'
         ])
         .config(config)
         .controller('EventCtrl', EventCtrl);
 
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    EventCtrl.$inject = ['EventService', '$state', 'CategoryService', '$stateParams', 'WishlistService'];
+    EventCtrl.$inject = ['EventService', '$state', 'CategoryService', '$stateParams', 'WishlistService','$geolocation'];
 
 
     /* @ngInject */
@@ -35,6 +39,12 @@
                 controller: 'EventCtrl as event',
                 cache: false
             })
+            .state('events-nearby', {
+                url: '/events/nearby',
+                templateUrl: 'event/views/nearby-events.view.html',
+                controller: 'EventCtrl as event',
+                cache: false
+            })
             .state('event-detail', {
                 url: '/events/detail/:eventId',
                 templateUrl: 'event/views/event-detail.view.html',
@@ -51,10 +61,53 @@
     };
 
     /* @ngInject */
-    function EventCtrl(EventService, $state, CategoryService, $stateParams, WishlistService) {
+    function EventCtrl(EventService, $state, CategoryService, $stateParams, WishlistService,$geolocation) {
         //On Init Start
         var vm = this;
         vm.title = 'Event List';
+
+
+        // ** Init start **//
+        vm.initCreate = function () {
+            vm.getCategories();
+            vm.initMap();
+        };
+
+        vm.initDetail = function () {
+            vm.getSelectedEvent();
+        };
+
+
+        vm.initListing = function () {
+            vm.getEvents();
+            vm.getCategories();
+        };
+
+        // ** Init end **//
+
+
+        //** Shared start **/
+
+        // Getting Categories to list them in the listbox
+        vm.getCategories = function () {
+            CategoryService.getAllCategories().then(function (data) {
+                vm.categories = data;
+                // vm.categories.forEach(function (ca) {
+                //     // console.log("categories", ca);
+                //
+                // })
+            });
+        };
+
+
+        vm.getRateForEvent = function (id) {
+            return EventService.getMyRate(id);
+        };
+
+        //** Shared end **/
+
+
+        // ** Event Listing start **//
 
 
         //Getting All Events
@@ -89,39 +142,41 @@
         };
 
 
-        vm.initCreate = function () {
-            vm.getCategories();
-            vm.initMap();
-        }
+        vm.filterByTicketPrice = function () {
+
+            vm.eventsFiltred = [];
+            vm.events.forEach(function (event) {
+                var bool = false;
+
+                if (event.tickets) {
+                    event.tickets.forEach(function (ticket) {
+                        console.log(ticket);
+                        if ((ticket.priceTicket <= vm.range.max) && (ticket.priceTicket >= vm.range.min)) {
+                            bool = true;
+                        }
+
+                    });
+                }
+                if (bool)
+                    vm.eventsFiltred.push(event);
 
 
-        // Getting Categories to list them for creation
-        vm.getCategories = function () {
-            CategoryService.getAllCategories().then(function (data) {
-                vm.categories = data;
-                // vm.categories.forEach(function (ca) {
-                //     // console.log("categories", ca);
-                //
-                // })
             });
-        }
+            vm.events = vm.eventsFiltred;
+            console.log(vm.eventsFiltred);
+
+        };
+
+        // ** Event Listing end **//
+
+
+        // ** Event Detail start **/
 
 
         //getting event id passed in params to get event
         vm.eventId = $stateParams.eventId;
         vm.userConnectedId = 1;
 
-
-        vm.initDetail = function () {
-            vm.getSelectedEvent();
-        }
-
-
-        function roundDecimal(nombre, precision) {
-            var precision = precision || 2;
-            var tmp = Math.pow(10, precision);
-            return Math.round(nombre * tmp) / tmp;
-        }
 
         vm.getSelectedEvent = function () {
             // console.log(eventId);
@@ -161,40 +216,6 @@
 
         };
 
-
-        // this.isOpen = false;
-
-
-        // DateTime Picker Initiation
-        vm.datetimepickerStart = {
-            date: new Date()
-        };
-        vm.datetimepickerEnd = {
-            date: new Date()
-        };
-
-        vm.openCalendar = function (e, datetimepicker) {
-            // e.preventDefault();
-            // e.stopPropagation();
-
-            vm[datetimepicker].open = true;
-        };
-
-
-        // On Init End
-
-
-        vm.add = function () {
-
-            vm.event.createdAt = new Date();
-            console.log("added", vm.event)
-
-            EventService.addEvent(vm.event).then(function () {
-                vm.getEvents();
-                $state.go('events');
-            });
-        };
-        // vm.loveIt=false;
 
         vm.giveHeart = function (event) {
             // vm.eventToDisplay.nbViews  = vm.eventToDisplay.nbViews + 1;
@@ -242,11 +263,82 @@
         };
 
 
-        vm.getRateForEvent = function (id) {
-            return EventService.getMyRate(id);
+        // ** Event Detail end **/
+
+
+        // ** Create Event start **/
+
+
+        // DateTime Picker Initiation
+        vm.datetimepickerStart = {
+            date: new Date()
+        };
+        vm.datetimepickerEnd = {
+            date: new Date()
+        };
+
+        vm.openCalendar = function (e, datetimepicker) {
+            // e.preventDefault();
+            // e.stopPropagation();
+
+            vm[datetimepicker].open = true;
         };
 
 
+        vm.add = function () {
+
+            vm.event.createdAt = new Date();
+            console.log("added", vm.event)
+
+            EventService.addEvent(vm.event).then(function () {
+                vm.getEvents();
+                $state.go('events');
+            });
+        };
+
+        // ** Create Event end **/
+
+
+
+
+
+        // Nearby Events Start **/
+
+        vm.getGeoLocation = function () {
+            $geolocation.getCurrentPosition({
+                timeout: 60000
+            }).then(function(position) {
+
+                console.log(position);
+                vm.myPosition = position;
+            });
+
+        }
+        // Nearby Events End **/
+
+
+
+
+
+        function roundDecimal(nombre, precision) {
+            var precision = precision || 2;
+            var tmp = Math.pow(10, precision);
+            return Math.round(nombre * tmp) / tmp;
+        }
+
+
+        vm.getNumber = function (num) {
+            return new Array(num);
+        };
+
+
+        vm.range = {
+            min: 20,
+            max: 80
+        };
+
+
+        //
         vm.initMap = function () {
 
 
@@ -332,52 +424,6 @@
                 infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
                 infowindow.open(map, marker);
             });
-        };
-
-
-        vm.getNumber = function (num) {
-            return new Array(num);
-        };
-
-
-        vm.initListing = function () {
-            vm.getEvents();
-            vm.getCategories();
-        }
-
-
-        vm.range = {
-            min: 20,
-            max: 80
-        };
-
-
-        vm.filterByTicketPrice = function () {
-
-
-
-
-            vm.eventsFiltred = [];
-            vm.events.forEach(function (event) {
-                var bool = false;
-
-                if (event.tickets) {
-                    event.tickets.forEach(function (ticket) {
-                        console.log(ticket);
-                        if ((ticket.priceTicket <= vm.range.max) && (ticket.priceTicket >= vm.range.min)) {
-                            bool = true;
-                        }
-
-                    });
-                }
-                if (bool)
-                    vm.eventsFiltred.push(event);
-
-
-            });
-            vm.events = vm.eventsFiltred;
-            console.log(vm.eventsFiltred);
-
         };
 
 

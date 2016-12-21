@@ -116,14 +116,24 @@
                         <div class="card-simple-background">
                             <div class="card-simple-content">
                                 <h2><a href="listing-detail.html">{{e.title}}</a></h2>
-                                <div class="card-simple-rating">
+                                <div ng-if="e.rateAvg!=0" class="card-simple-rating">
 
                                     <i ng-repeat="i in event.getNumber(e.rateAvg) track by $index"
                                        class="fa fa-star"></i>
-                                    <!--<i class="fa fa-star"></i>-->
-                                    <!--<i class="fa fa-star"></i>-->
-                                    <!--<i class="fa fa-star"></i>-->
-                                    <!--<i class="fa fa-star"></i>-->
+
+                                    <i ng-repeat="i in event.getNumber(5-e.rateAvg) track by $index"
+                                       class="fa fa-star-o"></i>
+
+                                    {{e.rateAvg}}
+                                </div><!-- /.card-rating -->
+
+                                <div ng-if="e.rateAvg==0" class="card-simple-rating">
+
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                     {{e.rateAvg}}
                                 </div><!-- /.card-rating -->
 

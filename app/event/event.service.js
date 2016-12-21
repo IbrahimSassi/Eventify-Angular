@@ -63,11 +63,11 @@
         function getMyRateFN(id) {
 
             // console.log(EventFactory.getMyRate({idEvent:id}).$promise);
-            return EventFactory.getMyRate({idEvent:id}).$promise;
+            return EventFactory.getMyRate({idEvent: id}).$promise;
         }
 
         function getMyTicketsFN(id) {
-            return EventFactory.getMyTickets({idEvent:id}).$promise;
+            return EventFactory.getMyTickets({idEvent: id}).$promise;
         }
 
     }
