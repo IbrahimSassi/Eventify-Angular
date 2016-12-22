@@ -19,7 +19,15 @@
 
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    EventCtrl.$inject = ['EventService', '$state', 'CategoryService', '$stateParams', 'WishlistService','$geolocation'];
+    EventCtrl.$inject = [
+        'EventService',
+        '$state',
+        'CategoryService',
+        '$stateParams',
+        'WishlistService',
+        '$geolocation',
+        'VoiceToTextService'
+    ];
 
 
     /* @ngInject */
@@ -65,7 +73,13 @@
     };
 
     /* @ngInject */
-    function EventCtrl(EventService, $state, CategoryService, $stateParams, WishlistService,$geolocation) {
+    function EventCtrl(EventService,
+                       $state,
+                       CategoryService,
+                       $stateParams,
+                       WishlistService,
+                       $geolocation,
+                       VoiceToTextService) {
         //On Init Start
         var vm = this;
         vm.title = 'Event List';
@@ -118,6 +132,7 @@
         vm.getEvents = function () {
             EventService.getAllEvents().then(function (data) {
                 vm.events = data;
+
                 // vm.data = vm.events.slice(0, 3);
 
                 vm.events.forEach(function (event) {
@@ -133,6 +148,7 @@
                             // console.log('tickets before',data);
 
                             event.tickets = data;
+
                         }
 
 
@@ -140,25 +156,54 @@
 
 
                 });
-                console.log(EventService.getAllEvents());
+                console.log(vm.events);
 
             });
-
 
         };
 
 
+        vm.searchByVoiceBool = 0;
+        vm.SearchByVoice = function (event) {
+
+            vm.searchByVoiceBool = vm.searchByVoiceBool + 1;
+            VoiceToTextService.startButton(event);
+
+            if (vm.searchByVoiceBool % 2 == 0) {
+                vm.search.eventType = "Class_Workshop";
+
+                    var text = VoiceToTextService.getText();
+                    console.log('speech', text);
+
+                    EventService.searchWithVoice(text).then(function (data) {
+                        console.log('result wit', data.entities.search_query[0].value);
+
+                        if (data.entities.search_query[0].value == "conference")
+                            vm.search.eventType = "Conference";
+                        else if (data.entities.search_query[0].value == "Workshop")
+                        {
+                            vm.search.eventType = "Class_Workshop";
+                        }
+                        else if (data.entities.search_query[0].value == "meeting")
+                            vm.search.eventType = "Meeting";
 
 
+                    }, function (err) {
+                        console.log('error', err);
+                    });
+
+
+
+            }
+
+
+        };
 
 
         //
         // vm.getMoreData = function () {
         //     vm.data = vm.events.slice(0, vm.data.length + 3);
         // }
-
-
-
 
 
         vm.filterByTicketPrice = function () {
@@ -319,19 +364,15 @@
         // ** Create Event end **/
 
 
-
-
-
         // Nearby Events Start **/
 
         vm.getGeoLocation = function () {
             $geolocation.getCurrentPosition({
                 timeout: 60000
-            }).then(function(position) {
+            }).then(function (position) {
 
                 console.log(position);
                 vm.myPosition = position;
-
 
 
                 //Real one
@@ -341,8 +382,8 @@
                 // });
 
                 //For Test
-                EventService.getNearbyEvents(10.19,36.90).then(function (data) {
-                    console.log('data',data);
+                EventService.getNearbyEvents(10.19, 36.90).then(function (data) {
+                    console.log('data', data);
                     vm.nearByEvents = data;
                 });
 
@@ -350,12 +391,8 @@
             });
 
 
-
         };
         // Nearby Events End **/
-
-
-
 
 
         function roundDecimal(nombre, precision) {
@@ -370,23 +407,20 @@
         };
 
 
-
-
         /*** Ibra Pagination Module Start ***/
 
 
-        vm.itemPerPage = 4 ;
+        vm.itemPerPage = 4;
         vm.start = 0;
         vm.end = vm.itemPerPage;
 
         vm.getPageNumber = function (num) {
 
-            if(num)
-            {
+            if (num) {
                 try {
                     return new Array(num);
 
-                }catch (e){
+                } catch (e) {
                     return new Array(Math.ceil(num));
 
                 }
@@ -395,26 +429,24 @@
         };
 
         vm.nextPage = function () {
-            
-            if(vm.end<=vm.events.length-1)
-            {
-                vm.start+=vm.itemPerPage;
-                vm.end+=vm.itemPerPage;
+
+            if (vm.end <= vm.events.length - 1) {
+                vm.start += vm.itemPerPage;
+                vm.end += vm.itemPerPage;
             }
         };
 
         vm.prevPage = function () {
-            if(vm.start<=vm.events.length && vm.start>0)
-            {
-                vm.start = vm.start-vm.itemPerPage;
-                vm.end = vm.end-vm.itemPerPage;
+            if (vm.start <= vm.events.length && vm.start > 0) {
+                vm.start = vm.start - vm.itemPerPage;
+                vm.end = vm.end - vm.itemPerPage;
             }
         };
 
-        
+
         vm.goToPage = function (index) {
-            vm.start = vm.itemPerPage *index;
-            vm.end =  vm.start+vm.itemPerPage;
+            vm.start = vm.itemPerPage * index;
+            vm.end = vm.start + vm.itemPerPage;
         };
 
 

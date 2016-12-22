@@ -24,6 +24,10 @@
 
     <div class="cards-row">
 
+        <div ng-if="event.nearByEvents.length==0" class="card-row">
+            <h2>There are no Nearby Events</h2>
+        </div>
+
         <div class="card-row" ng-repeat="event in event.nearByEvents">
             <div class="card-row-inner">
                 <div class="card-row-image" style="background-image: url({{event.backgroundImage}})">
