@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService','$rootScope'];
     /**End Of Injection**/
 
 
@@ -43,14 +43,10 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService) {
+    function ReservationCtrl(ReservationService, $state, BankService,$rootScope) {
 
 
         var vm = this;
-
-
-
-
 
 
 
@@ -69,7 +65,7 @@
         vm.reservation = {
             amount: 555.23,
             reservationDate: 1478069109000,
-
+            user: {id:$rootScope.currentUser.User.id},
 
             ticket: {id:1},
 

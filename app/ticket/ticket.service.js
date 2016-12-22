@@ -18,7 +18,11 @@
         };
 
 
+        this.addTicket =  function (ticket) {
+            console.log(ticket);
 
+            return TicketFactory.save(ticket).$promise;
+        }
 
 
 
