@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService','$rootScope'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope'];
     /**End Of Injection**/
 
 
@@ -43,58 +43,50 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService,$rootScope) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope) {
 
 
         var vm = this;
 
 
-
-
-
-
         /**List Reservations**/
         vm.reservationsList = function () {
-            console.log("called",ReservationService.getAllReservations());
+            console.log("called", ReservationService.getAllReservations());
             ReservationService.getAllReservations().then(function (data) {
-                console.log("data",data);
+                console.log("data", data);
                 vm.reservations = data;
             });
         }
 
-        vm.reservation = {
-            amount: 555.23,
-            reservationDate: 1478069109000,
-            user: {id:$rootScope.currentUser.User.id},
 
-            ticket: {id:1},
+        /**Adding static values TODO **/
+        if ($rootScope.currentUser != null) {
+            vm.reservation = {
+                amount: 555.23,
+                reservationDate: 1478069109000,
+                user: {id: $rootScope.currentUser.User.id},
 
+                ticket: {id: 1},
+
+            }
         }
-
         vm.add = function () {
+
             /*************************/
+            BankService.BankByData(vm.creditCard.name, vm.creditCard.num, vm.creditCard.expmonth, vm.creditCard.expyear, vm.creditCard.ccv).then(function (data) {
+                console.log("CreditCardValidity: ", data);
 
-
-
-                BankService.BankByData(vm.creditCard.name,vm.creditCard.num,vm.creditCard.expmonth,vm.creditCard.expyear,vm.creditCard.ccv).then(function (data) {
-                    console.log("CreditCardValidity: ",data);
-
-                });
-
-
-
+            });
             /**************************/
+
             ReservationService.addReservation(vm.reservation).then(function () {
                 vm.reservationsList();
 
                 $state.go('reservation');
 
 
-
-
             });
         };
-
 
 
     };

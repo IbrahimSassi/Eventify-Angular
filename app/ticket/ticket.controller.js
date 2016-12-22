@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    TicketCtrl.$inject = ['TicketService', '$state','$scope'];
+    TicketCtrl.$inject = ['TicketService', '$state', '$scope'];
     /**End Of Injection**/
 
 
@@ -24,7 +24,7 @@
         $stateProvider
             .state('listTickets', {
                 url: '/tickets',
-                templateUrl: 'views/addTicket.html',
+                templateUrl: 'ticket/views/addTicket.html',
                 controller: 'TicketCtrl as createTicket'
             })
 
@@ -39,22 +39,22 @@
      * @param UserService
      * @param $state
      */
-    function TicketCtrl(TicketService, $state,$scope) {
+    function TicketCtrl(TicketService, $state, $scope) {
 
 
         var vm = this;
 
 
-    /**Add multi items**/
+        /**Add multi items**/
         $scope.items = [];
-        var i=0;
+        var i = 0;
         $scope.add = function () {
             i++;
             $scope.items.push({
-                type: "createTicket.ticket"+".typeTicket",
-                description: "createTicket.ticket"+".description",
-                number: "createTicket.ticket"+".nbTickets",
-                price: "createTicket.ticket"+".priceTicket",
+                type: "createTicket.ticket" + ".typeTicket",
+                description: "createTicket.ticket" + ".description",
+                number: "createTicket.ticket" + ".nbTickets",
+                price: "createTicket.ticket" + ".priceTicket",
                 block: "false",
                 i: i,
 
@@ -62,52 +62,50 @@
         };
 
 
-/**Chnage Fieldset to disabled*/
-        vm.setAttr = function() {
-            var myEl = angular.element( document.querySelector( 'typeinput'+i ) );
-            var el = document.getElementById("fid"+i);
+        /**Chnage Fieldset to disabled*/
+        vm.setAttr = function () {
+            var myEl = angular.element(document.querySelector('typeinput' + i));
+            var el = document.getElementById("fid" + i);
 
-            el.setAttribute('disabled',"true");
-           // el.setAttribute('style',"display:none;");
+            el.setAttribute('disabled', "true");
+            // el.setAttribute('style',"display:none;");
 
 
         }
 
 
+        /**Add New Tickets**/
+        vm.add = function () {
+
+            TicketService.addTicket(vm.ticket).then(function () {
+
+                    console.log(vm.ticket);
+                    vm.ticketsList();
+
+                    $state.go('ticket');
+
+                }
+            );
+        };
+
+        /**Adding ticket id*/
+        vm.ticket = {
+            backgroundImage: "",
+
+            event: {id: 1},
 
 
-/**Add New Tickets**/
-vm.add = function () {
-
-TicketService.addTicket(vm.ticket).then(function () {
-
-    console.log(vm.ticket);
-        vm.ticketsList();
-
-        $state.go('ticket');
-
-    }
- );
-};
-
-
-
-
-
-
-
-
+        }
 
 
         /**List Tickets**/
         vm.ticketsList = function () {
-            console.log("called",TicketService.getAllTickets());
+            console.log("called", TicketService.getAllTickets());
             TicketService.getAllTickets().then(function (data) {
-                console.log("data",data);
+                console.log("data", data);
                 vm.tickets = data;
             });
         }
-
 
 
     };
