@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope'];
     /**End Of Injection**/
 
 
@@ -43,11 +43,24 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService, $rootScope) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope) {
 
 
         var vm = this;
 
+        /**Working with changing checkbox value*/
+        var checkbox = false;
+        vm.stateChanged = function () {
+            if (checkbox == true) {
+                checkbox = false;
+            }
+            else if (checkbox == false) {
+                checkbox = true;
+            }
+            console.log("Payment checkbox value",checkbox);
+
+        };
+        /**END Working with changing checkbox value*/
 
         /**List Reservations**/
         vm.reservationsList = function () {
@@ -72,6 +85,7 @@
         }
         vm.add = function () {
 
+            console.log("ahaya", vm.creditcardstat);
             /*************************/
             BankService.BankByData(vm.creditCard.name, vm.creditCard.num, vm.creditCard.expmonth, vm.creditCard.expyear, vm.creditCard.ccv).then(function (data) {
                 console.log("CreditCardValidity: ", data);

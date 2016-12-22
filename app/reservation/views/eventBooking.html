@@ -1,6 +1,22 @@
 <link href="assets/reservationStufs/css/stepsstyle.css" rel="stylesheet">
 <link href="assets/reservationStufs/css/grey.css" rel="stylesheet">
-
+<style>
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+    h3 {
+        font-size: 22px;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        color: #333;
+    }
+    body, h1, h2, h3, h4, h5, h6 {
+        -webkit-font-smoothing: antialiased;
+    }
+</style>
 <div class="mt-80">
                 <div class="hero-image">
                     <div class="hero-image-inner" style="background-image: url('assets/reservationStufs/img/Bach-Party-Celebrations-Wallpaper.png');">
@@ -109,11 +125,16 @@
                             <div class="form_title">
                                 <h3><strong>2</strong>Payment Information</h3>
                                 <p>
-                                    Mussum ipsum cacilds, vidis litro abertis.
+                                    Pay with your credit card
                                 </p>
                             </div>
                             <div class="step">
-                                <label><input name="choosepayment" type="checkbox" ng-model="creditcardstat" value="checked" />Pay with creadit card </label><br/>
+                                <label><input ng-change="createReservation.stateChanged(item.questID)"  name="choosepayment" type="checkbox" ng-model="creditcardstat"/>Pay with creadit card </label><br/>
+
+
+
+
+
 
 
                                 <fieldset  ng-disabled="!creditcardstat">
