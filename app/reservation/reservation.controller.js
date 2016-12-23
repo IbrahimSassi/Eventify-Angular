@@ -112,6 +112,7 @@
             $scope.counter--;
             mytimeout = $timeout($scope.onTimeout, 1000);
             if ($scope.counter ==0) {
+
                 alert("Lkabar Wfé");
                 $timeout.cancel(mytimeout);
 
