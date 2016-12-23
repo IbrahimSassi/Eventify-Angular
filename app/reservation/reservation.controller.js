@@ -106,8 +106,8 @@
         /**Reservation Timer**/
 
         $scope.counter = 5;
-        $scope.stopped = false;
-        $scope.buttonText = 'Stop';
+
+
         $scope.onTimeout = function () {
             $scope.counter--;
             mytimeout = $timeout($scope.onTimeout, 1000);
@@ -119,24 +119,14 @@
             }
         }
         var mytimeout = $timeout($scope.onTimeout, 1000);
-        $scope.takeAction = function () {
-            if (!$scope.stopped) {
-                $timeout.cancel(mytimeout);
-                $scope.buttonText = 'Resume';
-            }
-            else {
-                mytimeout = $timeout($scope.onTimeout, 1000);
-                $scope.buttonText = 'Stop';
-            }
-            $scope.stopped = !$scope.stopped;
-        }
+
 
 
         /**END Reservation Timer**/
 
 
     };
-
+/**Timer Filter*/
 a.filter('formatTimer', function() {
     return function(input)
     {
@@ -147,5 +137,5 @@ a.filter('formatTimer', function() {
         return (z(hours) +':'+z(minutes)+':'+z(seconds));
     };
 });
-
+    /**END Timer Filter*/
 })();
