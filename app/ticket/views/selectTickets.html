@@ -1,0 +1,54 @@
+<script src="assets/reservationStufs/js/bootstrap.min.js"></script>
+
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+<!-- Modal -->
+<div class="modal " id="myModal" role="dialog" ng-init="selectTicket.getEventTickets()">
+    <div class="modal-dialog ">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please feel free to choose your tickets</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <h4>Sales end in 01/01/2017</h4>
+
+
+                <div style="width: 100%;">
+                    <div ng-repeat="ticket in selectTicket.tickets">
+                        <a style="font-size: 20px;">{{ticket.typeTicket}}</a>
+                        <select style="float: right; width: 70px; font-size: 20px;">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                        </br>
+                        <span>{{ticket.nbTickets}} tickets still in stock</span>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button  ng-click="selectTicket.goToBooking();" type="button" class="btn btn-success" data-dismiss="modal">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+

@@ -5,7 +5,7 @@
     'use strict';
 
     /**My Module init**/
-    angular
+angular
         .module('EventifyApp.ticket', [
             'ui.router',
         ])
@@ -15,17 +15,23 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    TicketCtrl.$inject = ['TicketService', '$state', '$scope'];
+    TicketCtrl.$inject = ['TicketService', '$state', '$scope', '$timeout'];
     /**End Of Injection**/
 
 
     /** Route Config **/
     function config($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('listTickets', {
+            .state('addTickets', {
                 url: '/tickets',
                 templateUrl: 'ticket/views/addTicket.html',
                 controller: 'TicketCtrl as createTicket'
+            })
+
+            .state('selectTickets', {
+                url: '/mytickets',
+                templateUrl: 'ticket/views/selectTickets.html',
+                controller: 'TicketCtrl as selectTicket'
             })
 
 
@@ -39,10 +45,20 @@
      * @param UserService
      * @param $state
      */
-    function TicketCtrl(TicketService, $state, $scope) {
+    function TicketCtrl(TicketService, $state, $scope, $timeout) {
 
 
         var vm = this;
+
+
+        /**Navigation*/
+        vm.goToBooking = function () {
+
+       $state.go('reservateForEvent');
+        };
+
+
+
 
 
         /**Add multi items**/
@@ -99,10 +115,10 @@
 
 
         /**List Tickets**/
-        vm.ticketsList = function () {
-            console.log("called", TicketService.getAllTickets());
-            TicketService.getAllTickets().then(function (data) {
-                console.log("data", data);
+        vm.getEventTickets = function () {
+            console.log("called", TicketService.getEventTickets(1));
+            TicketService.getEventTickets(1).then(function (data) {
+                console.log("Ticket: ", data);
                 vm.tickets = data;
             });
         }
@@ -112,7 +128,11 @@
 
     /**End UserCtrlFunction**/
 
+
+
+
+
 })();
-/**
- * Created by moham on 12/10/2016.
- */
+
+
+

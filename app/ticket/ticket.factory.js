@@ -15,7 +15,20 @@
         return $resource('http://localhost:18080/Eventify-web/rest/tickets/:id',
             {id: '@id'},
             {
-                'update': {method: 'PUT'}
+                'update': {method: 'PUT'},
+
+
+                'getTicketsByEvent': {
+                    url: 'http://localhost:18080/Eventify-web/rest/tickets/getByEvent/:idEvent',
+                    params: {
+                        idEvent: '@idEvent',
+                    },
+                    method: 'GET',
+                    isArray: true
+
+
+                }
+
             }
         );
     }

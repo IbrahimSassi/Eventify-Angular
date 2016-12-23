@@ -5,7 +5,7 @@
     'use strict';
 
     /**My Module init**/
-    angular
+    var a=angular
         .module('EventifyApp.reservation', [
             'ui.router',
         ])
@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout'];
     /**End Of Injection**/
 
 
@@ -43,7 +43,7 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout) {
 
 
         var vm = this;
@@ -57,7 +57,7 @@
             else if (checkbox == false) {
                 checkbox = true;
             }
-            console.log("Payment checkbox value",checkbox);
+            console.log("Payment checkbox value", checkbox);
 
         };
         /**END Working with changing checkbox value*/
@@ -103,8 +103,48 @@
         };
 
 
+        /**Reservation Timer**/
+
+        $scope.counter = 5;
+        $scope.stopped = false;
+        $scope.buttonText = 'Stop';
+        $scope.onTimeout = function () {
+            $scope.counter--;
+            mytimeout = $timeout($scope.onTimeout, 1000);
+            if ($scope.counter ==0) {
+                alert("Lkabar Wfé");
+                $timeout.cancel(mytimeout);
+
+            }
+        }
+        var mytimeout = $timeout($scope.onTimeout, 1000);
+        $scope.takeAction = function () {
+            if (!$scope.stopped) {
+                $timeout.cancel(mytimeout);
+                $scope.buttonText = 'Resume';
+            }
+            else {
+                mytimeout = $timeout($scope.onTimeout, 1000);
+                $scope.buttonText = 'Stop';
+            }
+            $scope.stopped = !$scope.stopped;
+        }
+
+
+        /**END Reservation Timer**/
+
+
     };
 
-    /**End UserCtrlFunction**/
+a.filter('formatTimer', function() {
+    return function(input)
+    {
+        function z(n) {return (n<10? '0' : '') + n;}
+        var seconds = input % 60;
+        var minutes = Math.floor(input / 60);
+        var hours = Math.floor(minutes / 60);
+        return (z(hours) +':'+z(minutes)+':'+z(seconds));
+    };
+});
 
 })();
