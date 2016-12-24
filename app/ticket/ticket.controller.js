@@ -5,7 +5,7 @@
     'use strict';
 
     /**My Module init**/
-angular
+    angular
         .module('EventifyApp.ticket', [
             'ui.router',
         ])
@@ -51,14 +51,45 @@ angular
         var vm = this;
 
 
-        /**Navigation*/
-        vm.goToBooking = function () {
+        /**GET EVENT BY ID*/
+        TicketService.getTicketByID(1).$promise.then(function (data) {
+            console.log("haha", data);
 
-       $state.go('reservateForEvent');
+
+        });
+        /**END GET EVENT BY ID*/
+
+
+        /** Update Ticket Numbers */
+        vm.updatehahi = function () {
+            TicketService.getEventTickets(1).then(function (data) {
+                vm.ticketss = data;
+                // vm.data = vm.events.slice(0, 3);
+
+                vm.ticketss.forEach(function (ticket) {
+
+                    ticket.nbTickets = ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]);
+
+                    TicketService.updateNbTicket(ticket);
+
+
+                });
+
+
+            });
+
+
         };
+        /**END Update Ticket Numbers */
 
 
+        /**Navigation And Update Ticket Numbers*/
+        vm.goToBooking = function () {
+            /*TODO Add event id*/
+            $state.go('reservateForEvent', {eventIDD: 1});
 
+
+        };
 
 
         /**Add multi items**/
@@ -104,6 +135,7 @@ angular
             );
         };
 
+        /*TODO Add event id*/
         /**Adding ticket id*/
         vm.ticket = {
             backgroundImage: "",
@@ -127,9 +159,6 @@ angular
     };
 
     /**End UserCtrlFunction**/
-
-
-
 
 
 })();

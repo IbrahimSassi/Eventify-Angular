@@ -19,10 +19,11 @@
                 <h4>Sales end in 01/01/2017</h4>
 
 
-                <div style="width: 100%;">
+                <div  style="width: 100%;">
                     <div ng-repeat="ticket in selectTicket.tickets">
+
                         <a style="font-size: 20px;">{{ticket.typeTicket}}</a>
-                        <select style="float: right; width: 70px; font-size: 20px;">
+                        <select ng-change="selectTicket.updateNbTicket(ticket);" ng-model="selectTicket.ticketnumber[ticket.id]" style="float: right; width: 70px; font-size: 20px;">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -39,7 +40,8 @@
 
             </div>
             <div class="modal-footer">
-                <button  ng-click="selectTicket.goToBooking();" type="button" class="btn btn-success" data-dismiss="modal">Submit</button>
+                <input type="button" ng-click="selectTicket.updatehahi();" value="try">
+                <button ng-click="selectTicket.goToBooking();" type="button" class="btn btn-success" data-dismiss="modal">Submit</button>
             </div>
         </div>
 

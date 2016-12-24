@@ -25,6 +25,19 @@
         }
 
 
+        this.updateNbTicket = function (ticket) {
+            console.log(TicketFactory.update({id: ticket.id}, ticket));
+            console.log("Updated");
+        }
+
+
+
+        this.getTicketByID = function (idTicket) {
+
+            return TicketFactory.get({id: idTicket});
+        }
+
+
 
     }
 

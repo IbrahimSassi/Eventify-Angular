@@ -5,7 +5,7 @@
     'use strict';
 
     /**My Module init**/
-    var a=angular
+    var a = angular
         .module('EventifyApp.reservation', [
             'ui.router',
         ])
@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout','$stateParams','TicketService'];
     /**End Of Injection**/
 
 
@@ -30,7 +30,10 @@
             .state('reservateForEvent', {
                 url: '/booking',
                 templateUrl: '../reservation/views/eventBooking.html',
-                controller: 'ReservationCtrl as createReservation'
+                controller: 'ReservationCtrl as createReservation',
+                params: {
+                    eventIDD: null
+                }
             })
 
         ;
@@ -43,7 +46,7 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout,$stateParams,TicketService) {
 
 
         var vm = this;
@@ -58,6 +61,7 @@
                 checkbox = true;
             }
             console.log("Payment checkbox value", checkbox);
+            console.log($stateParams.eventIDD);
 
         };
         /**END Working with changing checkbox value*/
@@ -83,35 +87,44 @@
 
             }
         }
+        /**END Adding static values TODO **/
+
+        /** Adding Reservation **/
         vm.add = function () {
+            if ($scope.counter != 0) {
+                /**FOR CREDIT CARD*/
+                BankService.BankByData(vm.creditCard.name, vm.creditCard.num, vm.creditCard.expmonth, vm.creditCard.expyear, vm.creditCard.ccv).then(function (data) {
+                    console.log("CreditCardValidity: ", data);
 
-            console.log("ahaya", vm.creditcardstat);
-            /*************************/
-            BankService.BankByData(vm.creditCard.name, vm.creditCard.num, vm.creditCard.expmonth, vm.creditCard.expyear, vm.creditCard.ccv).then(function (data) {
-                console.log("CreditCardValidity: ", data);
+                });
+                /**END FOR CREDIT CARD*/
 
-            });
-            /**************************/
+                ReservationService.addReservation(vm.reservation).then(function () {
+                    vm.reservationsList();
 
-            ReservationService.addReservation(vm.reservation).then(function () {
-                vm.reservationsList();
-
-                $state.go('reservation');
+                    $state.go('reservation');
 
 
-            });
+                });
+            }
+
+            else {
+                console.log("Ti mana 9olna l kabar wfé");
+            }
+
         };
+        /** END Adding Reservation **/
 
 
         /**Reservation Timer**/
 
-        $scope.counter = 5;
+        $scope.counter = 100;
 
 
         $scope.onTimeout = function () {
             $scope.counter--;
             mytimeout = $timeout($scope.onTimeout, 1000);
-            if ($scope.counter ==0) {
+            if ($scope.counter == 0) {
 
                 alert("Lkabar Wfé");
                 $timeout.cancel(mytimeout);
@@ -121,21 +134,22 @@
         var mytimeout = $timeout($scope.onTimeout, 1000);
 
 
-
         /**END Reservation Timer**/
 
 
     };
-/**Timer Filter*/
-a.filter('formatTimer', function() {
-    return function(input)
-    {
-        function z(n) {return (n<10? '0' : '') + n;}
-        var seconds = input % 60;
-        var minutes = Math.floor(input / 60);
-        var hours = Math.floor(minutes / 60);
-        return (z(hours) +':'+z(minutes)+':'+z(seconds));
-    };
-});
+    /**Timer Filter*/
+    a.filter('formatTimer', function () {
+        return function (input) {
+            function z(n) {
+                return (n < 10 ? '0' : '') + n;
+            }
+
+            var seconds = input % 60;
+            var minutes = Math.floor(input / 60);
+            var hours = Math.floor(minutes / 60);
+            return (z(hours) + ':' + z(minutes) + ':' + z(seconds));
+        };
+    });
     /**END Timer Filter*/
 })();
