@@ -67,6 +67,7 @@
                 // vm.data = vm.events.slice(0, 3);
 
                 vm.ticketss.forEach(function (ticket) {
+                    console.log("ti ahaya mrigla:",ticket);
 
                     ticket.nbTickets = ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]);
 

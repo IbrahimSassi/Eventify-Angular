@@ -26,7 +26,7 @@
 
 
         this.updateNbTicket = function (ticket) {
-            console.log(TicketFactory.update({id: ticket.id}, ticket));
+            TicketFactory.update({id: ticket.id}, ticket);
             console.log("Updated");
         }
 
