@@ -341,7 +341,7 @@
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <div class="user-image">
-                                            <img src="{{currentUser.User.profileImage}}">
+                                            <img ng-src="{{currentUser.User.profileImage}}">
                                             <!--<div class="notification"></div>&lt;!&ndash; /.notification&ndash;&gt;-->
                                         </div><!-- /.user-image -->
 
@@ -553,6 +553,9 @@
 <script src="wishlist/wishlist.factory.js"></script>
 
 <script src="event/event.controller.js"></script>
+<script src="event/controllers/create-event.controller.js"></script>
+<script src="event/controllers/event-detail.controller.js"></script>
+<script src="event/controllers/nearby-events.controller.js"></script>
 <script src="event/event.factory.js"></script>
 <script src="event/event.service.js"></script>
 <script src="event/service/voiceToText.service.js"></script>

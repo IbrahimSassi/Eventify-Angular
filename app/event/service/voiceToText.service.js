@@ -14,6 +14,7 @@
     /* @ngInject */
     function VoiceToTextService() {
 
+
         showInfo('info_start');
 
         var final_transcript = '';
@@ -153,6 +154,7 @@
 
 
     }
+
 
 })();
 

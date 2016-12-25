@@ -25,7 +25,6 @@
         'CategoryService',
         '$stateParams',
         'WishlistService',
-        '$geolocation',
         'VoiceToTextService'
     ];
 
@@ -54,19 +53,19 @@
             .state('events-nearby', {
                 url: '/events/nearby',
                 templateUrl: 'event/views/nearby-events.view.html',
-                controller: 'EventCtrl as event',
+                controller: 'NearbyCtrl as event',
                 cache: false
             })
             .state('event-detail', {
                 url: '/events/detail/:eventId',
                 templateUrl: 'event/views/event-detail.view.html',
-                controller: 'EventCtrl as event',
+                controller: 'DetailEvent as event',
                 cache: false
             })
             .state('newEvent', {
                 url: '/events/new',
                 templateUrl: 'event/views/CreateEvent.html',
-                controller: 'EventCtrl as eventCreate'
+                controller: 'CreateEventCtrl as eventCreate'
             })
         ;
 
@@ -78,7 +77,6 @@
                        CategoryService,
                        $stateParams,
                        WishlistService,
-                       $geolocation,
                        VoiceToTextService) {
         //On Init Start
         var vm = this;
@@ -86,14 +84,23 @@
 
 
         // ** Init start **//
-        vm.initCreate = function () {
-            vm.getCategories();
-            vm.initMap();
-        };
 
-        vm.initDetail = function () {
-            vm.getSelectedEvent();
-        };
+
+        Object.defineProperty(EventCtrl.prototype,
+            "search.eventType", {
+                get: function () {
+                    return this.search.eventType;
+                },
+                set: function (newValue) {
+                    this.search.eventType = newValue;
+
+                    //Call method on update
+                    // this.onSelectedItemChange(this._selectedItem);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
 
 
         vm.initListing = function () {
@@ -170,28 +177,33 @@
             VoiceToTextService.startButton(event);
 
             if (vm.searchByVoiceBool % 2 == 0) {
-                vm.search.eventType = "Class_Workshop";
 
-                    var text = VoiceToTextService.getText();
-                    console.log('speech', text);
+                var text = VoiceToTextService.getText();
+                console.log('speech' + text);
 
-                    EventService.searchWithVoice(text).then(function (data) {
-                        console.log('result wit', data.entities.search_query[0].value);
+                EventService.searchWithVoice(text).then(function (data) {
+                    console.log('result wit'+data.entities.search_query[0].value);
 
-                        if (data.entities.search_query[0].value == "conference")
-                            vm.search.eventType = "Conference";
-                        else if (data.entities.search_query[0].value == "Workshop")
-                        {
-                            vm.search.eventType = "Class_Workshop";
-                        }
-                        else if (data.entities.search_query[0].value == "meeting")
-                            vm.search.eventType = "Meeting";
+                    // vm.search= data.entities.search_query[0].value;
 
+                    if ((data.entities.search_query[0].value == "conference")&&(data.entities.search_query[0].value == "Conference")) {
+                        vm.search.eventType = "Conference";
+                        console.log("want conference");
 
-                    }, function (err) {
-                        console.log('error', err);
-                    });
+                    }
+                    else if ((data.entities.search_query[0].value === "Workshop")&&(data.entities.search_query[0].value === "workshop")) {
+                        vm.search.eventType = "Class_Workshop";
+                        console.log("want workshop");
 
+                    }
+                    else if ((data.entities.search_query[0].value == "meeting")&&(data.entities.search_query[0].value == "Meeting")) {
+                        vm.search.eventType = "Meeting";
+                        console.log("want meeting");
+                    }
+
+                }, function (err) {
+                    console.log('error', err);
+                });
 
 
             }
@@ -235,51 +247,7 @@
         // ** Event Listing end **//
 
 
-        // ** Event Detail start **/
-
-
-        //getting event id passed in params to get event
-        vm.eventId = $stateParams.eventId;
         vm.userConnectedId = 1;
-
-
-        vm.getSelectedEvent = function () {
-            // console.log(eventId);
-            EventService.getEventByID(vm.eventId).$promise.then(function (data) {
-                vm.eventToDisplay = data;
-                vm.initMap();
-
-                vm.getRateForEvent(vm.eventToDisplay.id).then(function (data) {
-                    if (data.id)
-                        vm.eventToDisplay.rateAvg = roundDecimal(data.rateAvg, 1);
-                });
-
-                // console.log(vm.eventToDisplay);
-                // console.log(vm.eventToDisplay.latitude,vm.eventToDisplay.longitude);
-
-
-                // Longitude and latitude to Adress
-                EventService.getAddress(vm.eventToDisplay.latitude, vm.eventToDisplay.longitude).then(function (data) {
-                    // console.log('adress',data.data.results[0]);
-                    vm.adress = data.data.results[0].formatted_address;
-                }, function (err) {
-                    console.log('error', err);
-                });
-
-
-                EventService.getMyTickets(vm.eventToDisplay.id).then(function (data) {
-                    if (data.length > 0) {
-                        // console.log('tickets before',data);
-
-                        vm.eventToDisplay.tickets = data;
-                    }
-                });
-                console.log('ticket for selected', vm.eventToDisplay)
-
-            });
-
-
-        };
 
 
         vm.giveHeart = function (event) {
@@ -327,72 +295,6 @@
             }
         };
 
-
-        // ** Event Detail end **/
-
-
-        // ** Create Event start **/
-
-
-        // DateTime Picker Initiation
-        vm.datetimepickerStart = {
-            date: new Date()
-        };
-        vm.datetimepickerEnd = {
-            date: new Date()
-        };
-
-        vm.openCalendar = function (e, datetimepicker) {
-            // e.preventDefault();
-            // e.stopPropagation();
-
-            vm[datetimepicker].open = true;
-        };
-
-
-        vm.add = function () {
-
-            vm.event.createdAt = new Date();
-            console.log("added", vm.event)
-
-            EventService.addEvent(vm.event).then(function () {
-                vm.getEvents();
-                $state.go('events');
-            });
-        };
-
-        // ** Create Event end **/
-
-
-        // Nearby Events Start **/
-
-        vm.getGeoLocation = function () {
-            $geolocation.getCurrentPosition({
-                timeout: 60000
-            }).then(function (position) {
-
-                console.log(position);
-                vm.myPosition = position;
-
-
-                //Real one
-                // EventService.getNearbyEvents(vm.myPosition.coords.longitude,vm.myPosition.coords.latitude).then(function (data) {
-                //     console.log('data',data);
-                //     vm.nearByEvents = data;
-                // });
-
-                //For Test
-                EventService.getNearbyEvents(10.19, 36.90).then(function (data) {
-                    console.log('data', data);
-                    vm.nearByEvents = data;
-                });
-
-
-            });
-
-
-        };
-        // Nearby Events End **/
 
 
         function roundDecimal(nombre, precision) {
