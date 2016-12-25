@@ -22,6 +22,7 @@
                     url: 'http://localhost:18080/Eventify-web/rest/tickets/getByEvent/:idEvent',
                     params: {
                         idEvent: '@idEvent',
+
                     },
                     method: 'GET',
                     isArray: true

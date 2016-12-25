@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    TicketCtrl.$inject = ['TicketService', '$state', '$scope', '$timeout'];
+    TicketCtrl.$inject = ['TicketService', '$state', '$scope', '$timeout','$rootScope','$window'];
     /**End Of Injection**/
 
 
@@ -45,7 +45,7 @@
      * @param UserService
      * @param $state
      */
-    function TicketCtrl(TicketService, $state, $scope, $timeout) {
+    function TicketCtrl(TicketService, $state, $scope, $timeout,$rootScope,$window) {
 
 
         var vm = this;
@@ -60,18 +60,42 @@
         /**END GET EVENT BY ID*/
 
 
+        /**Store Real Ticket Numbers*/
+
+        TicketService.getEventTickets(1).then(function (data) {
+            vm.realtickets = data;
+        });
+        /**END Store Ticket Numbers*/
+
+
+
         /** Update Ticket Numbers */
         vm.updatehahi = function () {
             TicketService.getEventTickets(1).then(function (data) {
                 vm.ticketss = data;
                 // vm.data = vm.events.slice(0, 3);
-
+                $state.go('reservateForEvent', {eventIDD: 1,tickets:vm.realtickets});
                 vm.ticketss.forEach(function (ticket) {
                     console.log("ti ahaya mrigla:",ticket);
 
                     ticket.nbTickets = ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]);
 
                     TicketService.updateNbTicket(ticket);
+
+
+                        var total = ticketnumber[ticket.id]*ticket.priceTicket;
+
+
+
+                    $scope.sales = {
+
+                        total:total
+
+
+                    }
+
+                    $scope.sales=   JSON.parse(localStorage["fav"]);
+
 
 
                 });
@@ -87,7 +111,7 @@
         /**Navigation And Update Ticket Numbers*/
         vm.goToBooking = function () {
             /*TODO Add event id*/
-            $state.go('reservateForEvent', {eventIDD: 1});
+         //   $state.go('reservateForEvent', {eventIDD: 1});
 
 
         };

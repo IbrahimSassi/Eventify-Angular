@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout','$stateParams','TicketService'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout','$stateParams','TicketService','$window'];
     /**End Of Injection**/
 
 
@@ -32,7 +32,8 @@
                 templateUrl: '../reservation/views/eventBooking.html',
                 controller: 'ReservationCtrl as createReservation',
                 params: {
-                    eventIDD: null
+                    eventIDD: null,
+                    tickets:null,
                 }
             })
 
@@ -46,10 +47,17 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout,$stateParams,TicketService) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout,$stateParams,TicketService,$window) {
 
 
         var vm = this;
+
+        //Initialising tickets value
+
+        vm.ticketsToShow = $stateParams.tickets;
+
+        //END init tickets value
+
 
         /**Working with changing checkbox value*/
         var checkbox = false;
@@ -62,6 +70,11 @@
             }
             console.log("Payment checkbox value", checkbox);
             console.log($stateParams.eventIDD);
+            console.log($stateParams.tickets);
+            console.log("haw lbyou3: ",JSON.parse(localStorage.sales));
+
+            $scope.fav = JSON.parse(localStorage["fav"]);
+
 
         };
         /**END Working with changing checkbox value*/
@@ -118,7 +131,7 @@
 
         /**Reservation Timer**/
 
-        $scope.counter = 100;
+        $scope.counter = 40;
 
 
         $scope.onTimeout = function () {
@@ -128,6 +141,27 @@
 
                 alert("Lkabar Wfé");
                 $timeout.cancel(mytimeout);
+
+
+                /** Update Ticket Numbers */
+
+
+
+                $stateParams.tickets.forEach(function (ticket) {
+
+                            TicketService.updateNbTicket(ticket);
+
+
+                        });
+
+
+
+
+
+
+                /**END Update Ticket Numbers */
+
+
 
             }
         }
