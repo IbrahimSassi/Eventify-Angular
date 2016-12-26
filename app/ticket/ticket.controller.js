@@ -82,7 +82,7 @@
 
                     TicketService.updateNbTicket(ticket);
 
-
+/*
                         var total = ticketnumber[ticket.id]*ticket.priceTicket;
 
 
@@ -96,7 +96,7 @@
 
                     $scope.sales=   JSON.parse(localStorage["fav"]);
 
-
+*/
 
                 });
 

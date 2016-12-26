@@ -59,6 +59,37 @@
         //END init tickets value
 
 
+        //TRYING TO SEVE IN LOCAL STORAGE
+        var service = {
+
+            model: {
+                name: '',
+                email: ''
+            },
+
+            SaveState: function () {
+                sessionStorage.userService = angular.toJson(service.model);
+            },
+
+            RestoreState: function () {
+                service.model = angular.fromJson(sessionStorage.userService);
+            }
+        }
+
+        $rootScope.$on("savestate", service.SaveState);
+        sessionStorage.userService = angular.toJson(service.model);
+        console.log("Wiiiiw",angular.fromJson(sessionStorage.userService));
+        //END TRYING TO SEVE IN LOCAL STORAGE
+
+
+
+
+
+
+
+
+
+
         /**Working with changing checkbox value*/
         var checkbox = false;
         vm.stateChanged = function () {
@@ -71,9 +102,22 @@
             console.log("Payment checkbox value", checkbox);
             console.log($stateParams.eventIDD);
             console.log($stateParams.tickets);
-            console.log("haw lbyou3: ",JSON.parse(localStorage.sales));
 
-            $scope.fav = JSON.parse(localStorage["fav"]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         };
@@ -131,7 +175,7 @@
 
         /**Reservation Timer**/
 
-        $scope.counter = 40;
+        $scope.counter = 5;
 
 
         $scope.onTimeout = function () {
