@@ -15,7 +15,19 @@
         return $resource('http://localhost:18080/Eventify-web/rest/transaction/:id',
             {id: '@id'},
             {
-                'update': {method: 'PUT'}
+                'update': {method: 'PUT'},
+
+
+                'payReservation': {
+                    url: 'http://localhost:18080/Eventify-web/rest/transaction/paypal/pay/:idReservation',
+                    params: {
+                        idReservation: '@idReservation',
+
+                    },
+                    method: 'GET'
+
+
+                }
             }
         );
     }

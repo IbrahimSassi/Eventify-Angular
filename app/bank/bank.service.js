@@ -14,7 +14,7 @@
     function BankServiceFN(BankFactory, $http) {
 
         this.BankByData = function (name,num,expmonth,expyear,ccv) {
-            return BankFactory.get({name: name,num: num,expmonth: expmonth,expyear: expyear,ccv: ccv}).$promise;
+            return BankFactory.get({name: name,num: num,expmonth: expmonth,expyear: expyear,ccv: ccv});
         };
 
 

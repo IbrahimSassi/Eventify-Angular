@@ -1,6 +1,8 @@
 <link href="assets/reservationStufs/css/stepsstyle.css" rel="stylesheet">
 <link href="assets/reservationStufs/css/grey.css" rel="stylesheet">
 
+
+
 <style>
     label {
         display: inline-block;
@@ -222,7 +224,7 @@
                             <p>
                                 Just continue you booking normaly and you will be redirected to the paypal page </p>
                             <p>
-                                <img src="assets/reservationStufs/img/paypal_bt.png" alt="Image">
+                                <img class="myContainerElement" src="assets/reservationStufs/img/paypal_bt.png" alt="Image">
                             </p>
                         </fieldset>
                     </div><!--End step -->
@@ -313,16 +315,23 @@
                             <tbody>
 
 
-                            <tr >
+                            <tr ng-repeat="t in createReservation.ticketsToShow">
                                 <td>
-                                    ticketsToShow.typeTicket
+                                    {{t.typeTicket}}
                                 </td>
                                 <td class="text-right">
-                                    2
+                                    {{t.priceTicket}}
                                 </td>
                             </tr>
 
-
+                            <tr class="total">
+                                <td>
+                                    Total cost
+                                </td>
+                                <td class="text-right">
+                                    {{createReservation.totals.total}}
+                                </td>
+                            </tr>
 
                             </tbody>
                         </table>

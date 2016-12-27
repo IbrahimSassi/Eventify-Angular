@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout','$stateParams','TicketService','$window'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout', '$stateParams', 'TicketService','TransactionService'];
     /**End Of Injection**/
 
 
@@ -33,7 +33,7 @@
                 controller: 'ReservationCtrl as createReservation',
                 params: {
                     eventIDD: null,
-                    tickets:null,
+                    tickets: null,
                 }
             })
 
@@ -47,15 +47,20 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout,$stateParams,TicketService,$window) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout, $stateParams, TicketService, TransactionService) {
 
 
         var vm = this;
 
+
+
+
+            console.log("paypalctrl: ",  TransactionService.payReservation(1).id);
+
+
         //Initialising tickets value
-
         vm.ticketsToShow = $stateParams.tickets;
-
+        vm.totals = angular.fromJson(sessionStorage.sales);
         //END init tickets value
 
 
@@ -78,16 +83,8 @@
 
         $rootScope.$on("savestate", service.SaveState);
         sessionStorage.userService = angular.toJson(service.model);
-        console.log("Wiiiiw",angular.fromJson(sessionStorage.userService));
+        console.log("Wiiiiw", angular.fromJson(sessionStorage.sales));
         //END TRYING TO SEVE IN LOCAL STORAGE
-
-
-
-
-
-
-
-
 
 
         /**Working with changing checkbox value*/
@@ -104,22 +101,6 @@
             console.log($stateParams.tickets);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         };
         /**END Working with changing checkbox value*/
 
@@ -134,35 +115,92 @@
 
 
         /**Adding static values TODO **/
-        if ($rootScope.currentUser != null) {
+
             vm.reservation = {
-                amount: 555.23,
-                reservationDate: 1478069109000,
+
+                reservationDate: new Date(),
                 user: {id: $rootScope.currentUser.User.id},
 
-                ticket: {id: 1},
+
+
 
             }
-        }
+
         /**END Adding static values TODO **/
 
         /** Adding Reservation **/
         vm.add = function () {
             if ($scope.counter != 0) {
+                var bankResponse;
                 /**FOR CREDIT CARD*/
-                BankService.BankByData(vm.creditCard.name, vm.creditCard.num, vm.creditCard.expmonth, vm.creditCard.expyear, vm.creditCard.ccv).then(function (data) {
-                    console.log("CreditCardValidity: ", data);
-
-                });
-                /**END FOR CREDIT CARD*/
-
-                ReservationService.addReservation(vm.reservation).then(function () {
-                    vm.reservationsList();
-
-                    $state.go('reservation');
+                if (checkbox == true) {
+                    // bankResponse=  BankService.BankByData(vm.creditCard.name, vm.creditCard.num, vm.creditCard.expmonth, vm.creditCard.expyear, vm.creditCard.ccv);
+                    bankResponse = true;
+                    /**END FOR CREDIT CARD*/
+                    console.log("uuuuuuuuhh: ", bankResponse);
+                    if (bankResponse == true) {
 
 
-                });
+
+                        vm.ticketsToShow.forEach(function (ticket) {
+
+
+                            vm.reservation.ticket={id: 1};
+                            vm.reservation.amount=ticket.priceTicket;
+                            vm.reservation.paymentMethod="CreditCard";
+
+
+                            ReservationService.addReservation(vm.reservation).then(function () {
+                                // vm.reservationsList();
+
+                                $state.go('reservation');
+
+
+                            });
+
+
+                        });
+
+
+
+
+
+                    }
+
+                }
+
+                else
+                {
+
+
+                    vm.ticketsToShow.forEach(function (ticket) {
+
+
+                        vm.reservation.ticket={id: 1};
+                        vm.reservation.amount=ticket.priceTicket;
+                        vm.reservation.paymentMethod="Paypal";
+
+
+                        ReservationService.addReservation(vm.reservation).then(function () {
+                            // vm.reservationsList();
+
+                            $state.go('reservation');
+
+
+                        });
+
+
+                    });
+
+
+
+
+
+
+                }
+
+
+
             }
 
             else {
@@ -175,7 +213,7 @@
 
         /**Reservation Timer**/
 
-        $scope.counter = 5;
+        $scope.counter = 1200;
 
 
         $scope.onTimeout = function () {
@@ -193,18 +231,13 @@
 
                 $stateParams.tickets.forEach(function (ticket) {
 
-                            TicketService.updateNbTicket(ticket);
+                    TicketService.updateNbTicket(ticket);
 
 
-                        });
-
-
-
-
+                });
 
 
                 /**END Update Ticket Numbers */
-
 
 
             }

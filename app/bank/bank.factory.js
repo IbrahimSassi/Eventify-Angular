@@ -17,6 +17,7 @@
             {
                 'update': {method: 'PUT'}
             }
+
         );
     }
 

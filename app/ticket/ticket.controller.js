@@ -68,6 +68,9 @@
         /**END Store Ticket Numbers*/
 
 
+var totals=0;
+var sales;
+var salesCount=0;
 
         /** Update Ticket Numbers */
         vm.updatehahi = function () {
@@ -82,26 +85,27 @@
 
                     TicketService.updateNbTicket(ticket);
 
-/*
-                        var total = ticketnumber[ticket.id]*ticket.priceTicket;
 
+                         totals =  totals+((parseInt(vm.ticketnumber[ticket.id]))*ticket.priceTicket);
+                    console.log("totale: ",totals);
 
+                   sales = {
 
-                    $scope.sales = {
-
-                        total:total
+                        total:totals,
 
 
                     }
 
-                    $scope.sales=   JSON.parse(localStorage["fav"]);
 
-*/
+                    sessionStorage.sales = angular.toJson(sales);
+
+
+
 
                 });
 
-
             });
+
 
 
         };
