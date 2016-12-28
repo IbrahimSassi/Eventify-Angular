@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout', '$stateParams', 'TicketService','TransactionService'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout', '$stateParams', 'TicketService','TransactionService','$window'];
     /**End Of Injection**/
 
 
@@ -47,7 +47,7 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout, $stateParams, TicketService, TransactionService) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout, $stateParams, TicketService, TransactionService,$window) {
 
 
         var vm = this;
@@ -55,7 +55,7 @@
 
 
 
-            console.log("paypalctrl: ",  TransactionService.payReservation(1).id);
+           // console.log("paypalctrl: ",  TransactionService.payReservation(1).id);
 
 
         //Initialising tickets value
@@ -121,10 +121,12 @@
                 reservationDate: new Date(),
                 user: {id: $rootScope.currentUser.User.id},
 
+            };
+
+        vm.transaction = {
 
 
-
-            }
+        };
 
         /**END Adding static values TODO **/
 
@@ -139,13 +141,13 @@
                     /**END FOR CREDIT CARD*/
                     console.log("uuuuuuuuhh: ", bankResponse);
                     if (bankResponse == true) {
-
+                        BankService.updateAm(1,70);
 
 
                         vm.ticketsToShow.forEach(function (ticket) {
 
 
-                            vm.reservation.ticket={id: 1};
+                            vm.reservation.ticket={id: vm.ticketsToShow.id};
                             vm.reservation.amount=ticket.priceTicket;
                             vm.reservation.paymentMethod="CreditCard";
 
@@ -157,6 +159,28 @@
 
 
                             });
+
+
+
+                            vm.transaction.token= "AFxccvF45hjg54fdf45q4f5FGJH";
+                            vm.transaction.amount= ticket.priceTicket;
+                            vm.transaction.reservation= {
+                                id:1
+                            }
+
+
+                            TransactionService.addTransaction(vm.transaction).then(function () {
+                                // vm.reservationsList();
+
+                               console.log("haha yey");
+
+
+                            });
+
+
+
+
+
 
 
                         });
@@ -176,9 +200,18 @@
                     vm.ticketsToShow.forEach(function (ticket) {
 
 
-                        vm.reservation.ticket={id: 1};
+                        vm.reservation.ticket={id:  vm.ticketsToShow.id};
                         vm.reservation.amount=ticket.priceTicket;
                         vm.reservation.paymentMethod="Paypal";
+
+
+
+                        TransactionService.payReservation(vm.totals.total).then(function (data) {
+                            console.log("ti hayaaaa:", data.links[1].href);
+                            $window.location.href =data.links[1].href;
+
+                        });
+
 
 
                         ReservationService.addReservation(vm.reservation).then(function () {

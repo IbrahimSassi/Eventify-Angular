@@ -17,7 +17,9 @@
             return BankFactory.get({name: name,num: num,expmonth: expmonth,expyear: expyear,ccv: ccv});
         };
 
-
+        this.updateAm = function (cardNumber,amount) {
+            return BankFactory.updateAmount({cardNumber: cardNumber, amount:amount});
+        };
 
 
 
