@@ -1,0 +1,6 @@
+<div class="container">
+    <span ng-init="task.getTaskByOrganizer()"></span>
+    <div ng-repeat=" myTask in task.tasks">
+        {{myTask.taskDescription}}
+    </div>
+</div>
