@@ -16,6 +16,7 @@ angular
         'EventifyApp.organization',
         'EventifyApp.comments',
         'EventifyApp.bank',
+        'EventifyApp.task',
         'ngResource'
 
     ])

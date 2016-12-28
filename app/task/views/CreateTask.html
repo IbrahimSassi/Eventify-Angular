@@ -1,0 +1,27 @@
+<div class="container">
+    <span></span>
+
+
+   <form>
+      Task Title : <br>
+       <input class="form-control" type="text" ng-model="taskCreate.task.taskTitle"><br><br>
+
+       Full Description of the Task : <br><br>
+
+       <input class="form-control" type="text" ng-model="taskCreate.task.taskDescription"><br><br>
+
+       Select The current Event of the task : <br><br>
+       <select class="form-control" ng-model="taskCreate.selectedEvent" >
+           <option value="{{event.id}}" ng-repeat="event in taskCreate.events">{{event.title}}</option>
+       </select>
+       <br><br>
+       <button class="btn btn-default" ng-click="taskCreate.add()">Add Task</button>
+       <br>
+   </form>
+
+
+
+
+
+
+</div>
