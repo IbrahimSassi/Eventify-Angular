@@ -8,17 +8,17 @@
         .module('EventifyApp.bank')
         .service('BankService', BankServiceFN);
 
-    BankServiceFN.$inject = ['BankFactory', '$http'];
+    BankServiceFN.$inject = ['BankFactory', '$http','BankFactoryII'];
 
 
-    function BankServiceFN(BankFactory, $http) {
+    function BankServiceFN(BankFactory, $http,BankFactoryII) {
 
         this.BankByData = function (name,num,expmonth,expyear,ccv) {
             return BankFactory.get({name: name,num: num,expmonth: expmonth,expyear: expyear,ccv: ccv});
         };
 
-        this.updateAm = function (cardNumber,amount) {
-            return BankFactory.updateAmount({cardNumber: cardNumber, amount:amount});
+        this.updateAmount = function (cardNumber,amount) {
+            return BankFactoryII.updateAmount({cardNumber: cardNumber, amount:amount});
         };
 
 

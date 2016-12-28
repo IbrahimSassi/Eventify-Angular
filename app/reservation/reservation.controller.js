@@ -141,9 +141,9 @@
                     /**END FOR CREDIT CARD*/
                     console.log("uuuuuuuuhh: ", bankResponse);
                     if (bankResponse == true) {
-                        BankService.updateAm(1,70);
 
 
+                        BankService.updateAmount(vm.creditCard.name,vm.totals.total);
                         vm.ticketsToShow.forEach(function (ticket) {
 
 
@@ -153,27 +153,51 @@
 
 
                             ReservationService.addReservation(vm.reservation).then(function () {
-                                // vm.reservationsList();
 
-                                $state.go('reservation');
+
+
 
 
                             });
 
+                            ReservationService.getAllReservations().then(function (data) {
 
+                                data.forEach(function (reser) {
+
+
+
+                                    //TRYING TO SEVE IN LOCAL STORAGE
+                                    var idres = {
+
+                                        id:reser.id
+
+
+                                    }
+
+
+                                    sessionStorage.lastRes = angular.toJson(idres);
+
+                                    console.log("zebouuuuuuu",angular.toJson(idres));
+
+
+
+
+
+
+                                });
+
+
+
+                            });
 
                             vm.transaction.token= "AFxccvF45hjg54fdf45q4f5FGJH";
                             vm.transaction.amount= ticket.priceTicket;
                             vm.transaction.reservation= {
-                                id:1
+                                id:((angular.fromJson(sessionStorage.lastRes)).id)+1
                             }
 
-
+                               console.log("zebiiiii",angular.fromJson(sessionStorage.lastRes));
                             TransactionService.addTransaction(vm.transaction).then(function () {
-                                // vm.reservationsList();
-
-                               console.log("haha yey");
-
 
                             });
 
