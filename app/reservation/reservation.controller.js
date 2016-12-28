@@ -161,15 +161,15 @@
                             });
 
                             ReservationService.getAllReservations().then(function (data) {
-
+var c=0;
                                 data.forEach(function (reser) {
-
+c++;
 
 
                                     //TRYING TO SEVE IN LOCAL STORAGE
                                     var idres = {
 
-                                        id:reser.id
+                                        id:c
 
 
                                     }
@@ -177,7 +177,7 @@
 
                                     sessionStorage.lastRes = angular.toJson(idres);
 
-                                    console.log("zebouuuuuuu",angular.toJson(idres));
+                                    console.log("hh",angular.toJson(idres));
 
 
 
@@ -196,7 +196,7 @@
                                 id:((angular.fromJson(sessionStorage.lastRes)).id)+1
                             }
 
-                               console.log("zebiiiii",angular.fromJson(sessionStorage.lastRes));
+                               console.log("haaha",angular.fromJson(sessionStorage.lastRes));
                             TransactionService.addTransaction(vm.transaction).then(function () {
 
                             });
