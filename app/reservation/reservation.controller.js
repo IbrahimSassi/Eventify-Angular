@@ -88,7 +88,7 @@
 
         $rootScope.$on("savestate", service.SaveState);
         sessionStorage.userService = angular.toJson(service.model);
-        console.log("Wiiiiw", angular.fromJson(sessionStorage.sales));
+        console.log("Hey", angular.fromJson(sessionStorage.sales));
         //END TRYING TO SEVE IN LOCAL STORAGE
 
 
@@ -133,13 +133,12 @@
         /**END Adding static values TODO **/
 
 
-
         /**Init After Paying Paypal*/
 
 
         this.paypalCompleted = function () {
 
-var tiki = angular.fromJson(sessionStorage.allticketstobuy);
+            var tiki = angular.fromJson(sessionStorage.allticketstobuy);
             tiki.forEach(function (ticket) {
 
 
@@ -193,15 +192,10 @@ var tiki = angular.fromJson(sessionStorage.allticketstobuy);
             });
 
 
-
-
-
         }
 
 
         /**End of init paying after paypal*/
-
-
 
 
         /** Adding Reservation **/
@@ -279,22 +273,11 @@ var tiki = angular.fromJson(sessionStorage.allticketstobuy);
                 else {
 
 
+                    TransactionService.payReservation(vm.totals.total).then(function (data) {
+                        console.log("ti hayaaaa:", data.links[1].href);
+                        $window.location.href = data.links[1].href;
 
-
-
-
-
-
-
-
-                        TransactionService.payReservation(vm.totals.total).then(function (data) {
-                            console.log("ti hayaaaa:", data.links[1].href);
-                            $window.location.href = data.links[1].href;
-
-                        });
-
-
-
+                    });
 
 
                 }
