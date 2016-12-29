@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout', '$stateParams', 'TicketService','TransactionService','$window'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout', '$stateParams', 'TicketService', 'TransactionService', '$window'];
     /**End Of Injection**/
 
 
@@ -36,6 +36,11 @@
                     tickets: null,
                 }
             })
+            .state('thanks', {
+                url: '/thanks',
+                templateUrl: '../reservation/views/thanks.html',
+                controller: 'ReservationCtrl as reservationCompleted'
+            })
 
         ;
 
@@ -47,20 +52,20 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout, $stateParams, TicketService, TransactionService,$window) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout, $stateParams, TicketService, TransactionService, $window) {
 
 
         var vm = this;
 
 
-
-
-           // console.log("paypalctrl: ",  TransactionService.payReservation(1).id);
+        // console.log("paypalctrl: ",  TransactionService.payReservation(1).id);
 
 
         //Initialising tickets value
         vm.ticketsToShow = $stateParams.tickets;
         vm.totals = angular.fromJson(sessionStorage.sales);
+
+
         //END init tickets value
 
 
@@ -116,22 +121,92 @@
 
         /**Adding static values TODO **/
 
-            vm.reservation = {
+        vm.reservation = {
 
-                reservationDate: new Date(),
-                user: {id: $rootScope.currentUser.User.id},
-
-            };
-
-        vm.transaction = {
-
+            reservationDate: new Date(),
+            user: {id: $rootScope.currentUser.User.id},
 
         };
 
+        vm.transaction = {};
+
         /**END Adding static values TODO **/
+
+
+
+        /**Init After Paying Paypal*/
+
+
+        this.paypalCompleted = function () {
+
+var tiki = angular.fromJson(sessionStorage.allticketstobuy);
+            tiki.forEach(function (ticket) {
+
+
+                vm.reservation.ticket = {id: ticket.id};
+                vm.reservation.amount = ticket.priceTicket;
+                vm.reservation.paymentMethod = "Paypal";
+
+
+                ReservationService.addReservation(vm.reservation).then(function () {
+
+
+                });
+
+                ReservationService.getAllReservations().then(function (data) {
+
+                    data.forEach(function (reser) {
+
+
+
+                        //TRYING TO SEVE IN LOCAL STORAGE
+                        var idres = {
+
+                            id: reser.id
+
+
+                        }
+
+
+                        sessionStorage.lastRes = angular.toJson(idres);
+
+                        console.log("hh", angular.toJson(idres));
+
+
+                    });
+
+
+                });
+
+                vm.transaction.token = "AFxccvF45hjg54fdf45q4f5FGJH";
+                vm.transaction.amount = ticket.priceTicket;
+                vm.transaction.reservation = {
+                    id: 1 + 1
+                }
+
+                console.log("haaha", angular.fromJson(sessionStorage.lastRes));
+                TransactionService.addTransaction(vm.transaction).then(function () {
+
+                });
+
+
+            });
+
+
+
+
+
+        }
+
+
+        /**End of init paying after paypal*/
+
+
+
 
         /** Adding Reservation **/
         vm.add = function () {
+            sessionStorage.allticketstobuy = angular.toJson(vm.ticketsToShow);
             if ($scope.counter != 0) {
                 var bankResponse;
                 /**FOR CREDIT CARD*/
@@ -143,33 +218,30 @@
                     if (bankResponse == true) {
 
 
-                        BankService.updateAmount(vm.creditCard.name,vm.totals.total);
+                        BankService.updateAmount(vm.creditCard.name, vm.totals.total);
                         vm.ticketsToShow.forEach(function (ticket) {
 
 
-                            vm.reservation.ticket={id: vm.ticketsToShow.id};
-                            vm.reservation.amount=ticket.priceTicket;
-                            vm.reservation.paymentMethod="CreditCard";
+                            vm.reservation.ticket = {id: vm.ticketsToShow.id};
+                            vm.reservation.amount = ticket.priceTicket;
+                            vm.reservation.paymentMethod = "CreditCard";
 
 
                             ReservationService.addReservation(vm.reservation).then(function () {
 
 
-
-
-
                             });
 
                             ReservationService.getAllReservations().then(function (data) {
-var c=0;
+
                                 data.forEach(function (reser) {
-c++;
+
 
 
                                     //TRYING TO SEVE IN LOCAL STORAGE
                                     var idres = {
 
-                                        id:c
+                                        id: reser.id
 
 
                                     }
@@ -177,85 +249,55 @@ c++;
 
                                     sessionStorage.lastRes = angular.toJson(idres);
 
-                                    console.log("hh",angular.toJson(idres));
-
-
-
-
+                                    console.log("hh", angular.toJson(idres));
 
 
                                 });
 
 
-
                             });
 
-                            vm.transaction.token= "AFxccvF45hjg54fdf45q4f5FGJH";
-                            vm.transaction.amount= ticket.priceTicket;
-                            vm.transaction.reservation= {
-                                id:((angular.fromJson(sessionStorage.lastRes)).id)+1
+                            vm.transaction.token = "AFxccvF45hjg54fdf45q4f5FGJH";
+                            vm.transaction.amount = ticket.priceTicket;
+                            vm.transaction.reservation = {
+                                id: ((angular.fromJson(sessionStorage.lastRes)).id) + 1
                             }
 
-                               console.log("haaha",angular.fromJson(sessionStorage.lastRes));
+                            console.log("haaha", angular.fromJson(sessionStorage.lastRes));
                             TransactionService.addTransaction(vm.transaction).then(function () {
 
                             });
 
 
-
-
-
-
-
                         });
-
-
-
 
 
                     }
 
                 }
 
-                else
-                {
+                else {
 
 
-                    vm.ticketsToShow.forEach(function (ticket) {
 
 
-                        vm.reservation.ticket={id:  vm.ticketsToShow.id};
-                        vm.reservation.amount=ticket.priceTicket;
-                        vm.reservation.paymentMethod="Paypal";
+
+
+
 
 
 
                         TransactionService.payReservation(vm.totals.total).then(function (data) {
                             console.log("ti hayaaaa:", data.links[1].href);
-                            $window.location.href =data.links[1].href;
+                            $window.location.href = data.links[1].href;
 
                         });
-
-
-
-                        ReservationService.addReservation(vm.reservation).then(function () {
-                            // vm.reservationsList();
-
-                            $state.go('reservation');
-
-
-                        });
-
-
-                    });
-
 
 
 
 
 
                 }
-
 
 
             }
