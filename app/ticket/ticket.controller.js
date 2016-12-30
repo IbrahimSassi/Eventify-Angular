@@ -7,7 +7,7 @@
     /**My Module init**/
     angular
         .module('EventifyApp.ticket', [
-            'ui.router',
+            'ui.router','monospaced.qrcode'
         ])
         .config(config)
         .controller('TicketCtrl', TicketCtrl);

@@ -7,7 +7,7 @@
     /**My Module init**/
     var a = angular
         .module('EventifyApp.reservation', [
-            'ui.router',
+            'ui.router','monospaced.qrcode'
         ])
         .config(config)
         .controller('ReservationCtrl', ReservationCtrl);
@@ -40,6 +40,12 @@
                 url: '/thanks',
                 templateUrl: '../reservation/views/thanks.html',
                 controller: 'ReservationCtrl as reservationCompleted'
+            })
+
+            .state('participatedEvents', {
+                url: '/participatedevents',
+                templateUrl: '../reservation/views/ParticipatedEvents.html',
+                controller: 'ReservationCtrl as reservationCtrl'
             })
 
         ;
