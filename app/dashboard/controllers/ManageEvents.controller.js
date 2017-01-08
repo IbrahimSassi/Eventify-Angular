@@ -52,9 +52,10 @@
 
         vm.getMyEvents = function () {
             EventService.getEventsByOrganization(vm.SelectedOrganization).then(function (data) {
-                console.log(data);
                 vm.myEvents = data;
+
             });
+
 
         }
 

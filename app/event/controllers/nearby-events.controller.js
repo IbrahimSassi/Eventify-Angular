@@ -84,32 +84,84 @@
                 mapOptions);
 
 
-
             vm.events.forEach(function (event) {
 
                 var imgBack = event.backgroundImage
-                var myLatlng = new google.maps.LatLng(event.latitude,event.longitude);
+                var myLatlng = new google.maps.LatLng(event.latitude, event.longitude);
                 var infowindow = new google.maps.InfoWindow({
-                    content : "<div>" +
-                    event.title+ "<br>" +
-                    event.theme+ "<br>" +
-                    "<img src='imgBack' alt=''>"+ "<br>" +
+                    content: "<div>" +
+                    event.title + "<br>" +
+                    event.theme + "<br>" +
+                    "<img class='img-thumbnail' src='"+imgBack+"' alt='' width='130' height='80'>" + "<br>" +
                     "</div>"
                 });
 
+                var marker;
+                if (event.category.categoryName == "Health") {
+                    marker = new google.maps.Marker({
+                        // draggable: true,
+                        map: map,
+                        position: myLatlng,
+                        animation: google.maps.Animation.BOUNCE,
+                        icon: "assets/img/map-marker-green.png"
+                    });
 
-                var marker = new google.maps.Marker({
-                    // draggable: true,
-                    map: map,
-                    position: myLatlng,
-                    animation: google.maps.Animation.DROP,
-                    icon :"assets/img/map-marker-green.png"
 
-                });
-                marker.addListener('click', function() {
+                }
+                else if (event.category.categoryName == "Business") {
+                        marker = new google.maps.Marker({
+                            // draggable: true,
+                            map: map,
+                            position: myLatlng,
+                            animation: google.maps.Animation.BOUNCE,
+                            icon: "assets/img/map-marker-azure.png"
+                        });
+
+                }
+                else if (event.category.categoryName == "Science_Technology") {
+                    marker = new google.maps.Marker({
+                        // draggable: true,
+                        map: map,
+                        position: myLatlng,
+                        animation: google.maps.Animation.BOUNCE,
+                        icon: "assets/img/map-marker-pink.png"
+                    });
+
+                }
+                else if (event.category.categoryName == "Business") {
+                     marker = new google.maps.Marker({
+                        // draggable: true,
+                        map: map,
+                        position: myLatlng,
+                        animation: google.maps.Animation.BOUNCE,
+                        icon: "assets/img/map-marker-pink.png"
+                    });
+
+                }
+                else if (event.category.categoryName == "Entertainment") {
+                     marker = new google.maps.Marker({
+                        // draggable: true,
+                        map: map,
+                        position: myLatlng,
+                        animation: google.maps.Animation.BOUNCE,
+                        icon: "assets/img/map-marker-white.png"
+                    });
+
+                }
+                else {
+                     marker = new google.maps.Marker({
+                        // draggable: true,
+                        map: map,
+                        position: myLatlng,
+                        animation: google.maps.Animation.BOUNCE
+                    });
+
+                }
+
+
+                marker.addListener('click', function () {
                     infowindow.open(map, marker);
                 });
-
 
 
             })
