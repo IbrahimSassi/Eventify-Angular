@@ -37,6 +37,8 @@
         };
 
 
+
+
         vm.getEditedEvent = function () {
             EventService.getEventByID(editedEventId).$promise.then(function (data) {
                 console.log(data);
