@@ -1,0 +1,38 @@
+<span ng-init="OrganizationEdit.displayToUpdate()">
+
+</span>
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="page-title">
+                <h1>Edit Organization</h1>
+            </div><!-- /.page-title -->
+
+            <form method="post" action="http://preview.byaviators.com/template/superlist/register.html?">
+                <div class="form-group">
+                    <label for="login-form-email">creationDate</label>
+                    <input type="email" class="form-control" name="email" id="login-form-email" ng-model="OrganizationEdit.editedOragnization.creationDate | date">
+                </div><!-- /.form-group -->
+
+                <div class="form-group">
+                    <label for="login-form-first-name">organizationName</label>
+                    <input type="text" class="form-control" name="first_name" id="login-form-first-name" ng-model="OrganizationEdit.editedOragnization.organizationName">
+                </div><!-- /.form-group -->
+
+                <div class="form-group">
+                    <label for="login-form-last-name">organizationType</label>
+                    <input type="text" class="form-control" name="last_name" id="login-form-last-name"ng-model="OrganizationEdit.editedOragnization.organizationType">
+                </div><!-- /.form-group -->
+
+
+                <button type="submit" class="btn btn-primary pull-right" ng-click="OrganizationEdit.update()">Edit</button>
+            </form>
+        </div><!-- /.col-sm-4 -->
+    </div><!-- /.row -->
+
+
+</div>
+

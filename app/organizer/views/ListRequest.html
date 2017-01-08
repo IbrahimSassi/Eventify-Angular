@@ -1,0 +1,20 @@
+<div ng-init="organizer.getNotAcceptedRequest()">
+
+    <ul>
+        <li ng-repeat=" r in organizer.requests">
+            <h1 ng-if="r.state=='SENT'">{{r.state}}</h1>
+
+            <a href="#" class="btn btn-xs btn-default" ng-click="organizer.accept({userId:r.organizerPK.idUser},{idOrganization:r.organizerPK.idOrganization})">ACCEPT</a>
+            <a href="#" class="btn btn-xs btn-default" ng-click="organizer.refuse({userId:r.organizerPK.idUser},{idOrganization:r.organizerPK.idOrganization})">Refuse</a>
+            <input ng-model="r.organizerPK.idUser" ng-value="r.organizerPK.idOrganization" value="r.organizerPK.idUser"/>
+{{r.myOrg.organizationName}}
+        </li>
+    </ul>
+
+
+
+</div>
+
+<h1>
+
+</h1>

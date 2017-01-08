@@ -2,26 +2,27 @@
 
 // Declare app level module which depends on views, and components
 angular
-    .module('EventifyApp',
-        [
-            'EventifyApp.home',
-            'EventifyApp.dashboard',
-            'EventifyApp.category',
-            'EventifyApp.wishlist',
-            'EventifyApp.event',
-            'EventifyApp.user',
-            'EventifyApp.reservation',
-            'EventifyApp.ticket',
-            'EventifyApp.transaction',
-            'EventifyApp.customForm',
-            'EventifyApp.organization',
-            'EventifyApp.comments',
-            'EventifyApp.bank',
-            'EventifyApp.favorite',
-            'EventifyApp.task',
-            'EventifyApp.rates',
-            'EventifyApp.referrel',
-            'ngResource'
+    .module('EventifyApp', [
+        'EventifyApp.home',
+        'EventifyApp.dashboard',
+        'EventifyApp.category',
+        'EventifyApp.wishlist',
+        'EventifyApp.event',
+        'EventifyApp.user',
+        'EventifyApp.reservation',
+        'EventifyApp.ticket',
+        'EventifyApp.transaction',
+        'EventifyApp.customForm',
+        'EventifyApp.organization',
+        'EventifyApp.comments',
+        'EventifyApp.bank',
+        'EventifyApp.favorite',
+        'EventifyApp.task',
+        'EventifyApp.organizer',
+        'EventifyApp.rates',
+        'EventifyApp.referrel',
+        'ngResource',
+
 
     ])
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
