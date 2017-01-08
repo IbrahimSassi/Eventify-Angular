@@ -15,7 +15,8 @@
         return $resource('http://localhost:18080/Eventify-web/rest/organization/:id',
             {id: '@id'},
             {
-                'update': {method: 'PUT'}
+                'update': {method: 'PUT'},
+                'get': {method: 'GET'}
             }
         );
     }

@@ -15,13 +15,28 @@
 
         this.getAllOrganizations = function () {
             return OrganizationFactory.query().$promise;
+        }
+
+        this.addOrganization = function (organization) {
+            console.log("ti ahaya",organization);
+            return OrganizationFactory.save(organization).$promise;
         };
 
+        this.deleteOrganization = function deleteOrganizationFN(organization) {
+            console.log("tfasa5",organization);
+            return organization.$delete();
+        }
+
+        this.updateOrganization =function updateOrganizationFN(organization) {
+            OrganizationFactory.update({id: organization.id}, organization);
+            console.log("Updated");
+        }
 
 
-
-
-
+        this.findOrganizationById=function findOrganizationByIdFN(OrganizationId) {
+          //  console.log("called112", OrganizationFactory.get({id: OrganizationId}));
+            return OrganizationFactory.get({id: OrganizationId});
+        }
     }
 
 

@@ -1,0 +1,205 @@
+<div ng-init="organizer.organizersList()">
+
+
+
+
+
+
+<div ng-repeat="o in organizer.organizers">
+
+
+
+  <h1> {{o.state}}</h1>
+
+
+</div>
+<br/>
+
+</div>
+
+
+
+
+
+
+
+<div class="container">
+
+
+
+  <div class="main">
+    <div class="main-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4 col-lg-3">
+            <div class="sidebar">
+              <div class="widget">
+                <div class="user-photo">
+                  <a href="#">
+                    <img src="assets/img/tmp/agent-2.jpg" alt="User Photo">
+                    <a ui-sref="registerUser">Register User</a>
+
+                  </a>
+                </div><!-- /.user-photo -->
+              </div><!-- /.widget -->
+
+
+
+
+            </div><!-- /.sidebar -->
+          </div><!-- /.col-* -->
+
+          <div class="col-sm-4 col-lg-4">
+            <div class="content">
+              <div class="page-title">
+                <h1>Edit Profile</h1>
+              </div><!-- /.page-title -->
+
+
+
+              <div class="background-white p20 mb30" ng-repeat="o in organizer.organizers">
+                <h3 class="page-title">
+                  {{o.state}}
+
+                  <a href="#" class="btn btn-primary btn-xs pull-right">Save</a>
+                </h3>
+
+                <div class="form-horizontal">
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Organization Name</label>
+
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" value="{{organization.organizationToDisplay.organizationName}}">
+                    </div><!-- /.col-* -->
+                  </div><!-- /.form-group -->
+
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Creation Date</label>
+
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" value="{{organization.organizationToDisplay.creationDate | date}}">
+                    </div><!-- /.col-* -->
+                  </div><!-- /.form-group -->
+
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Type</label>
+
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" value="{{organization.organizationToDisplay.organizationType}}">
+                    </div><!-- /.col-* -->
+                  </div><!-- /.form-group -->
+
+
+                </div><!-- /.form-inline -->
+              </div><!-- /.background-white -->
+
+
+
+
+            </div><!-- /.content -->
+          </div><!-- /.col-* -->
+
+
+
+
+
+
+
+
+          <div class="col-sm-2  col-lg-3">
+            <div class="sidebar">
+              <div class="widget">
+                <h2 class="widgettitle">Recent Listings</h2>
+
+
+
+
+
+
+                <div class="cards-small" ng-repeat="u in organization.users">
+                  <div class="card-small">
+                    <div class="card-small-image">
+                      <a href="listing-detail.html">
+                        <img src="{{u.profileImage}}" alt="Tasty Brazil Coffee">
+                      </a>
+                    </div><!-- /.card-small-image -->
+
+                    <div class="card-small-content">
+                      <h3><a href="listing-detail.html">{{u.firstName}} {{u.lastName}}</a></h3>
+                      <div class="card-small-price">You can invite this Organizer To Your Organization</div>
+                      <h4><a href="#" class="btn btn-xs btn-default" ng-click="organization.addOrganizer({userId:u.id})">ADD ORGANIZER</a></h4>
+
+
+                    </div><!-- /.card-small-content -->
+                  </div><!-- /.card-small -->
+                </div><!-- /.cards-small -->
+
+
+
+
+
+
+
+
+              </div><!-- /.widget -->
+
+            </div><!-- /.sidebar -->
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div><!-- /.row -->
+      </div><!-- /.container -->
+    </div><!-- /.main-inner -->
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+

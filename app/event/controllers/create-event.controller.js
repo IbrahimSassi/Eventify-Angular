@@ -35,6 +35,41 @@
         // ** Init end **//
 
 
+
+        //Getting All Events
+        vm.getEvents = function () {
+            EventService.getAllEvents().then(function (data) {
+                vm.events = data;
+
+                // vm.data = vm.events.slice(0, 3);
+
+                vm.events.forEach(function (event) {
+
+                    //getRate for each event and set it
+                    vm.getRateForEvent(event.id).then(function (data) {
+                        if (data.id)
+                            event.rateAvg = Math.round(data.rateAvg);
+                    });
+
+                    EventService.getMyTickets(event.id).then(function (data) {
+                        if (data.length > 0) {
+                            // console.log('tickets before',data);
+
+                            event.tickets = data;
+
+                        }
+
+
+                    });
+
+
+                });
+                console.log(vm.events);
+
+            });
+
+        };
+
         //** Shared start **/
 
         // Getting Categories to list them in the listbox
@@ -77,12 +112,14 @@
 
         vm.add = function () {
 
+            vm.event.organization = { id : 1};
             vm.event.createdAt = new Date();
-            console.log("added", vm.event)
 
-            EventService.addEvent(vm.event).then(function () {
+            EventService.addEvent(vm.event).then(function (data) {
                 vm.getEvents();
-                $state.go('events');
+                console.log(vm.events)
+                $state.go('addTickets',{"idEvent":vm.events[vm.events.length-1].id});
+
             });
         };
 

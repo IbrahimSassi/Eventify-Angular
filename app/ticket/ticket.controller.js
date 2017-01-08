@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    TicketCtrl.$inject = ['TicketService', '$state', '$scope', '$timeout','$rootScope','$window'];
+    TicketCtrl.$inject = ['TicketService', '$state', '$scope', '$timeout','$rootScope','$window',"$stateParams"];
     /**End Of Injection**/
 
 
@@ -23,7 +23,7 @@
     function config($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('addTickets', {
-                url: '/tickets',
+                url: '/tickets/:idEvent',
                 templateUrl: 'ticket/views/addTicket.html',
                 controller: 'TicketCtrl as createTicket'
             })
@@ -45,11 +45,10 @@
      * @param UserService
      * @param $state
      */
-    function TicketCtrl(TicketService, $state, $scope, $timeout,$rootScope,$window) {
+    function TicketCtrl(TicketService, $state, $scope, $timeout,$rootScope,$window,$stateParams) {
 
 
         var vm = this;
-
 
         /**GET EVENT BY ID*/
         TicketService.getTicketByID(1).$promise.then(function (data) {
@@ -77,9 +76,16 @@ var salesCount=0;
             TicketService.getEventTickets(1).then(function (data) {
                 vm.ticketss = data;
                 // vm.data = vm.events.slice(0, 3);
-                $state.go('reservateForEvent', {eventIDD: 1,tickets:vm.realtickets});
+
+
+
+
+
                 vm.ticketss.forEach(function (ticket) {
                     console.log("ti ahaya mrigla:",ticket);
+                    if( ((ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]))>0) || ((ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]))==0))
+                    {
+                        $state.go('reservateForEvent', {eventIDD: 1,tickets:vm.realtickets});
 
                     ticket.nbTickets = ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]);
 
@@ -99,7 +105,10 @@ var salesCount=0;
 
                     sessionStorage.sales = angular.toJson(sales);
 
-
+                    }
+                    else{
+                        console.log("waywaaaa");
+                    }
 
 
                 });
@@ -115,7 +124,7 @@ var salesCount=0;
         /**Navigation And Update Ticket Numbers*/
         vm.goToBooking = function () {
             /*TODO Add event id*/
-         //   $state.go('reservateForEvent', {eventIDD: 1});
+         //$state.go('reservateForEvent', {eventIDD: 1});
 
 
         };
@@ -169,20 +178,30 @@ var salesCount=0;
         vm.ticket = {
             backgroundImage: "",
 
-            event: {id: 1},
+            event: {id: $stateParams.idEvent},
 
 
         }
+
+
+
+
 
 
         /**List Tickets**/
         vm.getEventTickets = function () {
             console.log("called", TicketService.getEventTickets(1));
             TicketService.getEventTickets(1).then(function (data) {
-                console.log("Ticket: ", data);
+                console.log("Tickets: ", data);
                 vm.tickets = data;
             });
         }
+
+
+
+
+
+
 
 
     };

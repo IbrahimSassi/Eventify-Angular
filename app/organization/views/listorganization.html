@@ -1,10 +1,185 @@
-<span ng-init="organization.organizationsList()">
+<div class="container">
+    <span ng-init="organization.organizationsList()">
 
 
-<div ng-repeat="o in organization.organizations">
-    <h2>{{o.id}}</h2>
-    <h2>{{o.organizationName}}</h2>
+
+
+
+
+
+
+<div class="row">
+    <div class="col-sm-6" ng-repeat="o in organization.organizations">
+        <div class="testimonial">
+            <div class="testimonial-image">
+                <img src="{{o.user.profileImage}}" alt="">
+
+            </div><!-- /.testimonial-image -->
+
+            <div class="testimonial-inner">
+                <div class="testimonial-title">
+                    <h2>{{o.organizationName}}</h2>
+
+                    <div class="testimonial-rating">
+                        <span ng-if="o.organizationRate===undefined">
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+
+                        </span>
+                         <span ng-if="o.organizationRate!=undefined">
+
+
+
+
+                        <i ng-if="o.organizationRate>=1" class="fa fa-star"></i>
+                        <i ng-if="organizationRateHalf!=0 && o.organizationRate==1 " class="fa fa-star-half-o"></i>
+                        <span ng-if="o.organizationRate==1">
+                            <i ng-if="organizationRateHalf==0" class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </span>
+
+                             <i ng-if="o.organizationRate>=2" class="fa fa-star"></i>
+                        <i ng-if="organizationRateHalf!=0 && o.organizationRate==2" class="fa fa-star-half-o"></i>
+                             <span ng-if="o.organizationRate==2">
+                            <i ng-if="organizationRateHalf==0" class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </span>
+
+                             <i ng-if="o.organizationRate>=3" class="fa fa-star"></i>
+                        <i ng-if="organizationRateHalf!=0 && o.organizationRate==3" class="fa fa-star-half-o"></i>
+                             <span ng-if="o.organizationRate==3">
+                            <i ng-if="organizationRateHalf==0" class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </span>
+
+                             <i ng-if="o.organizationRate>=4" class="fa fa-star"></i>
+                        <i ng-if="organizationRateHalf!=0 && o.organizationRate==4 " class="fa fa-star-half-o"></i>
+                              <span ng-if="o.organizationRate==4">
+                            <i ng-if="organizationRateHalf==0" class="fa fa-star-o"></i>
+                        </span>
+
+                             <i ng-if="o.organizationRate==5" class="fa fa-star"></i>
+
+
+
+
+
+
+                         </span>
+
+
+
+
+
+
+                    </div><!-- /.testimonial-rating -->
+                </div><!-- /.testimonial-title -->
+
+               This Organization Created By {{o.user.firstName}} At {{o.creationDate | date}}.
+                Nullam ornare molestie ligula in luctus. Suspendisse ac cursus elit. Donec vel enim sit amet lorem vulputate condimentum.
+                <a href="blog-detail.html" ui-sref="organizationDetail({OrganizationId:o.id})">Read More <i
+                        class="fa fa-chevron-right"></i></a>
+                <hr/>
+                <div>
+                 <a href="#" class="fa fa-edit" ui-sref="EditOrganizations({OrganizationId: o.id})">Edit</a>
+                 <a href="#" class="fa fa-remove" ng-click="organization.delete(o,$index)">Remove</a> </div>
+                 <hr/>
+                <div class="testimonial-sign">- {{o.user.firstName}} {{o.user.lastName}}</div>
+                <!-- /.testimonial-sign -->
+            </div><!-- /.testimonial-inner -->
+        </div><!-- /.testimonial -->
+
+
+
+    </div>
+
+
 </div>
-<br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-5" ng-repeat="o in organization.organizations">
+
+            <div class="users">
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <td><a class="user" href="#"><img src="{{o.user.profileImage}}" alt=""></a></td>
+                <td class="hidden-xs visible-sm visible-md visible-lg">
+                    <h2> <a href="#"> {{o.organizationName}}</a></h2>
+                    <h3>{{o.creationDate}}</h3>
+                </td>
+                <td class="right">
+                    <a href="#" class="btn btn-xs btn-primary"
+                       ui-sref="EditOrganizations({OrganizationId: o.id})">Edit</a>
+                    <a href="#" class="btn btn-xs btn-danger" ng-click="organization.delete(o,$index)">Remove</a>
+                     <a href="#" class="btn btn-xs btn-default" ui-sref="organizationDetail({OrganizationId:o.id})">Details</a>
+                </td>
+            </tr>
+
+
+
+
+        </tbody>
+    </table>
+</div><!-- /.users -->
+
+        </div><!-- /.col-* -->
+
+        <!-- /.col-* -->
+    </div>
+
+
+        </tbody>
+        </table>
+</div>
 
 </span>
+
+
+</div>

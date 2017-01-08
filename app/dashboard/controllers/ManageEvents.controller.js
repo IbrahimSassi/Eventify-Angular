@@ -37,6 +37,8 @@
         };
 
 
+
+
         vm.getEditedEvent = function () {
             EventService.getEventByID(editedEventId).$promise.then(function (data) {
                 console.log(data);
@@ -52,9 +54,10 @@
 
         vm.getMyEvents = function () {
             EventService.getEventsByOrganization(vm.SelectedOrganization).then(function (data) {
-                console.log(data);
                 vm.myEvents = data;
+
             });
+
 
         }
 

@@ -1,0 +1,57 @@
+
+
+<div class="comments" ng-init="comments.getCommentByEventId()">
+
+    <div class="comment" ng-repeat="com in comments.commentList">
+        <div class="comment-image">
+            <img src="{{com.user.profileImage}}" alt="">
+        </div><!-- /.comment-image -->
+
+        <div class="comment-inner">
+            <div class="comment-header">
+                <h2>{{com.user.firstName}}</h2>
+                <span class="separator">&#8226;</span>
+                <span class="comment-date">09/01/2017</span>
+                <div class="comment-reply">
+                    <a ><button ng-click="comments.deleteComment(com.user.id,com.commentPK.idEvent)" class="fa fa-remove"></button> Delete</a>
+                </div><!-- /.comment-reply -->
+            </div><!-- /.comment-header -->
+
+            <div class="comment-content-wrapper">
+                <div class="comment-content">
+                    <p>{{com.contain}}.</p>
+                </div><!-- /.comment-content -->
+            </div><!-- /.comment-content-wrapper -->
+        </div><!-- /.comment-inner -->
+    </div><!-- /.comment -->
+
+</div><!-- /.comments -->
+
+
+
+<h2>Add Comment</h2>
+
+<div class="detail-enquire-form background-white p20">
+    <form method="post" action="http://preview.byaviators.com/template/superlist/listing-detail.html?">
+        <div class="form-group">
+            <label for="">Name</label>
+            <input ng-value="currentUser.User.firstName" type="text" class="form-control" name="" id="">
+        </div><!-- /.form-group -->
+
+        <div class="form-group">
+            <label for="">Email <span class="required">*</span></label>
+            <input ng-value="currentUser.User.firstName" type="email" class="form-control" name="" id="" required>
+        </div><!-- /.form-group -->
+
+        <div class="form-group">
+            <label for="">Message <span class="required">*</span></label>
+            <textarea ng-model="comments.comment.contain" class="form-control" name="" id="" rows="5" required></textarea>
+        </div><!-- /.form-group -->
+
+        <p>Required fields are marked <span class="required">*</span></p>
+
+        <button class="btn btn-primary btn-block" ng-click="comments.addCommentCTRL();"><i class="fa fa-paper-plane"></i>Add Your Comment</button>
+    </form>
+</div><!-- /.detail-enquire-form -->
+
+
