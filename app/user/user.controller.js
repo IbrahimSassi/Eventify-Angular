@@ -20,7 +20,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$qProvider', 'flowFactoryProvider','$facebookProvider'];
-    UserCtrl.$inject = ['UserService', '$state', '$scope','$facebook'];
+    UserCtrl.$inject = ['UserService', '$state', '$scope','$facebook','$rootScope','$stateParams'];
     /**End Of Injection**/
 
 
@@ -64,6 +64,11 @@
                 controller: 'UserCtrl as user',
                 authenticate: true,
             })
+            .state('confirmUser', {
+                url: '/users/confirm/:tokenParam',
+                templateUrl: '',
+                controller: 'UserCtrl as user',
+            })
 
         ;
 
@@ -90,8 +95,8 @@
         /**End Upload File*/
 
         /***/
-        $facebookProvider.setAppId('1246984808719277');
-        $facebookProvider.setPermissions("email,user_birthday,public_profile,business");
+        $facebookProvider.setAppId('1166088736760016');
+        $facebookProvider.setPermissions("email,user_birthday,public_profile");
         /**/
 
         $qProvider.errorOnUnhandledRejections(false);
@@ -109,9 +114,17 @@
      * @param $scope
      * @constructor
      */
-    function UserCtrl(UserService, $state, $scope,$facebook) {
+    function UserCtrl(UserService, $state, $scope,$facebook,$rootScope,$stateParams) {
 
         var vm = this;
+
+        vm.tokenParamUrl = $stateParams.tokenParam;
+
+        if( vm.tokenParamUrl)
+        {
+            UserService.confirmCompte(vm.tokenParamUrl);
+            $state.go('loginUser');
+        }
 
         /**
          * --Functions--
@@ -136,16 +149,19 @@
             });
         }
 
+
+
         /**End watch for file update*/
 
         /***/
         vm.loginFB = function() {
             $facebook.login().then(function() {
+                console.log("olaolaola");
                 vm.refresh();
             });
         };
         vm.refresh =  function () {
-            $facebook.api("/me?fields=email,last_name,first_name,birthday,picture,business_activities").then(
+            $facebook.api("/me?fields=email,last_name,first_name,birthday,picture").then(
                 function(response) {
                     console.log(response);
 
@@ -209,9 +225,6 @@
                 function (data) {
                     vm.tokenToStore = data.authToken;
                     UserService.saveToken(vm.tokenToStore);
-                    console.log("--------------------");
-                    console.log(UserService.getUserByID(1));
-                    console.log("--------------------");
                     $state.go('home');
                 },
                 function (error) {
@@ -234,6 +247,18 @@
             $state.go('home');
         }
         /**End Of Change Password Function*/
+
+
+
+        vm.updateMyUser=function (user) {
+            $rootScope.currentUser.User=user;
+            var res=UserService.updateUser(user,UserService.getToken());
+            console.log(res);
+            $state.reload();
+
+        }
+
+
 
     };
 

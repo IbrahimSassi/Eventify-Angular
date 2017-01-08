@@ -54,6 +54,18 @@
                             'Authorization': 'Bearer ' + token
                         }
                     },
+                    'confirmToken': {
+                        url: 'http://localhost:18080/Eventify-web/rest/users/confirm/:tokenToConfirm',
+                        method: 'GET',
+                        params: {
+                            id: null,
+                            tokenToConfirm: '@tokenToConfirm',
+
+                        },
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
                     'changePassword': {
                         url: 'http://localhost:18080/Eventify-web/rest/users/:oldPwd/:newPwd',
                         method: 'PUT',

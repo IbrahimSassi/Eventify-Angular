@@ -120,6 +120,14 @@
 
         }
 
+        this.confirmCompte = function (tokenToConfirm) {
+
+            UserFactory.secured(null).confirmToken({
+                tokenToConfirm: tokenToConfirm
+            });
+
+        }
+
 
         /**
          *saveToken

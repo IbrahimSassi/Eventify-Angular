@@ -38,7 +38,9 @@ angular
                 $rootScope.currentUser = null;
             }
             else {
-                $rootScope.currentUser = UserService.extractTokenData(UserService.getToken());
+
+                //$rootScope.currentUser = UserService.extractTokenData(UserService.getToken());
+                $rootScope.currentUser.User = UserService.getUserByID($rootScope.currentUser.User.id);
                 $rootScope.logMeOut= function(){
                     UserService.logout();
                     $state.reload();

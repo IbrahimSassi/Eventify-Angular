@@ -1,111 +1,80 @@
 <div class="container">
-<div class="row">
-    <div class="col-sm-4 col-lg-3">
-        <div class="sidebar">
-            <div class="widget">
-                <div class="user-photo">
-                    <a href="#">
-                        <img src="{{currentUser.User.profileImage}}" alt="User Photo">
-                        <span class="user-photo-action">Click here to reupload</span>
-                    </a>
-                </div><!-- /.user-photo -->
-            </div><!-- /.widget -->
+    <div class="row">
+        <div class="col-sm-4 col-lg-3">
+            <div class="sidebar">
+                <div class="widget">
+                    <div class="user-photo">
+                        <a href="#">
+                            <img src="{{currentUser.User.profileImage}}" alt="User Photo">
+                            <span class="user-photo-action">Click here to reupload</span>
+                        </a>
+                    </div><!-- /.user-photo -->
+                </div><!-- /.widget -->
 
 
-            <div class="widget">
+                <div class="widget">
 
-                <ul class="menu-advanced">
-                    <li class="active"><a href="#"><i class="fa fa-user"></i> Edit Profile</a></li>
-                    <li><a ui-sref="changePasswordUser"><i class="fa fa-key"></i> Password</a></li>
-                    <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
-                </ul>
-            </div><!-- /.widget -->
+                    <ul class="menu-advanced">
+                        <li class="active"><a ui-sref="editProfileUser"><i class="fa fa-user"></i> Edit Profile</a></li>
+                        <li><a ui-sref="changePasswordUser"><i class="fa fa-key"></i> Password</a></li>
+                        <li><a  ng-click="logMeOut()" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </div><!-- /.widget -->
 
-        </div><!-- /.sidebar -->
-    </div><!-- /.col-* -->
+            </div><!-- /.sidebar -->
+        </div><!-- /.col-* -->
 
-    <div class="col-sm-8 col-lg-9">
-        <div class="content">
-            <div class="page-title">
-                <h1>Edit Profile</h1>
-            </div><!-- /.page-title -->
+        <div class="col-sm-8 col-lg-9">
+            <div class="content">
+                <div class="page-title">
+                    <h1>Edit Profile</h1>
+                </div><!-- /.page-title -->
 
-            <div class="background-white p20 mb30">
-                <h3 class="page-title">
-                    Contact Information
+                <div class="background-white p20 mb30">
+                    <h3 class="page-title">
+                        Contact Information
+                        <button ng-click="user.updateMyUser(currentUser.User)" class="btn btn-primary btn-xs pull-right">Save</button>
+                    </h3>
 
-                </h3>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>First name</label>
+                            <input ng-model="currentUser.User.firstName" type="text" class="form-control" value="{{currentUser.User.firstName}}">
+                        </div><!-- /.form-group -->
 
-                <div class="row">
-                    <div class="form-group col-sm-6">
-                        <label>First name</label>
-                        <input type="text" class="form-control" value="{{currentUser.User.firstName}}">
-                    </div><!-- /.form-group -->
+                        <div class="form-group col-sm-6">
+                            <label>Last name</label>
+                            <input ng-model="currentUser.User.lastName" type="text" class="form-control" value="{{currentUser.User.lastName}}">
+                        </div><!-- /.form-group -->
 
-                    <div class="form-group col-sm-6">
-                        <label>Last name</label>
-                        <input type="text" class="form-control" value="{{currentUser.User.lastName}}">
-                    </div><!-- /.form-group -->
+                        <div class="form-group col-sm-6">
+                            <label>E-mail</label>
+                            <input ng-model="currentUser.User.email" type="text" class="form-control" value="{{currentUser.User.email}}">
+                        </div><!-- /.form-group -->
 
-                    <div class="form-group col-sm-6">
-                        <label>E-mail</label>
-                        <input type="text" class="form-control" value="{{currentUser.User.email}}">
-                    </div><!-- /.form-group -->
+                        <div class="form-group col-sm-6">
+                            <label>Username</label>
+                            <input type="text" ng-model="currentUser.User.username" class="form-control" value="{{currentUser.User.username}}">
+                        </div><!-- /.form-group -->
 
-                    <div class="form-group col-sm-6">
-                        <label>Phone</label>
-                        <input type="text" class="form-control" value="{{currentUser.User.numTel}}">
-                    </div><!-- /.form-group -->
-                </div><!-- /.row -->
-            </div>
+                        <div class="form-group col-sm-6">
+                            <label>Phone</label>
+                            <input type="text" ng-model="currentUser.User.numTel" class="form-control" value="{{currentUser.User.numTel}}">
+                        </div><!-- /.form-group -->
+
+                        <div class="form-group col-sm-6">
+                            <label>Country</label>
+                            <input type="text" ng-model="currentUser.User.country" class="form-control" value="{{currentUser.User.country}}">
+                        </div><!-- /.form-group -->
+
+                    </div><!-- /.row -->
+                </div>
 
 
-            <div class="background-white p20 mb30">
-                <h3 class="page-title">
-                    Address
+            </div><!-- /.content -->
+        </div><!-- /.col-* -->
+    </div><!-- /.row -->
 
-                    <a href="#" class="btn btn-primary btn-xs pull-right">Save</a>
-                </h3>
 
-                <div class="row">
-                    <div class="form-group col-sm-6">
-                        <label>State</label>
-                        <input type="text" class="form-control" value="{{currentUser.User.country}}">
-                    </div><!-- /.form-group -->
 
-                    <div class="form-group col-sm-6">
-                        <label>City</label>
-                        <input type="text" class="form-control" value="New York City">
-                    </div><!-- /.form-group -->
-
-                    <div class="form-group col-sm-6">
-                        <label>Street</label>
-                        <input type="text" class="form-control" value="Everton Eve">
-                    </div><!-- /.form-group -->
-
-                    <div class="form-group col-sm-3">
-                        <label>House Number</label>
-                        <input type="text" class="form-control" value="123">
-                    </div><!-- /.form-group -->
-
-                    <div class="form-group col-sm-3">
-                        <label>ZIP</label>
-                        <input type="text" class="form-control" value="12345">
-                    </div><!-- /.form-group -->
-                </div><!-- /.row -->
-            </div>
-
-            <div class="background-white p20 mb30">
-                <h3 class="page-title">
-                    Biography
-
-                    <a href="#" class="btn btn-primary btn-xs pull-right">Save</a>
-                </h3>
-
-                <textarea class="form-control" rows="7"></textarea>
-            </div>
-
-        </div><!-- /.content -->
-    </div><!-- /.col-* -->
-</div><!-- /.row -->
 </div>
