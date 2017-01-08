@@ -25,7 +25,7 @@
         $stateProvider
             .state('referrel', {
                 url: '/referrel',
-                templateUrl: '../referrel/view/referrel.view.html',
+                templateUrl: '../referrel/views/referrel.view.html',
                 controller: 'ReferrelCtrl as referrel'
             })
 
