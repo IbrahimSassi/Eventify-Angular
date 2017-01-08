@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    TicketCtrl.$inject = ['TicketService', '$state', '$scope', '$timeout','$rootScope','$window'];
+    TicketCtrl.$inject = ['TicketService', '$state', '$scope', '$timeout','$rootScope','$window',"$stateParams"];
     /**End Of Injection**/
 
 
@@ -23,7 +23,7 @@
     function config($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('addTickets', {
-                url: '/tickets',
+                url: '/tickets/:idEvent',
                 templateUrl: 'ticket/views/addTicket.html',
                 controller: 'TicketCtrl as createTicket'
             })
@@ -45,11 +45,10 @@
      * @param UserService
      * @param $state
      */
-    function TicketCtrl(TicketService, $state, $scope, $timeout,$rootScope,$window) {
+    function TicketCtrl(TicketService, $state, $scope, $timeout,$rootScope,$window,$stateParams) {
 
 
         var vm = this;
-
 
         /**GET EVENT BY ID*/
         TicketService.getTicketByID(1).$promise.then(function (data) {
@@ -179,7 +178,7 @@ var salesCount=0;
         vm.ticket = {
             backgroundImage: "",
 
-            event: {id: 1},
+            event: {id: $stateParams.idEvent},
 
 
         }
@@ -195,10 +194,6 @@ var salesCount=0;
             TicketService.getEventTickets(1).then(function (data) {
                 console.log("Tickets: ", data);
                 vm.tickets = data;
-
-
-
-
             });
         }
 
