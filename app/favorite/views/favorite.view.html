@@ -5,7 +5,7 @@
 
         <ul class="amenities">
             <li class="checkbox" ng-repeat="cat in favorite.categories">
-                <input type="checkbox" id="amenity-{{cat.id}}" ng-model="favorite.favorites[cat.id]" />
+                <input style="display: none" type="checkbox" id="amenity-{{cat.id}}" ng-model="favorite.favorites[cat.id]" />
                 <label for="amenity-{{cat.id}}">{{cat.categoryName}}</label>
             </li>
         </ul>

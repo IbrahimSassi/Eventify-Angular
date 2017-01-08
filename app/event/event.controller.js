@@ -25,7 +25,8 @@
         'CategoryService',
         '$stateParams',
         'WishlistService',
-        'VoiceToTextService'
+        'VoiceToTextService',
+        '$scope'
     ];
 
 
@@ -77,11 +78,14 @@
                        CategoryService,
                        $stateParams,
                        WishlistService,
-                       VoiceToTextService) {
+                       VoiceToTextService,
+                       $scope) {
         //On Init Start
         var vm = this;
         vm.title = 'Event List';
-
+        vm.search = {
+            eventType : ""
+        }
 
         // ** Init start **//
 
@@ -169,6 +173,14 @@
         };
 
 
+        $scope.$watch(function () {
+                return vm.search.eventType;
+            }, function (newValue, oldValue) {
+                console.log("old value",oldValue)
+                console.log("new value",newValue)
+            });
+
+
         vm.searchByVoiceBool = 0;
         vm.SearchByVoice = function (event) {
 
@@ -187,18 +199,18 @@
 
                     if ((data.entities.search_query[0].value == "conference") || (data.entities.search_query[0].value == "Conference")) {
                         vm.search.eventType = "Conference";
-                        console.log("want conference");
 
                     }
                     else if ((data.entities.search_query[0].value === "Workshop") || (data.entities.search_query[0].value === "workshop")) {
                         vm.search.eventType = "Class_Workshop";
-                        console.log("want workshop");
 
                     }
                     else if ((data.entities.search_query[0].value == "meeting") || (data.entities.search_query[0].value == "Meeting")) {
                         vm.search.eventType = "Meeting";
-                        console.log("want meeting");
+
                     }
+                    $scope.$apply();
+
 
                 }, function (err) {
                     console.log('error', err);
