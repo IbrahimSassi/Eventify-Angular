@@ -7,7 +7,7 @@
     /**My Module init**/
     var a = angular
         .module('EventifyApp.reservation', [
-            'ui.router','monospaced.qrcode'
+            'ui.router', 'monospaced.qrcode'
         ])
         .config(config)
         .controller('ReservationCtrl', ReservationCtrl);
@@ -72,7 +72,6 @@
         vm.totals = angular.fromJson(sessionStorage.sales);
 
 
-        vm.foridrestotrans =0;
         //END init tickets value
 
 
@@ -146,14 +145,21 @@
         this.paypalCompleted = function () {
 
             var tiki = angular.fromJson(sessionStorage.allticketstobuy);
+            $rootScope.tickettoQR = angular.fromJson(sessionStorage.allticketstobuy);
             tiki.forEach(function (ticket) {
 
+                vm.reservation = {
+                    ticket: ticket,
+                    amount: ticket.priceTicket,
+                    paymentMethod: "Paypal"
+                };
 
-                vm.reservation.ticket = {id: ticket.id};
-                vm.reservation.amount = ticket.priceTicket;
-                vm.reservation.paymentMethod = "Paypal";
+                /*
+                 vm.reservation.ticket = ticket;
+                 vm.reservation.amount = ticket.priceTicket;
+                 vm.reservation.paymentMethod = "Paypal";
 
-
+                 */
                 ReservationService.addReservation(vm.reservation).then(function () {
 
 
@@ -185,13 +191,23 @@
 
 
                 });
-                 var a=angular.fromJson(sessionStorage.lastRes);
-                vm.transaction.token = "AFxccvF45hjg54fdf45q4f5FGJH";
-                vm.transaction.amount = ticket.priceTicket;
-                vm.transaction.reservation = {
-                    id: a.id
-                }
+                var a = ((angular.fromJson(sessionStorage.lastRes)).id);
 
+                vm.transaction = {
+                    token: "AFxccvF45hjg54fdf45q4f5FGJH",
+                    amount: ticket.priceTicket,
+                    reservation: {
+                        id: a++
+                    }
+                };
+
+                /*
+                 vm.transaction.token = "AFxccvF45hjg54fdf45q4f5FGJH";
+                 vm.transaction.amount = ticket.priceTicket;
+                 vm.transaction.reservation = {
+                 id: a.id
+                 }
+                 */
                 console.log("haaha", angular.fromJson(sessionStorage.lastRes));
                 TransactionService.addTransaction(vm.transaction).then(function () {
 
@@ -225,9 +241,11 @@
                         vm.ticketsToShow.forEach(function (ticket) {
 
 
-                            vm.reservation.ticket = {id: vm.ticketsToShow.id};
-                            vm.reservation.amount = ticket.priceTicket;
-                            vm.reservation.paymentMethod = "CreditCard";
+                            vm.reservation = {
+                                ticket: ticket,
+                                amount: ticket.priceTicket,
+                                paymentMethod: "Paypal"
+                            };
 
 
                             ReservationService.addReservation(vm.reservation).then(function () {
@@ -259,16 +277,17 @@
 
 
                             });
-
-                            vm.transaction.token = "AFxccvF45hjg54fdf45q4f5FGJH";
-                            vm.transaction.amount = ticket.priceTicket;
-                            vm.transaction.reservation = {
-                                id: ((angular.fromJson(sessionStorage.lastRes)).id) + 1
-                            }
+                            var a = ((angular.fromJson(sessionStorage.lastRes)).id);
+                            vm.transaction = {
+                                token: "AFxccvF45hjg54fdf45q4f5FGJH",
+                                amount: ticket.priceTicket,
+                                reservation: {
+                                    id: a++
+                                } }
 
                             console.log("haaha", angular.fromJson(sessionStorage.lastRes));
                             TransactionService.addTransaction(vm.transaction).then(function () {
-
+                                $state.go('thanks');
                             });
 
 

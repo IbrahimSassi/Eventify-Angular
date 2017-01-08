@@ -1,11 +1,14 @@
 <link href="assets/reservationStufs/css/ticketStyle.css" rel="stylesheet">
-<div ng-init="reservationCompleted.paypalCompleted();">
+<div ng-init="reservationCompleted.paypalCompleted(); ">
 
     <header>
         <div aria-busy="true" aria-label="Loading, please wait." role="progressbar"></div>
     </header>
     <main role="main">
-        <qrcode data="string" download></qrcode>
+        <div ng-repeat=" qrtick in tickettoQR"  >
+            <h5><i style="color: red;">Your Pass For:</i> {{qrtick.event.title}} <i style="color: red;">Type:</i> {{qrtick.typeTicket}}</h5>
+        <qrcode   data="#REF{{qrtick.event.id}}#Name{{qrtick.event.title}}#Type{{qrtick.typeTicket}}" download></qrcode>
+        </div>
         <h1>Thank you for choosing us!</h1>
         <p>Please feel free to print the QR Code of your ticket or download it as image.</p>
         <p>This is  <code>Your Access</code> For <code>The Event</code>
