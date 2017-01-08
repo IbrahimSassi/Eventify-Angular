@@ -25,7 +25,7 @@
 
                         <a style="font-size: 20px;">{{ticket.typeTicket}}</a>
                         <select ng-change="selectTicket.updateNbTicket(ticket);" ng-model="selectTicket.ticketnumber[ticket.id]" style="float: right; width: 70px; font-size: 20px;">
-                            <option>1</option>
+                            <option ng-selected="selected">1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>

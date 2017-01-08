@@ -77,9 +77,16 @@ var salesCount=0;
             TicketService.getEventTickets(1).then(function (data) {
                 vm.ticketss = data;
                 // vm.data = vm.events.slice(0, 3);
-                $state.go('reservateForEvent', {eventIDD: 1,tickets:vm.realtickets});
+
+
+
+
+
                 vm.ticketss.forEach(function (ticket) {
                     console.log("ti ahaya mrigla:",ticket);
+                    if( ((ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]))>0) || ((ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]))==0))
+                    {
+                        $state.go('reservateForEvent', {eventIDD: 1,tickets:vm.realtickets});
 
                     ticket.nbTickets = ticket.nbTickets - parseInt(vm.ticketnumber[ticket.id]);
 
@@ -99,7 +106,10 @@ var salesCount=0;
 
                     sessionStorage.sales = angular.toJson(sales);
 
-
+                    }
+                    else{
+                        console.log("waywaaaa");
+                    }
 
 
                 });
@@ -115,7 +125,7 @@ var salesCount=0;
         /**Navigation And Update Ticket Numbers*/
         vm.goToBooking = function () {
             /*TODO Add event id*/
-         //   $state.go('reservateForEvent', {eventIDD: 1});
+         //$state.go('reservateForEvent', {eventIDD: 1});
 
 
         };
@@ -175,14 +185,28 @@ var salesCount=0;
         }
 
 
+
+
+
+
         /**List Tickets**/
         vm.getEventTickets = function () {
             console.log("called", TicketService.getEventTickets(1));
             TicketService.getEventTickets(1).then(function (data) {
-                console.log("Ticket: ", data);
+                console.log("Tickets: ", data);
                 vm.tickets = data;
+
+
+
+
             });
         }
+
+
+
+
+
+
 
 
     };
