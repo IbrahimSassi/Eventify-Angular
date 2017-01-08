@@ -19,6 +19,7 @@ angular
             'EventifyApp.bank',
             'EventifyApp.favorite',
             'EventifyApp.task',
+            'EventifyApp.rates',
             'ngResource'
 
     ])

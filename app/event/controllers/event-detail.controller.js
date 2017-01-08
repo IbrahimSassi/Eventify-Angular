@@ -15,16 +15,21 @@
         'CategoryService',
         '$stateParams',
         'WishlistService',
+        'CommentsService',
+        '$rootScope',
+        'ratesService'
     ];
 
 
     /* @ngInject */
     function DetailEvent(EventService,
-                       $state,
-                       CategoryService,
-                       $stateParams,
-                       WishlistService
-                       ) {
+                         $state,
+                         CategoryService,
+                         $stateParams,
+                         WishlistService,
+                         CommentsService,
+                         $rootScope,
+                         ratesService) {
         //On Init Start
         var vm = this;
         vm.title = 'Event List';
@@ -32,6 +37,7 @@
 
         vm.initDetail = function () {
             vm.getSelectedEvent();
+            vm.getCommentByEventId();
         };
 
 
@@ -253,6 +259,80 @@
                 infowindow.open(map, marker);
             });
         };
+
+
+        //Mourad Workk
+
+
+        vm.idUserCTRLParamUrl = $stateParams.idUserCTRL;
+        vm.idEventCTRLParamUrl = $stateParams.idEventCTRL;
+
+        if (vm.idUserCTRLParamUrl && vm.idEventCTRLParamUrl) {
+            CommentsService.getCommentByUserIdAndEventIdService(vm.idUserCTRLParamUrl, vm.idEventCTRLParamUrl).then(function (success) {
+                    vm.Comment = success;
+                },
+                function (error) {
+                    vm.Comment = null;
+                    console.log(error);
+                }
+            );
+            console.error(vm.Comment);
+        }
+
+
+        if ($rootScope.currentUser != null) {
+            vm.comment = {
+                "user": null,
+                "event": null,
+                "contain": "",
+                "commentPK": {
+                    "idUser": $rootScope.currentUser.User.id,
+                    "idEvent": vm.eventId
+                },
+
+            };
+
+        }
+        vm.addCommentCTRL = function () {
+
+            CommentsService.addCommentService(vm.comment).then(function () {
+                vm.getCommentByEventId();
+            });
+
+
+            vm.myRate = {
+                "ratePK": {
+                    "idUser": $rootScope.currentUser.User.id,
+                    "idEvent": vm.eventId
+                },
+                "note": ((parseInt(vm.rate.price) + parseInt(vm.rate.organization) + parseInt(vm.rate.staff) + parseInt(vm.rate.place)) /4) ,
+            };
+            ratesService.addRate(vm.myRate)
+
+        }
+
+
+        vm.getCommentByEventId = function () {
+
+            CommentsService.getCommentByIdEvent(vm.eventId).then(function (data) {
+                vm.commentList = data;
+
+                console.log(vm.commentList)
+
+            });
+        }
+
+        vm.deleteComment = function (iduser, idevent) {
+
+            CommentsService.deleteCommentService(iduser, idevent);
+
+            vm.getCommentByEventId();
+        }
+
+        ratesService.getRateByEvent(vm.eventId).then(function (data) {
+            console.log("rate",data.data);
+        })
+
 
 
     };
