@@ -11,10 +11,9 @@
     function CommentsServiceFN(CommentsFactory, $filter) {
 
 
-        this.getCommentById = function (idEvent) {
+        this.getCommentByIdEvent = function (idEvent) {
 
-            return CommentsFactory.get({id: idEvent});
-
+            return CommentsFactory.query({id: idEvent}).$promise;
 
         }
 
@@ -23,6 +22,22 @@
             return result.$promise;
 
         }
+
+
+        this.addCommentService = function (comment) {
+             return CommentsFactory.save(comment).$promise;
+
+
+            }
+
+        this.deleteCommentService = function (iduser,idevent) {
+            return CommentsFactory.delete({iduser:iduser,idevent:idevent}).$promise;
+
+
+        }
+
+
+
     }
 
 

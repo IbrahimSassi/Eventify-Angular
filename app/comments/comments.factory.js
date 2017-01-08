@@ -28,6 +28,34 @@
 
 
                 },
+
+                'addComment': {
+                    url: 'http://localhost:18080/Eventify-web/rest/comments/:idUser/:idEvent',
+                    method: 'PUT',
+                    params: {
+                        idUser: '@idUser',
+                        idEvent: '@idEvent'
+                    },
+
+
+
+                },
+
+
+                'deletecomment': {
+                    url: 'http://localhost:18080/Eventify-web/rest/comments',
+                    params: {
+                        iduser: '@iduser',
+                        idevent: '@idevent',
+
+                    },
+                    method: 'DELETE'
+
+
+                }
+
+
+
             }
 
         );

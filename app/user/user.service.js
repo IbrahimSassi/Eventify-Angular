@@ -116,7 +116,7 @@
             UserFactory.secured(token).changePassword({
                 'oldPwd': oldPwd,
                 'newPwd': newPwd
-            }, user);
+            },user);
 
         }
 
