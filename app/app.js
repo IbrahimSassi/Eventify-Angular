@@ -20,6 +20,7 @@ angular
             'EventifyApp.favorite',
             'EventifyApp.task',
             'EventifyApp.rates',
+            'EventifyApp.referrel',
             'ngResource'
 
     ])
