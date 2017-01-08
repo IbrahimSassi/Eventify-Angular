@@ -41,7 +41,7 @@
             .state('events-with-maps', {
                 url: '/events/maps',
                 templateUrl: 'event/views/event-listing-map.view.html',
-                controller: 'EventCtrl as event',
+                controller: 'NearbyCtrl as event',
                 cache: false
             })
             .state('events-timeline', {
@@ -100,7 +100,6 @@
                 enumerable: true,
                 configurable: true
             });
-
 
 
         vm.initListing = function () {
@@ -182,21 +181,21 @@
                 console.log('speech' + text);
 
                 EventService.searchWithVoice(text).then(function (data) {
-                    console.log('result wit'+data.entities.search_query[0].value);
+                    console.log('result wit' + data.entities.search_query[0].value);
 
                     // vm.search= data.entities.search_query[0].value;
 
-                    if ((data.entities.search_query[0].value == "conference")&&(data.entities.search_query[0].value == "Conference")) {
+                    if ((data.entities.search_query[0].value == "conference") || (data.entities.search_query[0].value == "Conference")) {
                         vm.search.eventType = "Conference";
                         console.log("want conference");
 
                     }
-                    else if ((data.entities.search_query[0].value === "Workshop")&&(data.entities.search_query[0].value === "workshop")) {
+                    else if ((data.entities.search_query[0].value === "Workshop") || (data.entities.search_query[0].value === "workshop")) {
                         vm.search.eventType = "Class_Workshop";
                         console.log("want workshop");
 
                     }
-                    else if ((data.entities.search_query[0].value == "meeting")&&(data.entities.search_query[0].value == "Meeting")) {
+                    else if ((data.entities.search_query[0].value == "meeting") || (data.entities.search_query[0].value == "Meeting")) {
                         vm.search.eventType = "Meeting";
                         console.log("want meeting");
                     }
@@ -294,7 +293,6 @@
 
             }
         };
-
 
 
         function roundDecimal(nombre, precision) {

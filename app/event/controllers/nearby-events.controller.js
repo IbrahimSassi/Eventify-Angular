@@ -19,9 +19,9 @@
 
     /* @ngInject */
     function NearbyCtrl(EventService,
-                       $state,
-                       $stateParams,
-                       $geolocation) {
+                        $state,
+                        $stateParams,
+                        $geolocation) {
         //On Init Start
         var vm = this;
         vm.title = 'Event List';
@@ -56,6 +56,66 @@
 
         };
         // Nearby Events End **/
+
+
+        vm.initEventMap = function () {
+
+            EventService.getAllEvents().then(function (data) {
+
+                vm.events = data;
+                vm.initMap();
+
+            });
+
+
+        }
+
+
+        vm.initMap = function () {
+
+
+            var mapOptions = {
+                center: new google.maps.LatLng(34.846046, 10.183385),
+                zoom: 7
+            };
+
+
+            var map = new google.maps.Map(document.getElementById('fullscreen-map'),
+                mapOptions);
+
+
+
+            vm.events.forEach(function (event) {
+
+                var imgBack = event.backgroundImage
+                var myLatlng = new google.maps.LatLng(event.latitude,event.longitude);
+                var infowindow = new google.maps.InfoWindow({
+                    content : "<div>" +
+                    event.title+ "<br>" +
+                    event.theme+ "<br>" +
+                    "<img src='imgBack' alt=''>"+ "<br>" +
+                    "</div>"
+                });
+
+
+                var marker = new google.maps.Marker({
+                    // draggable: true,
+                    map: map,
+                    position: myLatlng,
+                    animation: google.maps.Animation.DROP,
+                    icon :"assets/img/map-marker-green.png"
+
+                });
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+
+
+
+            })
+
+
+        };
 
 
     };
