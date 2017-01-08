@@ -15,7 +15,23 @@
                 <input type="password" class="form-control" ng-model="user.toLoginUser.pwd" id="login-form-password">
             </div><!-- /.form-group -->
 
-            <button type="submit" class="btn btn-primary pull-right">Login</button>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary pull-right">Login</button>
+            </div><!-- /.form-group -->
+
         </form>
+
     </div><!-- /.col-sm-4 -->
 </div><!-- /.row -->
+<hr/>
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+
+        <button ng-click="user.loginFB()" class="btn btn-block btn-social btn-facebook">
+            <span class="fa fa-facebook"></span>
+            Sign in with Facebook
+        </button>
+
+    </div><!-- /.col-sm-4 -->
+
+</div>

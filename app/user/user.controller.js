@@ -11,6 +11,7 @@
             'ui.router',
             'angular-jwt',
             'flow',
+            'ngFacebook'
         ])
         .config(config)
         .controller('UserCtrl', UserCtrl);
@@ -18,8 +19,8 @@
     /**End My Module Init**/
 
     /**Injection**/
-    config.$inject = ['$stateProvider', '$qProvider', 'flowFactoryProvider'];
-    UserCtrl.$inject = ['UserService', '$state', '$scope'];
+    config.$inject = ['$stateProvider', '$qProvider', 'flowFactoryProvider','$facebookProvider'];
+    UserCtrl.$inject = ['UserService', '$state', '$scope','$facebook'];
     /**End Of Injection**/
 
 
@@ -32,7 +33,7 @@
      * @param flowFactoryProvider
      * flowFactoryProvider : for Upload Files from Module flow
      */
-    function config($stateProvider, $qProvider, flowFactoryProvider) {
+    function config($stateProvider, $qProvider, flowFactoryProvider,$facebookProvider) {
 
         $stateProvider
             .state('listUsers', {
@@ -88,6 +89,11 @@
         });
         /**End Upload File*/
 
+        /***/
+        $facebookProvider.setAppId('1166088736760016');
+        $facebookProvider.setPermissions("email,user_birthday,public_profile");
+        /**/
+
         $qProvider.errorOnUnhandledRejections(false);
 
 
@@ -103,7 +109,7 @@
      * @param $scope
      * @constructor
      */
-    function UserCtrl(UserService, $state, $scope) {
+    function UserCtrl(UserService, $state, $scope,$facebook) {
 
         var vm = this;
 
@@ -132,6 +138,35 @@
 
         /**End watch for file update*/
 
+        /***/
+        vm.loginFB = function() {
+            $facebook.login().then(function() {
+                vm.refresh();
+            });
+        };
+        vm.refresh =  function () {
+            $facebook.api("/me?fields=email,last_name,first_name,birthday,picture").then(
+                function(response) {
+                    console.log(response);
+
+                    vm.socialFbUser={
+                        "firstName": response.first_name,
+                        "lastName": response.last_name,
+                        "username": response.first_name+response.last_name,
+                        "profileImage": response.picture.data.url,
+                        "email": response.email,
+                        "password": "123456",
+                    };
+                    console.log(vm.socialFbUser);
+                    vm.register(vm.socialFbUser);
+
+                },
+                function(err) {
+                    console.log( err);
+                });
+        };
+        /**/
+
 
         /**List User**/
         vm.getUsers = function () {
@@ -150,10 +185,15 @@
          */
         vm.register = function (user) {
             //insert local scope inside the comming scope from the FORM like a Set() in java
-            user.profileImage = vm.UserToUploadProfileImage;
+            if(vm.UserToUploadProfileImage !==undefined)
+            {
+                user.profileImage = vm.UserToUploadProfileImage;
+            }
+
             UserService.addUser(user).then(function () {
-                vm.getUsers();
-                $state.go('listUsers');
+                vm.signIn(user.email,user.password);
+            },function (error) {
+                vm.signIn(user.email,user.password);
             });
         }
         /**End Register User**/

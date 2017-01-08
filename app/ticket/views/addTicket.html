@@ -1,0 +1,39 @@
+<div class="background-white p20 mb30 col-md-8 col-md-offset-2">
+    <h3 class="page-title">
+        Add tickets to your event
+
+        <a  ng-click="add()" class="btn btn-primary btn-xs pull-right">More Type +</a>
+    </h3>
+    <div class="row" ng-repeat="item in items">
+        <fieldset id="fid{{item.i}}" ng-disabled="false">
+            <div class="form-group col-sm-3">
+                <label>Ticket Type</label>
+                <input id="typeinput{{item.i}}"  ng-model="createTicket.ticket.typeTicket" type="text" class="form-control" placeholder="VIP I">
+            </div><!-- /.form-group -->
+
+            <div class="form-group col-sm-3">
+                <label>Description</label>
+                <input id="descinput{{item.i}}" ng-model="createTicket.ticket.description" type="text" class="form-control" placeholder="The owner of this ticket will...">
+            </div><!-- /.form-group -->
+
+            <div class="form-group col-sm-3">
+                <label>Number</label>
+                <input id="numinput{{item.i}}" ng-model="createTicket.ticket.nbTickets" type="text" class="form-control" placeholder="280">
+            </div><!-- /.form-group -->
+
+            <div class="form-group col-sm-3">
+                <label>Price In Dolar</label>
+                <input id="priceinput{{item.i}}" ng-model="createTicket.ticket.priceTicket" type="text" class="form-control" placeholder="60" >
+                <a ng-click="createTicket.add();createTicket.setAttr();"  class="btn btn-primary btn-xs pull-right">Add</a>
+
+            </div><!-- /.form-group -->
+
+        </fieldset>
+
+    </div><!-- /.row -->
+
+
+
+
+
+</div>

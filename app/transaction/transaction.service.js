@@ -18,7 +18,16 @@
         };
 
 
+        this.payReservation = function (idReservation) {
+            console.log("paypal: ",TransactionFactory.payReservation({idReservation: idReservation}));
+            return TransactionFactory.payReservation({idReservation: idReservation}).$promise;
+        }
 
+        this.addTransaction =  function (transaction) {
+
+
+            return TransactionFactory.save(transaction).$promise;
+        }
 
 
 

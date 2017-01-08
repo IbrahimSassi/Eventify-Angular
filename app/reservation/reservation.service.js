@@ -23,7 +23,24 @@
             return ReservationFactory.save(reservation).$promise;
         }
 
+        this.CountReservations = function () {
 
+
+
+
+
+
+
+
+           var cnt;
+            var reser= ReservationFactory.query();
+            reser.forEach(function (reser) {
+cnt++;
+                $scope.cnt=vm.cnt;
+                console.log("zeeeeeeeeeb");
+
+            });
+            return cnt; };
 
 
     }

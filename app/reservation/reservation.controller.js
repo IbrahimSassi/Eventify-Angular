@@ -5,9 +5,9 @@
     'use strict';
 
     /**My Module init**/
-    angular
+    var a = angular
         .module('EventifyApp.reservation', [
-            'ui.router',
+            'ui.router','monospaced.qrcode'
         ])
         .config(config)
         .controller('ReservationCtrl', ReservationCtrl);
@@ -15,7 +15,7 @@
 
     /**Injection**/
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService'];
+    ReservationCtrl.$inject = ['ReservationService', '$state', 'BankService', '$rootScope', '$scope', '$timeout', '$stateParams', 'TicketService', 'TransactionService', '$window'];
     /**End Of Injection**/
 
 
@@ -30,7 +30,22 @@
             .state('reservateForEvent', {
                 url: '/booking',
                 templateUrl: '../reservation/views/eventBooking.html',
-                controller: 'ReservationCtrl as createReservation'
+                controller: 'ReservationCtrl as createReservation',
+                params: {
+                    eventIDD: null,
+                    tickets: null,
+                }
+            })
+            .state('thanks', {
+                url: '/thanks',
+                templateUrl: '../reservation/views/thanks.html',
+                controller: 'ReservationCtrl as reservationCompleted'
+            })
+
+            .state('participatedEvents', {
+                url: '/participatedevents',
+                templateUrl: '../reservation/views/ParticipatedEvents.html',
+                controller: 'ReservationCtrl as reservationCtrl'
             })
 
         ;
@@ -43,66 +58,297 @@
      * @param UserService
      * @param $state
      */
-    function ReservationCtrl(ReservationService, $state, BankService) {
+    function ReservationCtrl(ReservationService, $state, BankService, $rootScope, $scope, $timeout, $stateParams, TicketService, TransactionService, $window) {
 
 
         var vm = this;
 
 
+        // console.log("paypalctrl: ",  TransactionService.payReservation(1).id);
 
 
+        //Initialising tickets value
+        vm.ticketsToShow = $stateParams.tickets;
+        vm.totals = angular.fromJson(sessionStorage.sales);
 
 
+        //END init tickets value
 
 
+        //TRYING TO SEVE IN LOCAL STORAGE
+        var service = {
 
+            model: {
+                name: '',
+                email: ''
+            },
+
+            SaveState: function () {
+                sessionStorage.userService = angular.toJson(service.model);
+            },
+
+            RestoreState: function () {
+                service.model = angular.fromJson(sessionStorage.userService);
+            }
+        }
+
+        $rootScope.$on("savestate", service.SaveState);
+        sessionStorage.userService = angular.toJson(service.model);
+        console.log("Hey", angular.fromJson(sessionStorage.sales));
+        //END TRYING TO SEVE IN LOCAL STORAGE
+
+
+        /**Working with changing checkbox value*/
+        var checkbox = false;
+        vm.stateChanged = function () {
+            if (checkbox == true) {
+                checkbox = false;
+            }
+            else if (checkbox == false) {
+                checkbox = true;
+            }
+            console.log("Payment checkbox value", checkbox);
+            console.log($stateParams.eventIDD);
+            console.log($stateParams.tickets);
+
+
+        };
+        /**END Working with changing checkbox value*/
 
         /**List Reservations**/
         vm.reservationsList = function () {
-            console.log("called",ReservationService.getAllReservations());
+            console.log("called", ReservationService.getAllReservations());
             ReservationService.getAllReservations().then(function (data) {
-                console.log("data",data);
+                console.log("data", data);
                 vm.reservations = data;
             });
         }
 
+
+        /**Adding static values TODO **/
+
         vm.reservation = {
-            amount: 555.23,
-            reservationDate: 1478069109000,
+
+            reservationDate: new Date(),
+            user: {id: $rootScope.currentUser.User.id},
+
+        };
+
+        vm.transaction = {};
+
+        /**END Adding static values TODO **/
 
 
-            ticket: {id:1},
-
-        }
-
-        vm.add = function () {
-            /*************************/
+        /**Init After Paying Paypal*/
 
 
+        this.paypalCompleted = function () {
 
-                BankService.BankByData(vm.creditCard.name,vm.creditCard.num,vm.creditCard.expmonth,vm.creditCard.expyear,vm.creditCard.ccv).then(function (data) {
-                    console.log("CreditCardValidity: ",data);
+            var tiki = angular.fromJson(sessionStorage.allticketstobuy);
+            tiki.forEach(function (ticket) {
+
+
+                vm.reservation.ticket = {id: ticket.id};
+                vm.reservation.amount = ticket.priceTicket;
+                vm.reservation.paymentMethod = "Paypal";
+
+
+                ReservationService.addReservation(vm.reservation).then(function () {
+
+
+                });
+
+                ReservationService.getAllReservations().then(function (data) {
+
+                    data.forEach(function (reser) {
+
+
+
+                        //TRYING TO SEVE IN LOCAL STORAGE
+                        var idres = {
+
+                            id: reser.id
+
+
+                        }
+
+
+                        sessionStorage.lastRes = angular.toJson(idres);
+
+                        console.log("hh", angular.toJson(idres));
+
+
+                    });
+
+
+                });
+
+                vm.transaction.token = "AFxccvF45hjg54fdf45q4f5FGJH";
+                vm.transaction.amount = ticket.priceTicket;
+                vm.transaction.reservation = {
+                    id: 1 + 1
+                }
+
+                console.log("haaha", angular.fromJson(sessionStorage.lastRes));
+                TransactionService.addTransaction(vm.transaction).then(function () {
 
                 });
 
 
-
-            /**************************/
-            ReservationService.addReservation(vm.reservation).then(function () {
-                vm.reservationsList();
-
-                $state.go('reservation');
-
-
-
-
             });
-        };
 
+
+        }
+
+
+        /**End of init paying after paypal*/
+
+
+        /** Adding Reservation **/
+        vm.add = function () {
+            sessionStorage.allticketstobuy = angular.toJson(vm.ticketsToShow);
+            if ($scope.counter != 0) {
+                var bankResponse;
+                /**FOR CREDIT CARD*/
+                if (checkbox == true) {
+                    // bankResponse=  BankService.BankByData(vm.creditCard.name, vm.creditCard.num, vm.creditCard.expmonth, vm.creditCard.expyear, vm.creditCard.ccv);
+                    bankResponse = true;
+                    /**END FOR CREDIT CARD*/
+                    console.log("uuuuuuuuhh: ", bankResponse);
+                    if (bankResponse == true) {
+
+
+                        BankService.updateAmount(vm.creditCard.name, vm.totals.total);
+                        vm.ticketsToShow.forEach(function (ticket) {
+
+
+                            vm.reservation.ticket = {id: vm.ticketsToShow.id};
+                            vm.reservation.amount = ticket.priceTicket;
+                            vm.reservation.paymentMethod = "CreditCard";
+
+
+                            ReservationService.addReservation(vm.reservation).then(function () {
+
+
+                            });
+
+                            ReservationService.getAllReservations().then(function (data) {
+
+                                data.forEach(function (reser) {
+
+
+
+                                    //TRYING TO SEVE IN LOCAL STORAGE
+                                    var idres = {
+
+                                        id: reser.id
+
+
+                                    }
+
+
+                                    sessionStorage.lastRes = angular.toJson(idres);
+
+                                    console.log("hh", angular.toJson(idres));
+
+
+                                });
+
+
+                            });
+
+                            vm.transaction.token = "AFxccvF45hjg54fdf45q4f5FGJH";
+                            vm.transaction.amount = ticket.priceTicket;
+                            vm.transaction.reservation = {
+                                id: ((angular.fromJson(sessionStorage.lastRes)).id) + 1
+                            }
+
+                            console.log("haaha", angular.fromJson(sessionStorage.lastRes));
+                            TransactionService.addTransaction(vm.transaction).then(function () {
+
+                            });
+
+
+                        });
+
+
+                    }
+
+                }
+
+                else {
+
+
+                    TransactionService.payReservation(vm.totals.total).then(function (data) {
+                        console.log("ti hayaaaa:", data.links[1].href);
+                        $window.location.href = data.links[1].href;
+
+                    });
+
+
+                }
+
+
+            }
+
+            else {
+                console.log("Ti mana 9olna l kabar wfé");
+            }
+
+        };
+        /** END Adding Reservation **/
+
+
+        /**Reservation Timer**/
+
+        $scope.counter = 1200;
+
+
+        $scope.onTimeout = function () {
+            $scope.counter--;
+            mytimeout = $timeout($scope.onTimeout, 1000);
+            if ($scope.counter == 0) {
+
+                alert("Lkabar Wfé");
+                $timeout.cancel(mytimeout);
+
+
+                /** Update Ticket Numbers */
+
+
+
+                $stateParams.tickets.forEach(function (ticket) {
+
+                    TicketService.updateNbTicket(ticket);
+
+
+                });
+
+
+                /**END Update Ticket Numbers */
+
+
+            }
+        }
+        var mytimeout = $timeout($scope.onTimeout, 1000);
+
+
+        /**END Reservation Timer**/
 
 
     };
+    /**Timer Filter*/
+    a.filter('formatTimer', function () {
+        return function (input) {
+            function z(n) {
+                return (n < 10 ? '0' : '') + n;
+            }
 
-    /**End UserCtrlFunction**/
-
+            var seconds = input % 60;
+            var minutes = Math.floor(input / 60);
+            var hours = Math.floor(minutes / 60);
+            return (z(hours) + ':' + z(minutes) + ':' + z(seconds));
+        };
+    });
+    /**END Timer Filter*/
 })();

@@ -13,12 +13,29 @@
 
     function TicketServiceFN(TicketFactory, $filter) {
 
-        this.getAllTickets = function () {
-            return TicketFactory.query().$promise;
+        this.getEventTickets = function (idEvent) {
+            return TicketFactory.getTicketsByEvent({id: idEvent}).$promise;
         };
 
 
+        this.addTicket =  function (ticket) {
+            console.log(ticket);
 
+            return TicketFactory.save(ticket).$promise;
+        }
+
+
+        this.updateNbTicket = function (ticket) {
+            TicketFactory.update({id: ticket.id}, ticket);
+            console.log("Updated");
+        }
+
+
+
+        this.getTicketByID = function (idTicket) {
+
+            return TicketFactory.get({id: idTicket});
+        }
 
 
 

@@ -18,9 +18,10 @@ angular
             'EventifyApp.comments',
             'EventifyApp.bank',
             'EventifyApp.favorite',
+            'EventifyApp.task',
             'ngResource'
 
-        ])
+    ])
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/home');
 
@@ -38,7 +39,7 @@ angular
             }
             else {
                 $rootScope.currentUser = UserService.extractTokenData(UserService.getToken());
-                $rootScope.logMeOut = function () {
+                $rootScope.logMeOut= function(){
                     UserService.logout();
                     $state.reload();
                 }
