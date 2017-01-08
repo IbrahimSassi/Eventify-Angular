@@ -1,0 +1,20 @@
+<div class="container">
+
+    <div class="background-white p30 mb30">
+        <h3 class="page-title">Amenities</h3>
+
+        <ul class="amenities">
+            <li class="checkbox" ng-repeat="cat in favorite.categories">
+                <input style="display: none" type="checkbox" id="amenity-{{cat.id}}" ng-model="favorite.favorites[cat.id]" />
+                <label for="amenity-{{cat.id}}">{{cat.categoryName}}</label>
+            </li>
+        </ul>
+
+        <hr>
+        <div class="row">
+            <button ng-click="favorite.addFavorite()" class="btn btn-secondary">Add Favorite</button>
+
+        </div>
+    </div>
+
+</div>

@@ -1,27 +1,65 @@
 /**
- * Created by Ibrahim on 10/12/2016.
+ * Created by Ibrahim on 25/12/2016.
  */
-
 (function () {
     'use strict';
 
     angular
-        .module('EventifyApp.dashboard')
-        .controller('ManageEventsCtrl', ManageEventsCtrl);
+        .module('EventifyApp.event')
+        .controller('CreateEventCtrl', CreateEventCtrl);
 
 
-    ManageEventsCtrl.$inject = ['EventService', '$stateParams', '$state','CategoryService'];
+    CreateEventCtrl.$inject = [
+        'EventService',
+        '$state',
+        'CategoryService',
+        '$stateParams',
+        'WishlistService',
+        '$geolocation',
+    ];
 
-    /* @ngInject */
-    function ManageEventsCtrl(EventService, $stateParams, $state,CategoryService) {
+    function CreateEventCtrl(EventService,
+                             $state,
+                             CategoryService) {
+        //On Init Start
         var vm = this;
-        vm.title = 'DashboardCtrl';
-        vm.SelectedOrganization= 1;
-        // console.log("salem From Manage Events")
-        // console.log(MyEventsService.getMyEvents(1));
+        vm.title = 'Event List';
 
-        var editedEventId = $stateParams.id;
 
+        // ** Init start **//
+        vm.initCreate = function () {
+            vm.getCategories();
+            vm.initMap();
+        };
+
+        // ** Init end **//
+
+
+        //** Shared start **/
+
+        // Getting Categories to list them in the listbox
+        vm.getCategories = function () {
+            CategoryService.getAllCategories().then(function (data) {
+                vm.categories = data;
+                // vm.categories.forEach(function (ca) {
+                //     // console.log("categories", ca);
+                //
+                // })
+            });
+        };
+
+
+        vm.getRateForEvent = function (id) {
+            return EventService.getMyRate(id);
+        };
+
+        //** Shared end **/
+
+
+        // ** Create Event start **/
+
+
+        // DateTime Picker Initiation
         vm.datetimepickerStart = {
             date: new Date()
         };
@@ -37,82 +75,46 @@
         };
 
 
-        vm.getEditedEvent = function () {
-            EventService.getEventByID(editedEventId).$promise.then(function (data) {
-                console.log(data);
-                vm.editedEvent = data;
+        vm.add = function () {
 
-                vm.editedEvent.startTime = new Date(vm.editedEvent.startTime);
-                vm.editedEvent.endTime = new Date(vm.editedEvent.endTime);
-                vm.initMap();
+            vm.event.createdAt = new Date();
+            console.log("added", vm.event)
 
-            })
-
-        }
-
-        vm.getMyEvents = function () {
-            EventService.getEventsByOrganization(vm.SelectedOrganization).then(function (data) {
-                console.log(data);
-                vm.myEvents = data;
-            });
-
-        }
-
-
-        vm.delete = function (event) {
-            EventService.deleteEvent(event).then(function () {
-                vm.getMyEvents();
+            EventService.addEvent(vm.event).then(function () {
+                vm.getEvents();
+                $state.go('events');
             });
         };
 
+        // ** Create Event end **/
 
-        vm.update = function () {
-            EventService.updateEvent(vm.editedEvent);
-            $state.go('administration.events')
+
+        vm.getNumber = function (num) {
+            return new Array(num);
         };
 
-        vm.unpublish = function (event) {
-            event.eventState = "UNPUBLISHED";
-            EventService.updateEvent(event);
-        }
 
-        vm.publish = function (event) {
-            event.eventState = "PUBLISHED";
-            EventService.updateEvent(event);
-
-        }
+        //
+        vm.initMap = function () {
 
 
-        vm.getCategories = function () {
-            CategoryService.getAllCategories().then(function (data) {
-                vm.categories = data;
-                vm.categories.forEach(function (ca) {
-                    console.log("categories", ca);
+            if (vm.eventId) {
 
-                })
-            });
-        }
+                var mapOptions = {
+                    center: new google.maps.LatLng(vm.eventToDisplay.latitude, vm.eventToDisplay.longitude),
+                    zoom: 13
+                };
+                console.log("here", mapOptions)
+            }
+            else {
+                var mapOptions = {
+                    center: new google.maps.LatLng(-33.8688, 151.2195),
+                    zoom: 13
+                };
 
-
-        vm.initEdit = function () {
-            vm.getCategories();
-            vm.getEditedEvent();
-        }
-
-
+            }
 
 
-
-
-
-
-
-        vm.initMap = function() {
-
-            var mapOptions = {
-                center: new google.maps.LatLng(vm.editedEvent.latitude, vm.editedEvent.longitude),
-                zoom: 13
-            };
             var map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
 
@@ -133,12 +135,12 @@
                 anchorPoint: new google.maps.Point(0, -29)
             });
 
-            google.maps.event.addListener(marker, "mouseup", function(event) {
+            google.maps.event.addListener(marker, "mouseup", function (event) {
                 $('#input-latitude').val(this.position.lat());
                 $('#input-longitude').val(this.position.lng());
             });
 
-            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
                 infowindow.close();
                 marker.setVisible(false);
                 var place = autocomplete.getPlace();
@@ -178,12 +180,10 @@
                 infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
                 infowindow.open(map, marker);
             });
-        }
+        };
 
 
-
-
-    }
+    };
 
 })();
 

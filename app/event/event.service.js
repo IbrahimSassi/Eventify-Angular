@@ -24,7 +24,7 @@
         this.getMyRate = getMyRateFN;
         this.getMyTickets = getMyTicketsFN;
         this.getNearbyEvents = getNearbyEventsFN;
-
+        this.searchWithVoice = searchWithVoiceFN;
 
 
         function getAllEventsFN() {
@@ -71,13 +71,34 @@
         function getMyTicketsFN(id) {
             return EventFactory.getMyTickets({idEvent: id}).$promise;
         }
-        
-        function getNearbyEventsFN(long,lat) {
-            return EventFactory.query({longitude:long,latitude:lat}).$promise;
+
+        function getNearbyEventsFN(long, lat) {
+            return EventFactory.query({longitude: long, latitude: lat}).$promise;
 
         }
 
 
+        function searchWithVoiceFN(text) {
+
+            // text = text.split(' ').join('%20');
+            // console.log(text);
+            return $.ajax({
+                    url: "https://api.wit.ai/message",
+                    data: {
+                        'v': '20161222',
+                        'q': text,
+                        'access_token': 'WWKAQ5PZQ6OETNII4VSGLI6VX4E2EEPV'
+                    },
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + 'IXK2YYA6CUYKKEQBJ6KHV56Z5B4Z3UX3'
+                    }
+                }
+            );
+
+        }
 
 
     }

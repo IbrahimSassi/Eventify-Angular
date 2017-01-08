@@ -45,18 +45,19 @@
                 </div><!-- /.col-* -->
             </div><!-- /.row -->
 
+
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                        <div class="col-md-1">
+                        <div class="col-md-1 col-sm-1 col-xs-1">
                             <span class="pull-left">{{event.range.min}}</span>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 col-sm-10 col-xs-10">
                             <div range-slider min="0" max="100" model-min="event.range.min" model-max="event.range.max"
                                  attach-handle-values="true" disabled="false"></div>
                         </div>
 
-                        <div class="col-md-1">
+                        <div class="col-md-1 col-sm-1 col-xs-1">
                             <span class="pull-right">{{event.range.max}}</span>
 
                         </div>
@@ -65,6 +66,24 @@
                     </div><!-- /.form-group -->
                 </div>
             </div><!-- /.col-* -->
+
+            <div class="row" id="info">
+                <div class="col-sm-offset-5 col-md-offset-5 col-sm-12 col-md-12">
+
+                    <button class="btn btn-default" id="start_button" ng-click="event.SearchByVoice(event)">
+                        Search
+                        <img id="start_img" src="../../assets/img/searchImg/mic.gif" alt="Start">
+                    </button>
+
+                    <div id="results">
+                        <span id="final_span" class="final"></span>
+                        <span id="interim_span" class="interim"></span>
+                        <p>
+                    </div>
+
+                </div>
+            </div>
+
 
             <hr>
 
@@ -87,10 +106,10 @@
         <h2 class="page-title">
             {{event.events.length}} results matching your query
 
-            <form method="get" action="http://preview.byaviators.com/template/superlist/listing-grid.html?"
-                  class="filter-sort">
+            <div
+                    class="filter-sort">
                 <div class="form-group">
-                    <select title="Sort by">
+                    <select class="form-control" title="Sort by">
                         <option name="price">Price</option>
                         <option name="rating">Rating</option>
                         <option name="title">Title</option>
@@ -98,12 +117,12 @@
                 </div><!-- /.form-group -->
 
                 <div class="form-group">
-                    <select title="Order">
+                    <select class="form-control" title="Order">
                         <option name="ASC">Asc</option>
                         <option name="DESC">Desc</option>
                     </select>
                 </div><!-- /.form-group -->
-            </form>
+            </div>
         </h2><!-- /.page-title -->
 
         <div class="cards-simple-wrapper">
@@ -116,7 +135,7 @@
                 <div class="col-sm-6 col-md-4 col-lg-3"
                      ng-if="event.start<=$index && event.end>$index"
                      ng-repeat="e in event.events | filter:event.search:strict | orderBy : 'startTime' ">
-                    <div  class="card-simple" style="background-image: url({{e.backgroundImage}})">
+                    <div class="card-simple" style="background-image: url({{e.backgroundImage}})">
                         <div class="card-simple-background">
                             <div class="card-simple-content">
                                 <h2><a href="listing-detail.html">{{e.title}}</a></h2>
@@ -150,7 +169,22 @@
 
                             <div class="card-simple-label">{{e.category.categoryName}}</div>
 
-                            <div class="card-simple-price">$28 / person</div>
+                            <div class="card-simple-price">
+
+
+
+
+                                <span ng-repeat="ticket in e.tickets" style="font-size: smaller">
+                                    <span
+                                    >{{ticket.priceTicket}} $
+                                    </span>
+                                    <span>
+                                        {{ticket.typeTicket}} - {{ticket.nbTickets}} tickets <br>
+                                    </span>
+
+                                </span>
+
+                            </div>
 
                         </div><!-- /.card-simple-background -->
                     </div><!-- /.card-simple -->
@@ -168,7 +202,8 @@
             <ul>
                 <li><a tyle="cursor: pointer;" ng-click="event.prevPage()">Prev</a></li>
 
-                <li ng-class="{active: event.start/event.itemPerPage==$index}" ng-repeat="i in event.getPageNumber(event.events.length/event.itemPerPage) track by $index">
+                <li ng-class="{active: event.start/event.itemPerPage==$index}"
+                    ng-repeat="i in event.getPageNumber(event.events.length/event.itemPerPage) track by $index">
                     <a style="cursor: pointer;" ng-click="event.goToPage($index)">{{$index}}</a>
                 </li>
 

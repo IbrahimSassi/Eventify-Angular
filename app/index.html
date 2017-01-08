@@ -18,7 +18,7 @@
     <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">-->
     <!--<link rel="stylesheet" href="assets/css/nestedList.css">-->
 
-    <!--<link rel="stylesheet" href="app.css">-->
+    <link rel="stylesheet" href="app.css">
 
     <!--Ibrahims's External Style-->
     <link rel="stylesheet" href="bower_components/angular-rangeslider/angular.rangeSlider.css">
@@ -347,7 +347,7 @@
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <div class="user-image">
-                                            <img src="{{currentUser.User.profileImage}}">
+                                            <img ng-src="{{currentUser.User.profileImage}}">
                                             <!--<div class="notification"></div>&lt;!&ndash; /.notification&ndash;&gt;-->
                                         </div><!-- /.user-image -->
 
@@ -513,7 +513,7 @@
 
 <!--<script src="assets/js/map.js" type="text/javascript"></script>-->
 <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6C8bf6Wh2OxqJ1NymG25PE-zWE0LmwYw&libraries=places"  defer async>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6C8bf6Wh2OxqJ1NymG25PE-zWE0LmwYw&libraries=weather,geometry,visualization,places"  defer async>
 </script>
 
 
@@ -554,13 +554,23 @@
 <script src="category/category.service.js"></script>
 <script src="category/category.factory.js"></script>
 
+
+<script src="favorite/favorite.service.js"></script>
+<script src="favorite/favorite.factory.js"></script>
+<script src="favorite/favorite.controller.js"></script>
+
+
 <script src="wishlist/wishlist.controller.js"></script>
 <script src="wishlist/wishlist.service.js"></script>
 <script src="wishlist/wishlist.factory.js"></script>
 
 <script src="event/event.controller.js"></script>
+<script src="event/controllers/create-event.controller.js"></script>
+<script src="event/controllers/event-detail.controller.js"></script>
+<script src="event/controllers/nearby-events.controller.js"></script>
 <script src="event/event.factory.js"></script>
 <script src="event/event.service.js"></script>
+<script src="event/service/voiceToText.service.js"></script>
 
 
 <script src="CustomForm/question.controller.js"></script>

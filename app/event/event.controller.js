@@ -19,7 +19,15 @@
 
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    EventCtrl.$inject = ['EventService', '$state', 'CategoryService', '$stateParams', 'WishlistService','$geolocation'];
+    EventCtrl.$inject = [
+        'EventService',
+        '$state',
+        'CategoryService',
+        '$stateParams',
+        'WishlistService',
+        'VoiceToTextService',
+        '$scope'
+    ];
 
 
     /* @ngInject */
@@ -34,7 +42,7 @@
             .state('events-with-maps', {
                 url: '/events/maps',
                 templateUrl: 'event/views/event-listing-map.view.html',
-                controller: 'EventCtrl as event',
+                controller: 'NearbyCtrl as event',
                 cache: false
             })
             .state('events-timeline', {
@@ -46,40 +54,56 @@
             .state('events-nearby', {
                 url: '/events/nearby',
                 templateUrl: 'event/views/nearby-events.view.html',
-                controller: 'EventCtrl as event',
+                controller: 'NearbyCtrl as event',
                 cache: false
             })
             .state('event-detail', {
                 url: '/events/detail/:eventId',
                 templateUrl: 'event/views/event-detail.view.html',
-                controller: 'EventCtrl as event',
+                controller: 'DetailEvent as event',
                 cache: false
             })
             .state('newEvent', {
                 url: '/events/new',
                 templateUrl: 'event/views/CreateEvent.html',
-                controller: 'EventCtrl as eventCreate'
+                controller: 'CreateEventCtrl as eventCreate'
             })
         ;
 
     };
 
     /* @ngInject */
-    function EventCtrl(EventService, $state, CategoryService, $stateParams, WishlistService,$geolocation) {
+    function EventCtrl(EventService,
+                       $state,
+                       CategoryService,
+                       $stateParams,
+                       WishlistService,
+                       VoiceToTextService,
+                       $scope) {
         //On Init Start
         var vm = this;
         vm.title = 'Event List';
-
+        vm.search = {
+            eventType : ""
+        }
 
         // ** Init start **//
-        vm.initCreate = function () {
-            vm.getCategories();
-            vm.initMap();
-        };
 
-        vm.initDetail = function () {
-            vm.getSelectedEvent();
-        };
+
+        Object.defineProperty(EventCtrl.prototype,
+            "search.eventType", {
+                get: function () {
+                    return this.search.eventType;
+                },
+                set: function (newValue) {
+                    this.search.eventType = newValue;
+
+                    //Call method on update
+                    // this.onSelectedItemChange(this._selectedItem);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
 
         vm.initListing = function () {
@@ -118,6 +142,7 @@
         vm.getEvents = function () {
             EventService.getAllEvents().then(function (data) {
                 vm.events = data;
+
                 // vm.data = vm.events.slice(0, 3);
 
                 vm.events.forEach(function (event) {
@@ -133,6 +158,7 @@
                             // console.log('tickets before',data);
 
                             event.tickets = data;
+
                         }
 
 
@@ -140,25 +166,67 @@
 
 
                 });
-                console.log(EventService.getAllEvents());
+                console.log(vm.events);
 
             });
-
 
         };
 
 
+        $scope.$watch(function () {
+                return vm.search.eventType;
+            }, function (newValue, oldValue) {
+                console.log("old value",oldValue)
+                console.log("new value",newValue)
+            });
 
 
+        vm.searchByVoiceBool = 0;
+        vm.SearchByVoice = function (event) {
+
+            vm.searchByVoiceBool = vm.searchByVoiceBool + 1;
+            VoiceToTextService.startButton(event);
+
+            if (vm.searchByVoiceBool % 2 == 0) {
+
+                var text = VoiceToTextService.getText();
+                console.log('speech' + text);
+
+                EventService.searchWithVoice(text).then(function (data) {
+                    console.log('result wit' + data.entities.search_query[0].value);
+
+                    // vm.search= data.entities.search_query[0].value;
+
+                    if ((data.entities.search_query[0].value == "conference") || (data.entities.search_query[0].value == "Conference")) {
+                        vm.search.eventType = "Conference";
+
+                    }
+                    else if ((data.entities.search_query[0].value === "Workshop") || (data.entities.search_query[0].value === "workshop")) {
+                        vm.search.eventType = "Class_Workshop";
+
+                    }
+                    else if ((data.entities.search_query[0].value == "meeting") || (data.entities.search_query[0].value == "Meeting")) {
+                        vm.search.eventType = "Meeting";
+
+                    }
+                    $scope.$apply();
+
+
+                }, function (err) {
+                    console.log('error', err);
+                });
+
+
+            }
+
+
+        };
 
 
         //
         // vm.getMoreData = function () {
         //     vm.data = vm.events.slice(0, vm.data.length + 3);
         // }
-
-
-
 
 
         vm.filterByTicketPrice = function () {
@@ -190,51 +258,7 @@
         // ** Event Listing end **//
 
 
-        // ** Event Detail start **/
-
-
-        //getting event id passed in params to get event
-        vm.eventId = $stateParams.eventId;
         vm.userConnectedId = 1;
-
-
-        vm.getSelectedEvent = function () {
-            // console.log(eventId);
-            EventService.getEventByID(vm.eventId).$promise.then(function (data) {
-                vm.eventToDisplay = data;
-                vm.initMap();
-
-                vm.getRateForEvent(vm.eventToDisplay.id).then(function (data) {
-                    if (data.id)
-                        vm.eventToDisplay.rateAvg = roundDecimal(data.rateAvg, 1);
-                });
-
-                // console.log(vm.eventToDisplay);
-                // console.log(vm.eventToDisplay.latitude,vm.eventToDisplay.longitude);
-
-
-                // Longitude and latitude to Adress
-                EventService.getAddress(vm.eventToDisplay.latitude, vm.eventToDisplay.longitude).then(function (data) {
-                    // console.log('adress',data.data.results[0]);
-                    vm.adress = data.data.results[0].formatted_address;
-                }, function (err) {
-                    console.log('error', err);
-                });
-
-
-                EventService.getMyTickets(vm.eventToDisplay.id).then(function (data) {
-                    if (data.length > 0) {
-                        // console.log('tickets before',data);
-
-                        vm.eventToDisplay.tickets = data;
-                    }
-                });
-                console.log('ticket for selected', vm.eventToDisplay)
-
-            });
-
-
-        };
 
 
         vm.giveHeart = function (event) {
@@ -283,81 +307,6 @@
         };
 
 
-        // ** Event Detail end **/
-
-
-        // ** Create Event start **/
-
-
-        // DateTime Picker Initiation
-        vm.datetimepickerStart = {
-            date: new Date()
-        };
-        vm.datetimepickerEnd = {
-            date: new Date()
-        };
-
-        vm.openCalendar = function (e, datetimepicker) {
-            // e.preventDefault();
-            // e.stopPropagation();
-
-            vm[datetimepicker].open = true;
-        };
-
-
-        vm.add = function () {
-
-            vm.event.createdAt = new Date();
-            console.log("added", vm.event)
-
-            EventService.addEvent(vm.event).then(function () {
-                vm.getEvents();
-                $state.go('events');
-            });
-        };
-
-        // ** Create Event end **/
-
-
-
-
-
-        // Nearby Events Start **/
-
-        vm.getGeoLocation = function () {
-            $geolocation.getCurrentPosition({
-                timeout: 60000
-            }).then(function(position) {
-
-                console.log(position);
-                vm.myPosition = position;
-
-
-
-                //Real one
-                // EventService.getNearbyEvents(vm.myPosition.coords.longitude,vm.myPosition.coords.latitude).then(function (data) {
-                //     console.log('data',data);
-                //     vm.nearByEvents = data;
-                // });
-
-                //For Test
-                EventService.getNearbyEvents(10.19,36.90).then(function (data) {
-                    console.log('data',data);
-                    vm.nearByEvents = data;
-                });
-
-
-            });
-
-
-
-        };
-        // Nearby Events End **/
-
-
-
-
-
         function roundDecimal(nombre, precision) {
             var precision = precision || 2;
             var tmp = Math.pow(10, precision);
@@ -370,23 +319,20 @@
         };
 
 
-
-
         /*** Ibra Pagination Module Start ***/
 
 
-        vm.itemPerPage = 4 ;
+        vm.itemPerPage = 4;
         vm.start = 0;
         vm.end = vm.itemPerPage;
 
         vm.getPageNumber = function (num) {
 
-            if(num)
-            {
+            if (num) {
                 try {
                     return new Array(num);
 
-                }catch (e){
+                } catch (e) {
                     return new Array(Math.ceil(num));
 
                 }
@@ -395,26 +341,24 @@
         };
 
         vm.nextPage = function () {
-            
-            if(vm.end<=vm.events.length-1)
-            {
-                vm.start+=vm.itemPerPage;
-                vm.end+=vm.itemPerPage;
+
+            if (vm.end <= vm.events.length - 1) {
+                vm.start += vm.itemPerPage;
+                vm.end += vm.itemPerPage;
             }
         };
 
         vm.prevPage = function () {
-            if(vm.start<=vm.events.length && vm.start>0)
-            {
-                vm.start = vm.start-vm.itemPerPage;
-                vm.end = vm.end-vm.itemPerPage;
+            if (vm.start <= vm.events.length && vm.start > 0) {
+                vm.start = vm.start - vm.itemPerPage;
+                vm.end = vm.end - vm.itemPerPage;
             }
         };
 
-        
+
         vm.goToPage = function (index) {
-            vm.start = vm.itemPerPage *index;
-            vm.end =  vm.start+vm.itemPerPage;
+            vm.start = vm.itemPerPage * index;
+            vm.end = vm.start + vm.itemPerPage;
         };
 
 

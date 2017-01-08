@@ -58,6 +58,26 @@
                 </div><!-- /.box -->
 
                 <div class="background-white p30 mb30">
+                    <h3 class="page-title">Organization</h3>
+                    <div class="row">
+                        <div class="col-md-12 cold-sm-12">
+                            <div class="form-group">
+                                <select name="category" class="form-control"
+                                        ng-model="eventCreate.event.category.id">
+                                    <option value="">Select your organization</option>
+
+                                    <option ng-repeat="category in eventCreate.categories" value="{{category.id}}">
+                                        {{category.categoryName}}
+                                    </option>
+                                </select>
+                            </div><!-- /.form-group -->
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="background-white p30 mb30">
                     <h3 class="page-title">Details</h3>
 
                     <div class="row">
@@ -65,6 +85,8 @@
                             <div class="form-group">
                                 <select name="category" class="form-control"
                                         ng-model="eventCreate.event.category.id">
+                                    <option value="">Select your event category</option>
+
                                     <option ng-repeat="category in eventCreate.categories" value="{{category.id}}">
                                         {{category.categoryName}}
                                     </option>
@@ -73,6 +95,7 @@
 
                             <div class="form-group">
                                 <select name="type" class="form-control" ng-model="eventCreate.event.eventType">
+                                    <option value="">Select your event type</option>
                                     <option value="Conference">Conference</option>
                                     <option value="Class_Workshop">Class/Workshop</option>
                                     <option value="Meeting">Meeting</option>
@@ -83,6 +106,7 @@
 
                             <div class="form-group">
                                 <select name="location" class="form-control" ng-model="eventCreate.event.eventState">
+                                    <option value="">Select your event status</option>
                                     <option value="PUBLISHED">PUBLISHED</option>
                                     <option value="UNPUBLISHED">UNPUBLISHED</option>
                                 </select>
@@ -90,7 +114,7 @@
 
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                                <input class="form-control" type="text" ng-model="eventCreate.event.placeNumber">
+                                <input class="form-control" type="text" placeholder="Place Number" ng-model="eventCreate.event.placeNumber">
                             </div><!-- /.form-group -->
                         </div><!-- /.col-* -->
 
@@ -98,14 +122,14 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i style="color: #3B5998"
                                                                    class="fa fa-facebook-square"></i></span>
-                                <input class="form-control" type="text" placeholder=""
+                                <input class="form-control" type="text" placeholder="Facebook"
                                        ng-model="eventCreate.event.facebookLink">
                             </div><!-- /.form-group -->
 
                             <div class="input-group">
                                 <span class="input-group-addon"><i style="color: #0097D8"
                                                                    class="fa fa-twitter-square"></i></span>
-                                <input class="form-control" type="text" placeholder="City"
+                                <input class="form-control" type="text" placeholder="Twitter"
                                        ng-model="eventCreate.event.twitterLink">
                             </div><!-- /.form-group -->
 
@@ -164,49 +188,7 @@
                     </div>
                 </div><!-- /.row -->
 
-                <div class="background-white p30 mb30">
-                    <h3 class="page-title">Amenities</h3>
 
-                    <ul class="amenities">
-                        <li class="checkbox"><input type="checkbox" id="amenity-1"> <label for="amenity-1">Air
-                            conditioning</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-2"> <label
-                                for="amenity-2">Balcony</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-3"> <label
-                                for="amenity-3">Bedding</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-4"> <label for="amenity-4">Cable
-                            TV</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-5"> <label for="amenity-5">Cleaning
-                            after exit</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-6"> <label for="amenity-6">Cofee
-                            pot</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-7"> <label
-                                for="amenity-7">Computer</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-8"> <label for="amenity-8">Cot</label>
-                        </li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-9"> <label
-                                for="amenity-9">Dishwasher</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-10"> <label for="amenity-10">DVD</label>
-                        </li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-11"> <label for="amenity-11">Fan</label>
-                        </li>
-
-                        <li class="checkbox"><input type="checkbox" id="amenity-26"> <label
-                                for="amenity-26">Radio</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-27"> <label for="amenity-27">Roof
-                            terrace</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-28"> <label for="amenity-28">Smoking
-                            allowed</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-29"> <label
-                                for="amenity-29">Terrace</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-30"> <label
-                                for="amenity-30">Toaster</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-31"> <label
-                                for="amenity-31">Towelwes</label></li>
-                        <li class="checkbox"><input type="checkbox" id="amenity-32"> <label for="amenity-32">Use of
-                            pool</label></li>
-                    </ul>
-                </div>
 
                 <div class="center">
                     <button ng-click="eventCreate.add()" type="submit" class="btn btn-primary btn-xl">Submit Listing
