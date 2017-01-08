@@ -83,7 +83,7 @@
          * @param idUser
          */
         this.getUserByID = function (idUser) {
-            return UserFactory.get({
+            return UserFactory.secured(null).get({
                 id: idUser
             });
         }

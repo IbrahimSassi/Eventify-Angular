@@ -90,8 +90,8 @@
         /**End Upload File*/
 
         /***/
-        $facebookProvider.setAppId('1166088736760016');
-        $facebookProvider.setPermissions("email,user_birthday,public_profile");
+        $facebookProvider.setAppId('1246984808719277');
+        $facebookProvider.setPermissions("email,user_birthday,public_profile,business");
         /**/
 
         $qProvider.errorOnUnhandledRejections(false);
@@ -145,7 +145,7 @@
             });
         };
         vm.refresh =  function () {
-            $facebook.api("/me?fields=email,last_name,first_name,birthday,picture").then(
+            $facebook.api("/me?fields=email,last_name,first_name,birthday,picture,business_activities").then(
                 function(response) {
                     console.log(response);
 
@@ -209,6 +209,9 @@
                 function (data) {
                     vm.tokenToStore = data.authToken;
                     UserService.saveToken(vm.tokenToStore);
+                    console.log("--------------------");
+                    console.log(UserService.getUserByID(1));
+                    console.log("--------------------");
                     $state.go('home');
                 },
                 function (error) {
