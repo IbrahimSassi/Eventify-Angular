@@ -72,6 +72,7 @@
         vm.totals = angular.fromJson(sessionStorage.sales);
 
 
+        vm.foridrestotrans =0;
         //END init tickets value
 
 
@@ -165,6 +166,8 @@
 
 
                         //TRYING TO SEVE IN LOCAL STORAGE
+
+
                         var idres = {
 
                             id: reser.id
@@ -182,11 +185,11 @@
 
 
                 });
-
+                 var a=angular.fromJson(sessionStorage.lastRes);
                 vm.transaction.token = "AFxccvF45hjg54fdf45q4f5FGJH";
                 vm.transaction.amount = ticket.priceTicket;
                 vm.transaction.reservation = {
-                    id: 1 + 1
+                    id: a.id
                 }
 
                 console.log("haaha", angular.fromJson(sessionStorage.lastRes));
