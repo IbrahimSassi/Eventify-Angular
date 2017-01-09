@@ -3,20 +3,58 @@
     <span ng-init="taskDetail.GetTaskToDisplay()">
 
 
-            <h1>
-            {{taskDetail.TaskToDisplay.taskTitle}}
-            </h1>
-            <br>
-            <h1>
-               <p>{{taskDetail.TaskToDisplay.taskDescription}}</p>
-            </h1>
+    <div class="invoice">
+        <div class="invoice-header clearfix">
+            <div class="invoice-logo">
+                <i class="fa fa-rocket"></i> Task Detail Area
+            </div><!-- /.invoice-logo -->
+<div class="invoice-description">
+<strong>Discuss the task with Event memebers For more detail </strong>
+<span><a ui-sref="discussTask({DTaskId:taskDetail.TaskToDisplay.id})">Discuss this task</a></span>
+</div>
 
-            <br>
-            <h1>
-                {{taskDetail.TaskToDisplay.taskStatus}}
-            </h1>
-            <br>
+        </div><!-- /.invoice-header -->
 
+        <div class="invoice-info">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h4>Task Title</h4>
+                    {{taskDetail.TaskToDisplay.taskTitle}}
+                    <br>
+                </div>
+
+                <div class="col-sm-4">
+                    <h4>Task Detail </h4>
+                    <p>
+                        {{taskDetail.TaskToDisplay.taskDescription}}
+                    </p>
+
+                </div>
+
+                <div class="col-sm-4">
+                    <h4>Task Status</h4>
+                    <span ng-if="taskDetail.TaskToDisplay.taskStatus==2">
+                        The task  <strong> {{taskDetail.TaskToDisplay.taskTitle}} </strong> is <ul class="detail-amenities"><li class="yes">Completed</li></ul>
+                    </span>
+                    <span ng-if="taskDetail.TaskToDisplay.taskStatus!=2">
+                       The task  <strong> {{taskDetail.TaskToDisplay.taskTitle}} </strong> is <li class="no"> is not Completed</li> <br>
+                           <button class="btn btn-primary btn-block" ng-click="taskDetail.SetCompleted(taskDetail.TaskToDisplay.id)">Set as completed</button>
+                    </span>
+
+                </div>
+
+            <dl class="dl-horizontal pull-right">
+                <dt><span> </span>:</dt>
+
+            </dl>
+
+            </div>
+        </div><!-- /.invoice-info -->
+
+
+
+
+    </div><!-- /.invoice -->
 
 
 
@@ -25,3 +63,24 @@
 </span>
     </div>
 </div>
+
+
+
+
+
+<!--<h1>-->
+    <!--{{taskDetail.TaskToDisplay.taskTitle}}-->
+<!--</h1>-->
+<!--<br>-->
+<!--<h1>-->
+    <!--<p>{{taskDetail.TaskToDisplay.taskDescription}}</p>-->
+<!--</h1>-->
+
+<!--<br>-->
+<!--<h1>-->
+    <!--{{taskDetail.TaskToDisplay.taskStatus}}-->
+<!--</h1>-->
+<!--<br>-->
+<!--<br>-->
+
+<!--<a ui-sref="discussTask({DTaskId:taskDetail.TaskToDisplay.id})">Discuss this task</a>-->

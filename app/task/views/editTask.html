@@ -1,0 +1,27 @@
+<div class="container">
+    <span ng-init="taskEdit.GetTaskToEdit()"></span>
+
+
+    <form>
+        Task Title : <br>
+        <input class="form-control" type="text" ng-model="taskEdit.TaskToEdit.taskTitle"><br><br>
+
+        Full Description of the Task : <br><br>
+
+        <input class="form-control" type="text" ng-model="taskEdit.TaskToEdit.taskDescription"><br><br>
+
+        Select The current Event of the task : <br><br>
+        <select class="form-control" ng-model="taskEdit.selectedEvent" >
+            <option value="{{event.id}}" ng-repeat="event in taskEdit.myevents">{{event.title}}</option>
+        </select>
+        <br><br>
+
+        <button class="btn btn-default" ng-click="taskEdit.edit()">Edit Task</button>
+        <br>
+    </form>
+
+
+
+
+
+</div>

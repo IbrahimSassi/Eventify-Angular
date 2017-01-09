@@ -1,6 +1,50 @@
 <div class="container">
     <span ng-init="task.getTaskByOrganizer()"></span>
-    <div ng-repeat=" myTask in task.tasks">
-        {{myTask.taskDescription}}
+    <div class="header-search">
+        <input class="form-control" placeholder="Search for..." type="text" ng-model="searchValue.taskTitle" >
+        <br>
     </div>
+    <table class="table table-hover mb0">
+        <thead>
+        <tr>
+            <td> Task Title</td>
+            <td> Task descriptions</td>
+            <td> Creation Date </td>
+            <td>Task Status </td>
+            <td>Task Detail</td>
+
+        </tr>
+
+        </thead>
+        <tbody>
+
+
+        <tr  ng-repeat="myTask in task.tasks| filter:searchValue  ">
+            <td>
+                {{myTask.taskTitle}}
+            </td>
+
+            <td>
+                {{myTask.taskDescription}}
+            </td>
+
+            <td>
+                {{myTask.createdAt | date}}
+            </td>
+            <td>
+                    <span ng-if="myTask.taskStatus==2">
+                        Completed
+                    </span>
+                <span ng-if="myTask.taskStatus!=2">
+                        Not Completed
+                    </span>
+
+            </td>
+            <td>
+                <span><a ui-sref="detailTask({TaskId:myTask.id})">Detail</a></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 </div>

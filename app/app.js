@@ -16,8 +16,10 @@ angular
         'EventifyApp.organization',
         'EventifyApp.comments',
         'EventifyApp.bank',
-        'EventifyApp.favorite',
         'EventifyApp.task',
+        'EventifyApp.discussion',
+        'angularMoment',
+        'ngResource'
         'EventifyApp.organizer',
         'EventifyApp.rates',
         'EventifyApp.referrel',

@@ -14,7 +14,7 @@
 
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
-    TaskCtrl.$inject = ['TaskService', '$state', 'EventService', '$stateParams'];
+    TaskCtrl.$inject = ['TaskService', '$state', 'EventService', '$stateParams', '$timeout', 'DiscussionService'];
 
 
     /* @ngInject */
@@ -36,6 +36,22 @@
                 templateUrl: 'task/views/detailTask.html',
                 controller: 'TaskCtrl as taskDetail'
             })
+            .state('discussTask', {
+                url: '/task/discuss/:DTaskId',
+                templateUrl: 'task/views/discussion.html',
+                controller: 'TaskCtrl as taskDiscussion'
+            })
+            .state('taskByEvent', {
+                url: '/taskByEvent/:EventId',
+                templateUrl: 'task/views/getTaskByEvent.html',
+                controller: 'TaskCtrl as taskEvent',
+                cache: false
+            })
+            .state('editTask', {
+                url: '/task/edit/:TaskEditId',
+                templateUrl: 'task/views/editTask.html',
+                controller: 'TaskCtrl as taskEdit'
+            })
 
 
         ;
@@ -43,13 +59,14 @@
     };
 
     /* @ngInject */
-    function TaskCtrl(TaskService, $state, EventService, $stateParams) {
+    function TaskCtrl(TaskService, $state, EventService, $stateParams, $timeout, DiscussionService) {
         var vm = this;
         var myNewDate = new Date();
         vm.connectedUserId = 1;
         Activate();
         vm.title = 'Task By Organizer';
-
+        vm.EventId = $stateParams.EventId;
+        vm.TaskEditId=$stateParams.TaskEditId;
 
         vm.TaskDisplayID = $stateParams.TaskId;
         vm.selectedEvent = null;
@@ -68,9 +85,10 @@
         }
 
 
+
         vm.getTaskByOrganizer = function () {
             vm.OrganizerId = $stateParams.OrganizerId;
-            console.log(vm.OrganizerId)
+            console.log(vm.OrganizerId);
             var myid = vm.OrganizerId;
             console.log("called");
             TaskService.getAllTasksByOrganizer(myid).then(function (data) {
@@ -94,7 +112,11 @@
                 console.log(data);
                 vm.task.event = data;
                 TaskService.addTask(vm.task);
-                $state.go('taskByOrganizer', {OrganizerId: vm.connectedUserId});
+                vm.getTaskByEvent();
+                setTimeout(function () {
+                    $state.go('taskByEvent', {EventId: vm.task.event.id});
+
+                },1000);
 
             });
 
@@ -108,6 +130,127 @@
             })
 
         };
+        vm.DiscussionInitializer = function () {
+
+
+            vm.DTaskId = $stateParams.DTaskId;
+            DiscussionService.getDiscussionBytask(vm.DTaskId).then(function (data) {
+                vm.Disucssions = data;
+
+
+                console.log(vm.Disucssions);
+                console.log("called");
+            });
+
+
+            // setInterval(function () {
+            //
+            //     vm.GetDiscussions=function () {
+            //         vm.DTaskId=$stateParams.DTaskId;
+            //         DiscussionService.getDiscussionBytask(vm.DTaskId).then(function (data){
+            //             vm.Disucssions=data;
+            //             console.log(vm.Disucssions);
+            //             console.log("called");
+            //         });
+            //
+            //
+            //     };
+            //
+            // },1000);
+
+        };
+        vm.sendMessage = function (id) {
+
+            vm.mymessage = {
+                "status": 1,
+                "messageDate": new Date(),
+                "user": {
+                    "id": id
+
+                },
+                "task": {
+                    "id": vm.DTaskId
+
+                },
+
+                "messagedata": vm.MesageText
+            };
+            vm.MesageText = null;
+            DiscussionService.addDiscussion(vm.mymessage).then(function () {
+                vm.DiscussionInitializer();
+            });
+
+        };
+        vm.SetCompleted = function (id) {
+            TaskService.SetTaskStatusCompleted(id);
+            //console.log(id);
+            $state.reload();
+        };
+
+        vm.getTaskByEvent = function () {
+
+            console.log("called");
+            TaskService.GeTasksByEvent(vm.EventId).then(function (data) {
+                console.log(data);
+                vm.evtasks = data;
+            })
+            // $state.reload();
+        };
+
+
+        vm.deleteTask = function (task) {
+            TaskService.deleteTask(task);
+            $state.reload();
+
+        }
+
+
+
+        vm.GetTaskToEdit = function () {
+            TaskService.getTaskById(vm.TaskEditId).$promise.then(function (data) {
+                vm.TaskToEdit = data;
+                EventService.getAllEvents().then(function (data) {
+                    console.log("called now");
+                    console.log(data);
+                    vm.myevents = data;
+
+                });
+              //  vm.selectedEvent=TaskToEdit.event.id;
+            })
+
+        };
+
+
+
+        vm.edit = function () {
+            EventService.getEventByID(vm.selectedEvent).$promise.then(function (data) {
+               // console.log(data);
+               //  vm.TaskEditId=$stateParams.TaskEditId;
+                vm.TaskToEdit.event = data;
+                TaskService.updateTask(vm.TaskToEdit);
+
+                vm.getTaskByEvent();
+                setTimeout(function () {
+                    $state.go('taskByEvent', {EventId: vm.selectedEvent});
+
+                },1000);
+
+
+
+            });
+
+
+        };
+
+
+
+
+
+
+
+
+
+
 
 
     };

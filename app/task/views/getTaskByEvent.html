@@ -1,0 +1,77 @@
+<div class="container">
+
+
+
+
+    <span ng-init="taskEvent.getTaskByEvent()"></span>
+
+
+
+    <div class="header-search">
+        <input class="form-control" placeholder="Search for..." type="text" ng-model="searchValue.taskTitle" >
+        <br>
+
+
+
+        <a ui-sref="newTask" class="btn btn-primary btn-block">Create new</a>
+    </div>
+<br>
+    <br>
+    <br>
+    <br>
+        <table class="table table-hover mb0">
+            <thead>
+            <tr>
+                <td> Task Title</td>
+                <td> Task descriptions</td>
+                <td> Creation Date </td>
+                <td>Task Status </td>
+                <td>Task Detail</td>
+                <td>Delete Task</td>
+                <td>Edit Task</td>
+            </tr>
+
+            </thead>
+   <tbody>
+
+
+            <tr  ng-repeat="myTask in taskEvent.evtasks | filter:searchValue  ">
+                <td>
+                    {{myTask.taskTitle}}
+                </td>
+
+                <td>
+                    {{myTask.taskDescription}}
+                </td>
+
+                <td>
+                    {{myTask.createdAt | date}}
+                </td>
+                <td>
+                    <span ng-if="myTask.taskStatus==2">
+                        Completed
+                    </span>
+                    <span ng-if="myTask.taskStatus!=2">
+                        Not Completed
+                    </span>
+
+                </td>
+                <td>
+                    <span><a ui-sref="detailTask({TaskId:myTask.id})">Detail</a></span>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-block" ng-click="taskEvent.deleteTask(myTask)">Delete Task</button>
+
+                </td>
+                <td>
+
+                    <span><a ui-sref="editTask({TaskEditId:myTask.id})" class="btn btn-primary btn-block">Edit Task</a></span>
+                </td>
+
+
+            </tr>
+   </tbody>
+        </table>
+
+
+</div>

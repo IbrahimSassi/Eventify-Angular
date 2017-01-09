@@ -62,14 +62,17 @@
         }
 
         function AssignTaskToOrganizerFn(OrganizerId, TaskId) {
-            TaskFactory.AssignTask({OrganizerId: '@OrganizerId', TaskId: '@TaskId'});
+            TaskFactory.AssignTask({OrganizerId: OrganizerId, TaskId: TaskId});
 
         }
 
         function SetTaskStatusCompletedFn(TaskId) {
-            TaskFactory.TaskStatusCompleted({TaskId: '@TaskId'});
-
+            TaskFactory.TaskStatusCompleted({TaskId: TaskId});
+            //console.log(TaskId)
         }
+
+
+
 
 
     }
