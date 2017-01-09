@@ -141,43 +141,9 @@
 
 
 
-    <div class="row">
-        <div class="col-sm-12 col-lg-5" ng-repeat="o in organization.organizations">
-
-            <div class="users">
-    <table class="table">
-        <tbody>
-
-            <tr>
-                <td><a class="user" href="#"><img src="{{o.user.profileImage}}" alt=""></a></td>
-                <td class="hidden-xs visible-sm visible-md visible-lg">
-                    <h2> <a href="#"> {{o.organizationName}}</a></h2>
-                    <h3>{{o.creationDate}}</h3>
-                </td>
-                <td class="right">
-                    <a href="#" class="btn btn-xs btn-primary"
-                       ui-sref="EditOrganizations({OrganizationId: o.id})">Edit</a>
-                    <a href="#" class="btn btn-xs btn-danger" ng-click="organization.delete(o,$index)">Remove</a>
-                     <a href="#" class="btn btn-xs btn-default" ui-sref="organizationDetail({OrganizationId:o.id})">Details</a>
-                </td>
-            </tr>
 
 
 
-
-        </tbody>
-    </table>
-</div><!-- /.users -->
-
-        </div><!-- /.col-* -->
-
-        <!-- /.col-* -->
-    </div>
-
-
-        </tbody>
-        </table>
-</div>
 
 </span>
 

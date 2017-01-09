@@ -49,6 +49,7 @@
 
             })
 
+
         ;
 
     };
@@ -174,7 +175,11 @@
         vm.details = function () {
 
             vm.selectedOrganization = OrganizationService.findOrganizationById(vm.OrganizationId).$promise.then(function (data) {
+
+
+
                 vm.organizationToDisplay = data;
+
             })
 
 

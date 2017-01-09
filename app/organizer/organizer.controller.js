@@ -63,6 +63,7 @@
                 data.forEach(function (org) {
                     org.myOrg=OrganizationService.findOrganizationById(org.organizerPK.idOrganization);
                     console.log("jjjjjjjjjj",org);
+                    org.president=UserService.getUserByID(org.organizerPK.idUser);
 
                 });
                 vm.requests= data;

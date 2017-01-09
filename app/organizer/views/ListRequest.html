@@ -1,20 +1,59 @@
 <div ng-init="organizer.getNotAcceptedRequest()">
 
-    <ul>
-        <li ng-repeat=" r in organizer.requests">
-            <h1 ng-if="r.state=='SENT'">{{r.state}}</h1>
 
-            <a href="#" class="btn btn-xs btn-default" ng-click="organizer.accept({userId:r.organizerPK.idUser},{idOrganization:r.organizerPK.idOrganization})">ACCEPT</a>
-            <a href="#" class="btn btn-xs btn-default" ng-click="organizer.refuse({userId:r.organizerPK.idUser},{idOrganization:r.organizerPK.idOrganization})">Refuse</a>
-            <input ng-model="r.organizerPK.idUser" ng-value="r.organizerPK.idOrganization" value="r.organizerPK.idUser"/>
-{{r.myOrg.organizationName}}
-        </li>
-    </ul>
 
+
+<div class="container">
+
+
+
+
+<div class="row">
+
+    <div class="page-title" class="col-sm-5" >
+        <h1> Requestes List</h1>
+    </div>
+
+
+    <div class="col-sm-12 col-lg-12" ng-repeat=" r in organizer.requests">
+
+        <div class="users" ng-if="r.state=='SENT'">
+            <table class="table">
+                <tbody>
+
+                <tr>
+                    <td><a class="user" href="#"><img src="{{r.president.profileImage}}" alt=""></a></td>
+                    <td class="hidden-xs visible-sm visible-md visible-lg">
+                        <h2> <a href="#"> {{r.myOrg.organizationName}}</a></h2>
+                        <h3> We are honnered if you will join our orgaization , Created by {{r.president.firstName}}
+                            {{r.president.lastName}} at {{r.myOrg.creationDate | date}} ...if you need more details
+                        please
+
+                            <a href="blog-detail.html" ui-sref="organizationDetail({OrganizationId:o.id})">Read More <i
+                                    class="fa fa-chevron-right"></i></a>
+
+
+
+
+
+                        </h3>
+                    </td>
+                    <td class="right">
+
+                        <a href="#" class="btn btn-xs btn-default" ng-click="organizer.accept({userId:r.organizerPK.idUser},{idOrganization:r.organizerPK.idOrganization})">ACCEPT</a>
+                        <a href="#" class="btn btn-xs btn-default" ng-click="organizer.refuse({userId:r.organizerPK.idUser},{idOrganization:r.organizerPK.idOrganization})">Refuse</a>
+                    </td>
+                </tr>
+
+
+
+
+                </tbody>
+            </table>
+        </div><!-- /.users -->
+    </div>
+</div>
 
 
 </div>
-
-<h1>
-
-</h1>
+</div>
