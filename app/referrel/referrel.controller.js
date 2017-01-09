@@ -79,7 +79,8 @@ vm.referrerUser = function (usertorefferid) {
 //****************************
 
     ReferrelService.addReferrel(vm.invite).then(function () {
-
+     vm.invitedUser = UserService.getUserByID(usertorefferid);
+        console.log( "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",vm.invitedUser);
         console.log("gggg");
 
 
